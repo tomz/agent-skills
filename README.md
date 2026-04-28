@@ -1,6 +1,6 @@
 # Agent Skills — Cloud Platform Library
 
-86 comprehensive cloud platform skills for AI coding agents. Each skill is a standalone `SKILL.md` file that any AI coding assistant with skills support can use — including [Claude Code](https://docs.anthropic.com/en/docs/claude-code), [JaaiCode](https://github.com/tomz/jaaicode), and other agents that follow the SKILL.md convention.
+89 comprehensive cloud platform skills for AI coding agents. Each skill is a standalone `SKILL.md` file that any AI coding assistant with skills support can use — including [GitHub Copilot](https://docs.github.com/en/copilot), [Claude Code](https://docs.anthropic.com/en/docs/claude-code), [JaaiCode](https://github.com/tomz/jaaicode), and other agents that follow the SKILL.md convention.
 
 ## What Are Skills?
 
@@ -15,8 +15,9 @@ These skills are agent-agnostic: any AI coding tool that supports the `SKILL.md`
 git clone https://github.com/tomz/agent-skills.git /tmp/agent-skills
 
 # Copy all into your agent's skills directory
-cp -r /tmp/agent-skills/*-*/ ~/.jaaicode/skills/    # JaaiCode
-cp -r /tmp/agent-skills/*-*/ ~/.claude/skills/       # Claude Code (if supported)
+cp -r /tmp/agent-skills/*-*/ ~/.jaaicode/skills/             # JaaiCode
+cp -r /tmp/agent-skills/*-*/ ~/.claude/skills/                # Claude Code
+cp -r /tmp/agent-skills/*-*/ .github/copilot/skills/          # GitHub Copilot (repo-scoped)
 
 # Or install specific platforms
 cp -r /tmp/agent-skills/azure-*/ ~/.jaaicode/skills/
@@ -25,7 +26,7 @@ cp -r /tmp/agent-skills/aws-*/ ~/.jaaicode/skills/
 
 ## Skills Catalog
 
-### Azure (37 skills)
+### Azure (38 skills)
 
 | Skill | Description |
 |-------|-------------|
@@ -47,6 +48,7 @@ cp -r /tmp/agent-skills/aws-*/ ~/.jaaicode/skills/
 | `azure-devops` | Azure DevOps Pipelines (YAML), Repos, Artifacts, GitHub Actions for Azure, blue-green/canary |
 | `azure-devtest-labs` | Azure DevTest Labs — lab environments, VM management, formulas, artifacts, cost management |
 | `azure-fabric` | Microsoft Fabric unified analytics — OneLake, lakehouses, warehouses, Data Factory, Real-Time |
+| `azure-fabric-data-agents` | Microsoft Fabric Data Agents — Copilot-grounded conversational AI over OneLake (lakehouses, warehouses, semantic models, KQL); identity, governance, evaluation, embedding |
 | `azure-firewall` | Azure Firewall — Standard/Premium/Basic SKUs, policies, DNAT/network/application rules |
 | `azure-hdinsight` | Azure HDInsight — managed Hadoop ecosystem (Spark, Hive, HBase, Kafka, Storm) |
 | `azure-iac` | Infrastructure as Code for Azure — Bicep, ARM templates, Terraform azurerm |
@@ -82,13 +84,15 @@ cp -r /tmp/agent-skills/aws-*/ ~/.jaaicode/skills/
 | `aws-networking` | AWS networking — VPC, Security Groups, ALB/NLB, CloudFront, Route 53, Transit Gateway |
 | `aws-security` | AWS security — IAM, KMS, Secrets Manager, GuardDuty, Security Hub, WAF, Config |
 
-### GCP (10 skills)
+### GCP (12 skills)
 
 | Skill | Description |
 |-------|-------------|
 | `gcp-ai` | GCP AI/ML — Vertex AI, Gemini API, Document AI, Vision AI, Natural Language AI, AutoML |
 | `gcp-cli` | gcloud CLI patterns, authentication, configurations, output formats, gsutil, bq CLI |
 | `gcp-compute` | GCP compute — Compute Engine, GKE, Cloud Run, Cloud Functions, App Engine |
+| `gcp-bigquery-data-agents` | BigQuery Data Agents — Gemini-powered conversational analytics on BigQuery; provisioning, grounding, governance, NL→SQL guardrails, embedding, evaluation |
+| `gcp-bigquery-data-agents-quickstart` | 15-minute fast-path to a working BigQuery Data Agent — minimal IAM, one curated dataset, system instruction, 3 golden queries, smoke test |
 | `gcp-costs` | GCP cost management — billing accounts, budgets, BigQuery export, Recommender, CUDs |
 | `gcp-data` | GCP data — Cloud SQL, Firestore, Bigtable, BigQuery, Cloud Storage, Pub/Sub, Dataflow |
 | `gcp-devops` | GCP DevOps — Cloud Build, Artifact Registry, Cloud Deploy, GitHub Actions |
