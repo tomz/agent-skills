@@ -1,874 +1,543 @@
 ---
 name: azure-fabric-data-agents
-description: Microsoft Fabric Data Agents — Copilot-grounded conversational AI over OneLake (lakehouses, warehouses, semantic models, KQL). Provisioning, grounding sources, AI Skills, identity, governance, evaluation, and embedding patterns.
+description: Microsoft Fabric Data Agents (GA) — conversational AI grounded in OneLake (lakehouses, warehouses, Power BI semantic models, KQL databases, mirrored databases, ontologies, Microsoft Graph). Provisioning via the fabric-data-agent-sdk, identity model, Purview governance, sharing, evaluation, and operational gotchas.
 license: MIT
-version: 1.0.0
-updated: 2026-04-27
+version: 2.0.0
+updated: 2026-04-28
 allowed-tools: read_file, write_file, edit_file, shell, grep, glob
 ---
-# Microsoft Fabric Data Agents Skill
 
-Conversational analytics agents inside Microsoft Fabric, grounded in OneLake
-items (lakehouses, warehouses, semantic models, KQL databases), governed by
-workspace RBAC + OneLake ACLs + Power BI RLS, and accessible via the Fabric
-chat UI, the Data Agent REST API, Copilot in Power BI, Teams, and embedded
-chat surfaces.
+# Microsoft Fabric Data Agents
 
-A Fabric Data Agent (also surfaced as **AI Skills** in some Fabric UIs) is a
-workspace item that bundles:
-- one or more **grounding data sources** (lakehouse SQL endpoints, warehouses,
-  KQL databases, semantic models)
-- **example questions** (NL → expected output, the Fabric equivalent of "golden queries")
-- **instructions** (persona, scope, refusal policy, formatting)
-- **published context** (tables/columns/measures the agent is allowed to expose)
-- **identity** (run-as user vs. fixed identity for embedded scenarios)
+Conversational analytics agents inside Microsoft Fabric — a **generally available**
+Fabric workspace item type (`DataAgent`) that grounds an Azure-OpenAI-Assistants-API
+agent on data living in OneLake. Accessible from the Fabric portal chat surface,
+from Microsoft 365 Copilot / Teams (via sharing), and programmatically via the
+**`fabric-data-agent-sdk`** Python package inside Fabric notebooks.
 
-> Naming note: Microsoft has used **AI Skills**, **Data Agents**, and
-> **Copilot for Fabric** somewhat interchangeably across the 2025–2026 product
-> evolution. The workspace item type as of early 2026 is `DataAgent`
-> (REST: `/v1/workspaces/{ws}/dataAgents/{id}`). The chat UI calls them
-> "Data Agents" in BI/Lakehouse experiences.
+> **Sources & scope** — this skill is grounded in the Microsoft Learn docs at
+> `learn.microsoft.com/en-us/fabric/data-science/concept-data-agent`,
+> `…/how-to-create-data-agent`, `…/data-agent-sharing`, `…/fabric-data-agent-sdk`,
+> `…/data-agent-tenant-settings`, the REST API reference at
+> `learn.microsoft.com/en-us/rest/api/fabric/dataagent/items/create-data-agent`,
+> and the official sample notebooks at
+> `github.com/microsoft/fabric-samples/tree/main/docs-samples/data-science/data-agent-sdk`.
+> Where docs and samples disagree (most notably on capacity SKU), this skill
+> calls it out explicitly.
+
+For a 20-minute first-agent path, see **`azure-fabric-data-agents-quickstart`**.
 
 ---
 
 ## Architecture
 
 ```
-User (chat surface: Fabric portal, Power BI Copilot, Teams, embedded app)
+User (chat surface: Fabric portal, M365 Copilot, Teams, embedded app, notebook)
   │
   ▼
-Fabric Data Agent item (workspace-scoped)
-  │  ├── instructions (markdown)
-  │  ├── example questions (NL → expected SQL/DAX/KQL)
-  │  ├── data sources:
-  │  │     • lakehouse SQL endpoints  (T-SQL → Delta on OneLake)
-  │  │     • warehouses               (T-SQL native)
-  │  │     • semantic models          (DAX → Direct Lake or Import)
-  │  │     • KQL databases            (KQL → Eventhouse / RTI)
-  │  └── publish state (Draft / Published)
+Fabric Data Agent (workspace item, type=DataAgent)
+  │  ├── instructions          (agent-level persona & rules)
+  │  ├── data sources (max 5)  ─┐
+  │  │                          │  per-source:
+  │  │                          ├── selected tables (whitelist)
+  │  │                          ├── datasource instructions
+  │  │                          └── few-shot examples (NL → SQL/DAX/KQL)
+  │  └── publish state          (Draft → Published)
   ▼
-Copilot orchestrator (Azure OpenAI in tenant region)
-  │  NL → routing → SQL/DAX/KQL plan → execution → narrated answer
+Microsoft-managed Azure OpenAI Assistants API
+  │  parses Q → routes to a tool → generates query → validates → executes
   ▼
-Underlying engines (warehouse SQL, lakehouse SQL endpoint,
-                    semantic model VertiPaq/Direct Lake, Kusto)
+Per-source query engines  (NL2SQL / NL2DAX / NL2KQL / Microsoft Graph / Ontology)
   │
-  └── enforces: workspace RBAC, OneLake item ACLs, T-SQL row-level security,
-                Power BI RLS/OLS, KQL row/column policies
+  └── Auth: caller's Entra ID identity. Read-only. Honors:
+       • workspace RBAC + item permissions
+       • Power BI model RLS / OLS
+       • OneLake item ACLs (incl. shortcuts & cross-tenant shares)
+       • Purview DLP (Warehouse, GA), access-restriction policies
+         (Warehouse / KQL DB / Fabric SQL DB, preview), sensitivity labels
 ```
 
-Three answer modes the agent picks between:
-1. **SQL over lakehouse/warehouse** — NL → T-SQL → result table → narrated answer
-2. **DAX over semantic model** — NL → DAX → measure values → narrated answer
-3. **KQL over Eventhouse** — NL → KQL → time-series chart + narrated answer
+### Three things to understand first
+
+1. **The agent is GA**, but the **Python SDK and several governance features
+   are still preview**. Don't conflate them.
+2. **It is read-only.** "The Fabric data agent strictly enforces read-only
+   access, maintaining read-only data connections to all data sources."
+3. **There is no service-account "execution mode."** Every query runs as the
+   Entra ID identity of the caller (user OR service principal calling the
+   API). Workspace + data permissions of *that identity* gate everything.
 
 ---
 
-## Provisioning a Data Agent
+## Prerequisites
 
-> Fabric exposes most agent operations through the workspace UI and the Fabric
-> REST API. There is no first-class `az fabric` CLI for agents as of early
-> 2026 — automate via REST + a service principal, or via Fabric Deployment
-> Pipelines for Dev → Test → Prod promotion.
+| Item | Required |
+|---|---|
+| **Capacity** | A paid **F2 or higher** F SKU, or **P1+ Power BI Premium** with [Microsoft Fabric enabled](https://learn.microsoft.com/en-us/fabric/admin/fabric-switch). The official SDK consumption sample notebook recommends **F64+** for end-to-end reliability. |
+| **Tenant settings** | Enable **AI skill / Copilot for Fabric** and the **cross-geo processing & cross-geo storing for AI** toggles per the [tenant settings doc](https://learn.microsoft.com/en-us/fabric/data-science/data-agent-tenant-settings). |
+| **Workspace role** | **Contributor** or higher (per the REST `Create DataAgent` API: "the caller must have a contributor workspace role"). Not Member, not Admin specifically — Contributor is enough. |
+| **Data sources** | At least one of: lakehouse, warehouse, Power BI semantic model, KQL database, mirrored database, ontology. **Read access** required. |
+| **For Power BI semantic models** | Only **Read** on the model is required. **Build is not required.** Workspace membership where the model lives is **not required**. (Write is only needed to *modify* the model or use Prep for AI.) |
 
-### Get a Fabric token
+---
 
-```bash
-# As the signed-in user (works for interactive scripts)
-FABRIC_TOKEN=$(az account get-access-token \
-  --resource https://api.fabric.microsoft.com \
-  --query accessToken -o tsv)
+## Provisioning
 
-# As a service principal (CI/CD)
-az login --service-principal \
-  --username $SP_APP_ID --password $SP_SECRET --tenant $TENANT_ID
-FABRIC_TOKEN=$(az account get-access-token \
-  --resource https://api.fabric.microsoft.com \
-  --query accessToken -o tsv)
+There are three supported ways to create and configure a Data Agent:
+
+| Method | When to use |
+|---|---|
+| **Fabric portal UI** | First agent, exploration, business users. `+ New item` → "Fabric data agent" → name → add data sources from the OneLake catalog → check tables → ask. |
+| **`fabric-data-agent-sdk`** (preview) | Code-first, repeatable, runs **inside a Fabric notebook only** (not local). The recommended programmatic path. |
+| **Fabric REST API** (`POST /v1/workspaces/{ws}/dataAgents`) | CI/CD, automation outside notebooks. The body uses a `definition.parts[]` array of base64-encoded JSON files (`Files/Config/data_agent.json`, `…/draft/lakehouse-<name>/datasource.json`, `…/fewshots.json`, `…/stage_config.json`, `publish_info.json`). Most users should not hand-roll this — let the SDK or portal generate it. |
+
+### SDK path (recommended for code-first)
+
+```python
+%pip install fabric-data-agent-sdk     # only inside a Fabric notebook
+
+from fabric.dataagent.client import (
+    FabricDataAgentManagement,
+    create_data_agent,
+    delete_data_agent,
+)
+
+# Create new — errors with ConflictName if it already exists
+data_agent = create_data_agent("sales-analyst")
+
+# Or attach to existing
+data_agent = FabricDataAgentManagement("sales-analyst")
+
+# Inspect current configuration
+data_agent.get_configuration()
+
+# Add agent-level instructions
+data_agent.update_configuration(instructions="""
+You are the Sales Analyst. You answer questions about pipeline, bookings,
+quotas, and rep performance using the lakehouse and warehouse attached.
+
+Rules:
+- "Booked revenue" = SUM(amount_usd) WHERE stage = 'Closed Won'.
+- "Pipeline" = stage NOT IN ('Closed Won','Closed Lost').
+- Fiscal year starts February 1 — use fiscal_quarter, not calendar quarter,
+  unless the user explicitly says "calendar".
+- Always show the executed SQL/DAX/KQL beneath the answer.
+- Out of scope: root cause, prediction, why-questions. Refuse and stop.
+""")
+
+# Add data sources (up to 5 total per agent, in any combination)
+data_agent.add_datasource("sales_lakehouse",  type="lakehouse")
+data_agent.add_datasource("sales_warehouse",  type="warehouse")
+data_agent.add_datasource("Sales Model",      type="semanticmodel")
+data_agent.add_datasource("EventsKQL",        type="kqldatabase")
+
+# Per-source: select tables (NOTHING is selected by default)
+ds = data_agent.get_datasources()[0]
+ds.pretty_print()                       # tables marked "*" are visible to the agent
+ds.select("dbo", "opportunities")       # whitelist
+ds.select("dbo", "quotas")
+ds.unselect("dbo", "internal_audit")    # explicit removal
+
+# Per-source instructions (query-generation hints)
+ds.update_configuration(instructions="""
+- For revenue questions, use opportunities.amount_usd (already FX-normalized).
+- For quota math, JOIN opportunities to quotas on owner_email AND fiscal_quarter.
+""")
+
+# Per-source few-shot examples (NL → query, dialect of the source)
+ds.add_fewshots({
+    "Q1 2026 booked revenue by region":
+        "SELECT region, SUM(amount_usd) AS booked_revenue_usd "
+        "FROM dbo.opportunities "
+        "WHERE stage = 'Closed Won' "
+        "  AND close_date BETWEEN '2026-01-01' AND '2026-03-31' "
+        "GROUP BY region ORDER BY booked_revenue_usd DESC",
+    "Pipeline coverage for next quarter by rep":
+        "SELECT o.owner_email, "
+        "       SUM(CASE WHEN o.stage NOT IN ('Closed Won','Closed Lost') THEN o.amount_usd END) AS open_pipe, "
+        "       q.quota_usd "
+        "FROM dbo.opportunities o "
+        "LEFT JOIN dbo.quotas q ON q.owner_email = o.owner_email AND q.quarter = '2026Q2' "
+        "WHERE o.close_date BETWEEN '2026-04-01' AND '2026-06-30' "
+        "GROUP BY o.owner_email, q.quota_usd",
+})
+ds.get_fewshots()
+
+# Inspect / delete a few-shot
+ds.remove_fewshot("<fewshot-id-from-get_fewshots>")
+
+# Publish — until you publish, only the creator can chat
+data_agent.publish()
+
+# Delete (cleanup)
+delete_data_agent("sales-analyst")
 ```
 
-The service principal must be:
-- a member of the workspace with `Member` or `Admin` role (not `Viewer`/`Contributor`),
-- in a security group enabled under tenant setting *"Service principals can use Fabric APIs"*,
-- granted `Build` permission on each semantic model the agent grounds on.
+### Portal path (recommended for first agent)
 
-### Create the agent
+`+ New item` → search **"Fabric data agent"** → name it → the OneLake catalog
+opens → **Add** a data source (one at a time; up to 5) → in the left **Explorer**
+pane, **check the tables** that the agent should see → start chatting in the
+right pane → use **Edit instructions** and **Add example** in the UI.
+
+> Microsoft's tip from the docs: "Use descriptive names for both tables and
+> columns. A table named `SalesData` is more meaningful than `TableA`, and
+> column names like `ActiveCustomer` or `IsCustomerActive` are clearer than
+> `C1` or `ActCu`. Descriptive names help the AI generate more accurate and
+> reliable queries."
+
+### REST path (CI/CD)
 
 ```bash
-WS_ID=<workspace-guid>
+FABRIC_TOKEN=$(az account get-access-token \
+  --resource https://api.fabric.microsoft.com --query accessToken -o tsv)
 
+# Minimal create — no definition; you configure via SDK or portal afterwards.
 curl -sX POST "https://api.fabric.microsoft.com/v1/workspaces/$WS_ID/dataAgents" \
   -H "Authorization: Bearer $FABRIC_TOKEN" \
   -H "Content-Type: application/json" \
-  -d '{
-    "displayName": "Sales Analyst",
-    "description": "Answers revenue, pipeline, and quota questions for the sales org.",
-    "definition": {
-      "instructions": "<see instructions/sales.md below>",
-      "dataSources": [
-        {
-          "type": "LakehouseSqlEndpoint",
-          "workspaceId": "'"$WS_ID"'",
-          "itemId": "<lakehouse-guid>",
-          "schemas": ["dbo"],
-          "tables": ["sales_curated.orders","sales_curated.opportunities","sales_curated.quotas"]
-        },
-        {
-          "type": "SemanticModel",
-          "workspaceId": "'"$WS_ID"'",
-          "itemId": "<semantic-model-guid>"
-        }
-      ]
-    }
-  }'
+  -d '{ "displayName": "sales-analyst", "description": "Sales agent" }'
 ```
 
-### Add example questions (the highest-leverage tuning lever)
+The `definition` body, when supplied, is a `parts[]` array of base64-encoded
+JSON files at paths like `Files/Config/data_agent.json`,
+`Files/Config/draft/lakehouse-<name>/datasource.json`,
+`Files/Config/draft/lakehouse-<name>/fewshots.json`,
+`Files/Config/draft/stage_config.json`,
+`Files/Config/published/...`, and `Files/Config/publish_info.json`. The SDK is
+the practical way to produce these payloads — see the
+[REST reference](https://learn.microsoft.com/en-us/rest/api/fabric/dataagent/items/create-data-agent)
+for the exact shape.
 
-```bash
-AGENT_ID=<agent-guid>
-curl -sX PATCH "https://api.fabric.microsoft.com/v1/workspaces/$WS_ID/dataAgents/$AGENT_ID" \
-  -H "Authorization: Bearer $FABRIC_TOKEN" \
-  -H "Content-Type: application/json" \
-  -d @example_questions.json
-```
-
-```json
-// example_questions.json
-{
-  "definition": {
-    "exampleQuestions": [
-      {
-        "question": "Q1 2026 booked revenue by region",
-        "answerKind": "SQL",
-        "dataSourceRef": "<lakehouse-guid>",
-        "sql": "SELECT region, SUM(amount_usd) AS booked_revenue_usd FROM sales_curated.opportunities WHERE stage='Closed Won' AND close_date BETWEEN '2026-01-01' AND '2026-03-31' GROUP BY region ORDER BY booked_revenue_usd DESC"
-      },
-      {
-        "question": "Pipeline coverage for next quarter by rep",
-        "answerKind": "SQL",
-        "dataSourceRef": "<lakehouse-guid>",
-        "sql": "SELECT o.owner_email, SUM(CASE WHEN o.stage NOT IN ('Closed Won','Closed Lost') THEN o.amount_usd END) AS open_pipeline, q.quota_usd, SUM(CASE WHEN o.stage NOT IN ('Closed Won','Closed Lost') THEN o.amount_usd END) / NULLIF(q.quota_usd,0) AS coverage_ratio FROM sales_curated.opportunities o LEFT JOIN sales_curated.quotas q ON q.owner_email=o.owner_email AND q.quarter='2026Q2' WHERE o.close_date BETWEEN '2026-04-01' AND '2026-06-30' GROUP BY o.owner_email, q.quota_usd"
-      },
-      {
-        "question": "Total revenue last fiscal year",
-        "answerKind": "DAX",
-        "dataSourceRef": "<semantic-model-guid>",
-        "dax": "EVALUATE { CALCULATE([Total Revenue], DATESYTD(LASTDATE('Date'[Date]), \"01-31\")) }"
-      }
-    ]
-  }
-}
-```
-
-Provide **5–30 high-value** examples. More than ~50 dilutes routing quality;
-fewer than 5 underspecifies the domain.
-
-### Publish
-
-Agents must be published before non-creators can chat with them:
-
-```bash
-curl -sX POST \
-  "https://api.fabric.microsoft.com/v1/workspaces/$WS_ID/dataAgents/$AGENT_ID/publish" \
-  -H "Authorization: Bearer $FABRIC_TOKEN"
-```
-
-Publishing snapshots the current definition into a "published version." Edits
-go to the draft; only published agents serve chat traffic to viewers.
+Required Entra scope for the API: **`Item.ReadWrite.All`**. Service principals
+and managed identities are supported.
 
 ---
 
-## Identity & Access (the part that bites you)
+## Identity & Access
 
-Fabric Data Agents have **two identities** to reason about — the chat caller
-and the data-execution principal.
+The agent always runs queries as the **Entra ID identity of the caller** —
+there is no "service account execution mode" toggle. The chatting principal's
+permissions are the floor.
 
-| Identity | What it does | Where it's enforced | Risk if wrong |
-|---|---|---|---|
-| **Caller** (end user / SP) | Auth to the *agent* and gates chat | Workspace RBAC (`Viewer`+ at minimum) on the agent's workspace | Misconfigured users get a "you don't have access" message but can't see data |
-| **Execution principal** | Runs SQL/DAX/KQL on the underlying items | OneLake ACLs, T-SQL RLS, Power BI RLS, KQL policies | Agent runs as fixed SP → bypasses per-user RLS — over-permission |
+| Surface | Identity at query time |
+|---|---|
+| Fabric portal chat | Signed-in user |
+| M365 Copilot / Teams plugin | Signed-in user (via SSO) |
+| `FabricOpenAI` in a notebook | The notebook's running identity (interactive user, or workspace identity if scheduled) |
+| Direct REST automation | Whatever Entra principal owns the bearer token (user or SP) |
 
-### Two execution modes
+### What permissions a chatter actually needs
 
-**(A) Run-as-user (default for human chat — *strongly recommended*)**
+| To do this | They need |
+|---|---|
+| See the agent in the workspace | Workspace **Viewer** + (typically also via sharing) |
+| Be able to chat | Per agent **share** — see Sharing section |
+| Get answers from a **lakehouse / warehouse** source | **Read** on the lakehouse/warehouse SQL endpoint |
+| Get answers from a **Power BI semantic model** | **Read** on the model. **Build not required.** Workspace membership where the model lives **not required.** |
+| Get answers from a **KQL database** | Standard KQL viewer permissions |
 
-The agent forwards the chatting user's identity to each data source.
-T-SQL `SESSION_USER`, Power BI RLS roles based on `USERPRINCIPALNAME()`, and
-KQL `current_principal()` all evaluate per user. Each user sees only what they
-would see if they wrote the query themselves.
+### Cross-tenant data
 
-For this to work, every chatting user needs:
-- `Viewer` (or higher) on the agent's workspace
-- Read permission on each grounded item (lakehouse SQL endpoint, warehouse,
-  semantic model `Read+Build`, KQL database `Viewer`)
-
-**(B) Fixed-identity (service principal) — for embedded apps, Teams bots, public dashboards**
-
-The agent runs every query as a single service principal. RLS evaluates against
-that SP. Useful when:
-- The chatting user has no Fabric license / isn't in the tenant
-- A public-facing app needs deterministic data scope per agent
-
-```bash
-# Bind a service principal as the execution identity
-curl -sX PATCH "https://api.fabric.microsoft.com/v1/workspaces/$WS_ID/dataAgents/$AGENT_ID" \
-  -H "Authorization: Bearer $FABRIC_TOKEN" \
-  -H "Content-Type: application/json" \
-  -d '{
-    "definition": {
-      "executionIdentity": {
-        "type": "ServicePrincipal",
-        "applicationId": "<sp-app-guid>"
-      }
-    }
-  }'
-```
-
-> ⚠ **In fixed-identity mode, T-SQL RLS, Power BI RLS, OLS, and KQL row policies
-> evaluate against the SP — *not* the chatting user.** Every user sees the
-> union of what the SP can see. Either:
-> - bind the SP to a *purpose-built workspace* with only audience-appropriate items, OR
-> - implement audience filtering in the *agent instructions* (defense in depth, not security), OR
-> - filter at the data layer (separate per-audience lakehouses/datasets).
-
-### Recommended workspace layout
-
-```
-ws-curated-data         ← raw + curated items, locked to data engineers
-  └── lakehouse_sales_curated, warehouse_finance, ...
-
-ws-sales-agent          ← agent + Power BI semantic model, audience: sales
-  ├── DataAgent: sales-analyst
-  ├── SemanticModel: Sales Star (Direct Lake → ws-curated-data via shortcut)
-  └── Members: group:sales-team@example.com (Viewer)
-
-ws-finance-agent        ← separate workspace for finance
-  └── ...
-```
-
-The agent never lives in the same workspace as raw data. Audience-scoped
-workspaces give you a clean "workspace = audience" mental model that survives
-fixed-identity mode without leaking data across audiences.
+If your workspace contains tables shared in via **OneLake external data
+sharing**, the agent queries them through the OneLake shortcut created at
+share-acceptance — no extra credentials, runs under the consumer's Entra ID,
+and consumer-tenant governance applies.
 
 ---
 
-## Grounding Source Engineering (where 80% of quality comes from)
+## Sharing
 
-The base model is generic; quality lives in **what you ground on** and **how
-the underlying items are described.**
+Per [`data-agent-sharing`](https://learn.microsoft.com/en-us/fabric/data-science/data-agent-sharing),
+agents are shared as a first-class operation distinct from workspace RBAC.
+Share dialog supports per-user/group permission tiers. Recipients still need
+**read on the underlying data sources** (or, for semantic models, just Read on
+the model) for queries to actually return data — sharing the agent does not
+elevate data access.
 
-### 1. Build a curated layer first
+> Operational rule: **the agent's share is who can chat; the data sources'
+> permissions are who gets answers.** If a user can chat but gets "no access,"
+> they're missing data permissions, not agent permissions.
 
-Don't ground on bronze/raw lakehouse tables. Build a `*_curated` lakehouse with:
-- denormalized, business-named columns (`booked_revenue_usd`, not `amt_norm`)
-- table & column descriptions (the agent reads these via `INFORMATION_SCHEMA`)
-- liquid clustering on common group-by columns
-- row-access policies / RLS enforcing audience boundaries
-- a `vw_*` view layer hiding nullable/unstable internals
+---
 
-Without this, the agent will pick the wrong table or the wrong column on
-ambiguous questions ("revenue" → which of 4 amount columns?).
+## What to put in instructions vs few-shots vs descriptions
 
-### 2. Annotate tables and columns with descriptions
+The agent has three context surfaces. Use each for what it's good at:
 
-The agent reads SQL `COMMENT`s and Power BI model descriptions when planning.
+| Surface | What goes here | What does NOT |
+|---|---|---|
+| **Agent instructions** (`update_configuration(instructions=...)`) | Persona, refusal rules, output format, business definitions ("booked revenue ="), fiscal calendar quirks, scope boundary | Per-table SQL hints (those go on the datasource) |
+| **Datasource instructions** (`ds.update_configuration(instructions=...)`) | Which table to use for X, JOIN keys, deprecated columns to avoid, dialect notes | Whole worked SQL examples (those are few-shots) |
+| **Few-shots** (`ds.add_fewshots({nl: sql})`) | 5–30 high-value NL→query examples; each example raises the routing prior toward that pattern | More than ~50 (dilutes routing); examples that aren't validated to actually run |
+| **Table/column descriptions** (`ALTER TABLE … COMMENT '…'` on the underlying Delta table; warehouse uses T-SQL `sp_addextendedproperty`) | What each column means, units, valid values, how to filter, lineage | Long prose — keep < 200 chars per column |
 
-**Lakehouse SQL endpoint / Warehouse (T-SQL):**
-```sql
--- Add extended properties on tables and columns (Warehouse)
-EXEC sys.sp_addextendedproperty
-    @name = N'MS_Description',
-    @value = N'One row per Salesforce opportunity, snapshotted nightly at 02:00 UTC. Use stage=''Closed Won'' for booked revenue.',
-    @level0type = N'SCHEMA', @level0name = 'dbo',
-    @level1type = N'TABLE',  @level1name = 'opportunities';
+Always validate few-shots with the **Few-Shot Examples Validator** notebook
+(`Fabric-DataAgent-Few-Shot-Examples-Validator-sample.ipynb` in the
+`fabric-samples` repo) — it actually runs each example's SQL and checks the
+result is non-empty and well-formed.
 
-EXEC sys.sp_addextendedproperty
-    @name = N'MS_Description',
-    @value = N'Deal amount in USD, normalized at close_date FX rate. NULL until past Prospecting. Use SUM(amount_usd) WHERE stage=''Closed Won'' for booked revenue.',
-    @level0type = N'SCHEMA', @level0name = 'dbo',
-    @level1type = N'TABLE',  @level1name = 'opportunities',
-    @level2type = N'COLUMN', @level2name = 'amount_usd';
-```
+---
 
-**Lakehouse Delta tables (Spark — propagates to SQL endpoint):**
+## Consumption (chat from code)
+
+Use the `FabricOpenAI` client bundled with `fabric-data-agent-sdk`. It wraps
+the Azure OpenAI Assistants API with the agent as the assistant target.
+
 ```python
-spark.sql("""
-ALTER TABLE sales_curated.opportunities
-SET TBLPROPERTIES (
-  'comment' = 'One row per opportunity, snapshotted nightly. Use stage=Closed Won for booked revenue.'
+from fabric.dataagent.client import FabricOpenAI
+
+fabric_client = FabricOpenAI(artifact_name="sales-analyst")
+
+assistant = fabric_client.beta.assistants.create(model="gpt-4o")
+thread    = fabric_client.beta.threads.create()
+
+fabric_client.beta.threads.messages.create(
+    thread_id=thread.id, role="user",
+    content="Q1 2026 booked revenue by region",
 )
-""")
-spark.sql("ALTER TABLE sales_curated.opportunities ALTER COLUMN amount_usd COMMENT 'Deal amount in USD, normalized at close_date FX. SUM where stage=Closed Won for booked revenue.'")
+
+run = fabric_client.beta.threads.runs.create_and_poll(
+    thread_id=thread.id, assistant_id=assistant.id,
+)
+assert run.status == "completed", run.status
+
+for m in fabric_client.beta.threads.messages.list(thread_id=thread.id).data:
+    if m.role == "assistant":
+        for part in m.content:
+            if part.type == "text":
+                print(part.text.value)
+        break
 ```
 
-**Semantic model (Tabular Editor / TMSL / Power BI Desktop):**
-- Set table description, column description, and **measure description** in
-  the model. The agent prefers measures over raw columns when answering
-  aggregations — well-described measures are gold.
-- Mark sensitive columns as `IsHidden=true` so the agent never picks them up.
+Multi-turn: reuse `thread.id` across calls. The agent maintains conversational
+context within a thread.
 
-### 3. Define measures, don't make the agent rederive them
-
-```dax
-// In the Sales Star semantic model
-Booked Revenue =
-    CALCULATE(
-        SUM('Opportunities'[amount_usd]),
-        'Opportunities'[stage] = "Closed Won"
-    )
-
-Pipeline Coverage =
-    DIVIDE(
-        CALCULATE(
-            SUM('Opportunities'[amount_usd]),
-            NOT 'Opportunities'[stage] IN { "Closed Won", "Closed Lost" }
-        ),
-        SELECTEDVALUE('Quotas'[quota_usd])
-    )
-```
-
-A user asking "what's our pipeline coverage for Q2?" will get a deterministic
-answer when there's a `[Pipeline Coverage]` measure with a clear description.
-Without it, the agent must reinvent the formula every time and may pick the
-wrong filter.
-
-### 4. Instructions (persona + guardrails)
-
-Stored as markdown in the agent's `definition.instructions`:
-
-```markdown
-You are the Sales Analyst for Acme Corp. You answer questions about pipeline,
-bookings, quotas, and rep performance using the `sales_curated` lakehouse and
-the `Sales Star` semantic model only.
-
-## Routing
-- For aggregations on standard measures (revenue, pipeline, coverage), prefer
-  the `Sales Star` semantic model and use existing measures.
-- For row-level / opportunity-detail / freeform queries, use the `sales_curated`
-  lakehouse SQL endpoint.
-- Never join across data sources unless explicitly asked.
-
-## Scope
-- Use ONLY datasets attached to this agent. Never reference other workspaces.
-- For "revenue" without qualifier, use `[Booked Revenue]` (stage=Closed Won).
-- "Pipeline" excludes Closed Won and Closed Lost.
-- All amounts are USD. Do not use `amount_local`.
-- Fiscal year starts February 1. Use the `fiscal_quarter` column unless the
-  user says "calendar quarter".
-
-## Refusal policy
-- If a question requires PII (email, phone, address) outside the audience's
-  scope, refuse and direct them to the data owner.
-- If a question requires data from a source not attached, say so explicitly:
-  "I can only see sales_curated and Sales Star. For X, ask the Y agent."
-- If a SQL plan would scan more than 1 TB, ask the user to narrow the time window.
-
-## Output format
-- Always show the executed SQL/DAX below the answer in a fenced code block.
-- For trends, render a line chart. For comparisons, a bar chart.
-- Round currency to the nearest dollar; use thousands separators.
-- Include the data source name in the answer footer.
-```
-
----
-
-## Calling from Code
-
-### Chat REST API
-
-```bash
-ACCESS_TOKEN=$FABRIC_TOKEN
-
-# Create a conversation (session)
-CONV_ID=$(curl -sX POST \
-  "https://api.fabric.microsoft.com/v1/workspaces/$WS_ID/dataAgents/$AGENT_ID/conversations" \
-  -H "Authorization: Bearer $ACCESS_TOKEN" \
-  -H "Content-Type: application/json" \
-  -d '{}' | jq -r .id)
-
-# Send a turn (streaming via Server-Sent Events)
-curl --no-buffer -X POST \
-  "https://api.fabric.microsoft.com/v1/workspaces/$WS_ID/dataAgents/$AGENT_ID/conversations/$CONV_ID/messages" \
-  -H "Authorization: Bearer $ACCESS_TOKEN" \
-  -H "Content-Type: application/json" \
-  -H "Accept: text/event-stream" \
-  -d '{"content":"Q1 2026 booked revenue by region","role":"user"}'
-```
-
-The SSE stream emits events of types `text` (incremental answer text),
-`generatedQuery` (the SQL/DAX/KQL the agent emitted), `queryResult`
-(structured rows), `chartSuggestion`, and `finished`.
-
-### Python wrapper
-
-```python
-import json, os, requests, sseclient
-
-BASE = "https://api.fabric.microsoft.com/v1"
-WS, AGENT = os.environ["FABRIC_WS"], os.environ["FABRIC_AGENT"]
-TOKEN = os.environ["FABRIC_TOKEN"]
-HDR = {"Authorization": f"Bearer {TOKEN}"}
-
-def new_conversation() -> str:
-    r = requests.post(f"{BASE}/workspaces/{WS}/dataAgents/{AGENT}/conversations",
-                      headers=HDR, json={})
-    r.raise_for_status()
-    return r.json()["id"]
-
-def chat(conv_id: str, message: str):
-    """Yields (event_type, payload) tuples as the agent streams its answer."""
-    url = f"{BASE}/workspaces/{WS}/dataAgents/{AGENT}/conversations/{conv_id}/messages"
-    r = requests.post(
-        url,
-        headers={**HDR, "Accept": "text/event-stream", "Content-Type": "application/json"},
-        json={"role": "user", "content": message},
-        stream=True,
-    )
-    r.raise_for_status()
-    for ev in sseclient.SSEClient(r).events():
-        yield ev.event, json.loads(ev.data) if ev.data else None
-
-if __name__ == "__main__":
-    conv = new_conversation()
-    answer, sql = [], None
-    for kind, payload in chat(conv, "Q1 2026 booked revenue by region"):
-        if kind == "text":            answer.append(payload["delta"])
-        elif kind == "generatedQuery": sql = payload["query"]
-        elif kind == "queryResult":    rows = payload["rows"]
-        elif kind == "finished":       break
-    print("".join(answer))
-    print(f"\n--- generated query ---\n{sql}")
-```
-
-### semantic-link / `sempy` (in a Fabric notebook)
-
-```python
-import sempy.fabric as fabric
-
-# Discover agents in the current workspace
-agents = fabric.list_items(type="DataAgent")
-print(agents[["Display Name", "Id"]])
-
-# Programmatic chat (sempy convenience wrapper, available in recent runtimes)
-from sempy.fabric import DataAgentClient
-
-client = DataAgentClient(workspace=fabric.get_workspace_id(), agent_id=AGENT_ID)
-response = client.chat("Top 5 reps by Q1 bookings")
-print(response.text)
-print(response.generated_query)   # the SQL/DAX/KQL it ran
-print(response.dataframe.head())  # results as Pandas
-```
-
----
-
-## Embedding in Apps
-
-### Embed in a Power BI report
-
-1. Add a Copilot or Q&A visual to the report.
-2. Pin the agent in workspace settings → *Copilot data agents*.
-3. The visual will route the user's question to the agent (run-as-user mode).
-
-### Embed in a Teams app / custom web app
-
-```html
-<!-- Fabric provides an embeddable chat widget; URL pattern as of early 2026 -->
-<iframe
-  src="https://app.fabric.microsoft.com/groups/{WS_ID}/dataAgents/{AGENT_ID}/embed"
-  width="100%" height="600"
-  allow="clipboard-write"
-  sandbox="allow-scripts allow-same-origin allow-forms allow-popups">
-</iframe>
-```
-
-For non-tenant users, use **Fabric Embedded** (capacity-backed) and acquire an
-embed token via the embed-token API; bind the agent to a service-principal
-execution identity.
-
-### Teams bot pattern
-
-```python
-# Minimal Teams bot pattern using the Bot Framework SDK.
-# Production: add error handling, conversation state, retries, idempotency.
-from botbuilder.core import ActivityHandler, TurnContext
-import requests, os, json
-
-BASE = "https://api.fabric.microsoft.com/v1"
-WS, AGENT = os.environ["FABRIC_WS"], os.environ["FABRIC_AGENT"]
-
-# Cache (Teams user id → Fabric conversation id) for multi-turn
-_conv_for_user: dict[str, str] = {}
-
-def _fabric_token() -> str:
-    # Use MSAL with the bot's SP credentials to get a Fabric token
-    ...
-
-def _new_conversation(token: str) -> str:
-    r = requests.post(f"{BASE}/workspaces/{WS}/dataAgents/{AGENT}/conversations",
-                      headers={"Authorization": f"Bearer {token}"}, json={})
-    r.raise_for_status()
-    return r.json()["id"]
-
-def _ask(token: str, conv_id: str, q: str) -> tuple[str, str | None]:
-    r = requests.post(
-        f"{BASE}/workspaces/{WS}/dataAgents/{AGENT}/conversations/{conv_id}/messages",
-        headers={"Authorization": f"Bearer {token}", "Content-Type": "application/json"},
-        json={"role": "user", "content": q},
-    )
-    r.raise_for_status()
-    body = r.json()
-    return body.get("content", ""), body.get("generatedQuery")
-
-class FabricAgentBot(ActivityHandler):
-    async def on_message_activity(self, turn_context: TurnContext):
-        token = _fabric_token()
-        user_id = turn_context.activity.from_property.id
-        if user_id not in _conv_for_user:
-            _conv_for_user[user_id] = _new_conversation(token)
-
-        text, sql = _ask(token, _conv_for_user[user_id], turn_context.activity.text)
-        reply = text + (f"\n\n```sql\n{sql}\n```" if sql else "")
-        await turn_context.send_activity(reply)
-```
-
-> A Teams bot uses **fixed-identity** (its own SP). The SP must be granted
-> only audience-appropriate access. Don't connect a single bot agent to
-> mixed-audience channels.
+> The SDK is **only supported inside Fabric notebooks**. Microsoft explicitly
+> says it "isn't supported for local execution." For non-notebook automation
+> use a notebook scheduled in a pipeline, a Spark Job Definition, or call the
+> REST API directly.
 
 ---
 
 ## Governance & Safety
 
-### 1. Capacity & cost
+### Microsoft Purview integration
 
-Data Agent chat consumes **Fabric Capacity Units (CUs)**:
-- Copilot orchestration tokens (charged per agent message)
-- Underlying query execution (warehouse / lakehouse / Direct Lake / KQL CU)
+Per the concept doc, the following Purview capabilities apply to Data Agents:
 
-Controls:
+| Capability | Status | What it does |
+|---|---|---|
+| **DLP policies in Fabric Data Warehouse** | GA | Detects/restricts agent access to sensitive warehouse data |
+| **Access restriction policies** for Warehouse, KQL DB, Fabric SQL DB | Preview | Prevents agent from accessing/returning sensitive assets |
+| **Risk discovery & auditing** | Preview | Prompts/responses subject to Purview audit |
+| **DSPM Data Risk Assessments** | Preview | Surface sensitive-data risks in agent's data sources |
+| **Insider Risk Management** | Preview | Detect risky AI-usage patterns (e.g., abnormal query volumes) |
+| **Audit, eDiscovery, retention** | Per Fabric workload | Agent interactions are logged in supported workloads |
 
-```bash
-# Pause a capacity overnight to stop chat traffic burning CU
-curl -sX POST \
-  "https://api.fabric.microsoft.com/v1/capacities/$CAPACITY_ID/suspend" \
-  -H "Authorization: Bearer $FABRIC_TOKEN"
-```
+### Outbound access protection
 
-- Use the **Fabric Capacity Metrics app** (free from AppSource) to see per-item
-  CU consumption — agents show as `DataAgent` items in the report.
-- Set a workspace-level Copilot budget alert via the admin portal.
-- Cap warehouse query execution time via `RESOURCE GOVERNOR` (warehouse) or
-  Spark session timeouts.
+Outbound connections from agents are subject to the tenant's network and
+access rules in the Fabric admin portal. Admins can control which external
+endpoints agents may reach.
 
-### 2. T-SQL row-level security (lakehouse SQL endpoint / warehouse)
+### Cross-region rule (hard fail)
 
-```sql
--- Run in the warehouse / lakehouse SQL endpoint
-CREATE FUNCTION dbo.fn_rep_predicate(@email AS NVARCHAR(256))
-    RETURNS TABLE WITH SCHEMABINDING
-AS
-    RETURN SELECT 1 AS allow
-    WHERE @email = USER_NAME() OR IS_ROLEMEMBER('SalesLeadership') = 1;
+> "The Fabric data agent can't execute queries when the data source's
+> workspace capacity is in a different region than the data agent's workspace
+> capacity."
 
-CREATE SECURITY POLICY dbo.RepRowPolicy
-    ADD FILTER PREDICATE dbo.fn_rep_predicate(owner_email) ON dbo.opportunities
-    WITH (STATE = ON);
-```
+Example: agent in *France Central*, lakehouse in *North Europe* → query fails.
+Fix: move the agent's workspace to a capacity in the same region as the data,
+or move/re-shortcut the data.
 
-In **run-as-user** mode the agent's queries inherit the policy. In
-**fixed-identity** mode the SP sees everything the SP is permitted to see —
-RLS bypasses are silent and total.
+### Read-only enforcement
 
-### 3. Power BI RLS / OLS
+The agent maintains read-only connections to all sources. Even a crafted
+prompt cannot get it to issue a write. This is an architectural property, not
+a guardrail rule — but verify in your audit logs anyway.
 
-```dax
-// In the semantic model — Manage roles → Sales Rep
-[owner_email] = USERPRINCIPALNAME()
-```
+### Out-of-scope question patterns
 
-Ground the agent on the semantic model and the per-user role applies in
-run-as-user mode.
+Per the docs, these are not what the agent does (it's NL→query, not analysis):
 
-### 4. KQL row-level / column-level policies
+- "Why is Q2 productivity lower?"
+- "What is the root cause of the sales spike?"
+- "Forecast next quarter's revenue."
+- Anything requiring causal inference, ML, or external context.
 
-```kql
-.create-or-alter table Telemetry policy row_level_security
-'@"AllowedDevices | where DeviceOwner == current_principal()"'
-
-.create-or-alter table Telemetry column policy
-[
-  { "ColumnName": "DeviceOwner", "MaskingPolicy": "Hash" }
-]
-```
-
-### 5. Audit logging
-
-Fabric writes Copilot/Data Agent activity to the **Microsoft Purview / unified
-audit log** under workload `Microsoft.Fabric` and operation
-`CopilotInteraction` (operation names evolve — check the current Fabric
-audit-log schema docs).
-
-```powershell
-# Pull last 24 h of agent chats from the unified audit log
-Connect-ExchangeOnline -ShowBanner:$false
-$end   = Get-Date
-$start = $end.AddDays(-1)
-Search-UnifiedAuditLog `
-  -StartDate $start -EndDate $end `
-  -RecordType CopilotInteraction `
-  -ResultSize 5000 |
-  Where-Object { $_.AuditData -match '"AgentId"\s*:\s*"'$AGENT_ID'"' } |
-  Select-Object CreationDate, UserIds, AuditData |
-  Export-Csv -NoTypeInformation agent_audit.csv
-```
-
-For real-time auditing at scale, route the Microsoft 365 Defender / Purview
-audit stream into an Eventhouse, then query via KQL:
-
-```kql
-CopilotInteractions
-| where Workload == "Microsoft.Fabric"
-| where AgentId == "<agent-guid>"
-| where Timestamp > ago(1d)
-| project Timestamp, UserId = User.UserPrincipalName, Question, GeneratedQuery, ResultRowCount
-| order by Timestamp desc
-```
-
-### 6. Refusal / jailbreak surface
-
-The agent will execute *whatever SQL/DAX/KQL the model emits* against the
-grounded items. Defense in depth:
-
-1. **Ground only on curated, audience-appropriate items.** Never connect a
-   raw bronze lakehouse or a finance warehouse to a broad-audience agent.
-2. **Use run-as-user.** Each user's permissions are the floor of access.
-3. **Set caps**: warehouse query timeout, capacity CU budget, Copilot per-day
-   message quota.
-4. **Use authorized views / RLS** in the grounded items so even adversarial
-   prompts can't reach beyond the audience scope.
-5. **Refusal rules in instructions are advisory** — they reduce off-scope
-   answers but are not a security boundary.
+Put a refusal rule in the agent instructions. Better: include a few-shot whose
+"answer" is a refusal, so the model learns the pattern.
 
 ---
 
 ## Evaluation
 
-A Data Agent is a system, not a query — evaluate it as one.
+The SDK ships an evaluation utility plus a sample notebook
+(`Fabric-DataAgent-Evaluation-sample.ipynb`). The pattern is the standard
+golden-set scoring:
 
-### Golden-set evaluation harness
+1. Maintain a CSV/Delta table of `(question, expected_query_or_answer)` pairs.
+2. For each row, send the question to the agent, capture the executed query
+   and the result.
+3. Score correctness (numeric tolerance for aggregates, exact match for
+   labels), latency, refusal-when-out-of-scope, and SQL similarity (e.g., via
+   `sqlglot` AST comparison).
+4. Persist results to a Delta table; chart drift over time.
 
-```python
-# eval/run_eval.py
-import csv, time
-from chat_client import new_conversation, chat   # the wrapper from "Calling from Code"
-
-def eval_one(question: str, expected_value: float | None) -> dict:
-    conv = new_conversation()
-    t0 = time.time()
-    text, sql, rows = "", None, None
-    for kind, payload in chat(conv, question):
-        if kind == "text":             text += payload["delta"]
-        elif kind == "generatedQuery": sql = payload["query"]
-        elif kind == "queryResult":    rows = payload["rows"]
-        elif kind == "finished":       break
-    actual = float(rows[0][0]) if rows else None
-    correct = expected_value is None or _close(actual, expected_value)
-    return {
-        "question": question, "answer": text, "generated_query": sql,
-        "actual": actual, "expected": expected_value,
-        "correct": correct, "latency_s": round(time.time() - t0, 2),
-    }
-
-def _close(a, b, tol=0.001):
-    if a is None or b is None: return False
-    return abs(float(a) - float(b)) / max(abs(float(b)), 1e-9) < tol
-
-if __name__ == "__main__":
-    rows = list(csv.DictReader(open("eval/golden.csv")))
-    results = [eval_one(r["question"], float(r["expected"])) for r in rows]
-    correct = sum(1 for r in results if r["correct"])
-    print(f"{correct}/{len(results)} correct ({100*correct/len(results):.1f}%)")
-    csv.DictWriter(open("eval/results.csv","w"), fieldnames=results[0].keys()).writerows(results)
-```
-
-```csv
-# eval/golden.csv
-question,expected
-"Q1 2026 booked revenue total",4823910.00
-"Top rep by Q1 bookings",1245000.00
-"Pipeline coverage for Q2 2026 by region (sum)",2.4
-```
-
-### What to measure
-
-| Dimension | How |
-|---|---|
-| **Correctness** | Golden Q&A with expected numeric answers; ≥95% target |
-| **Routing accuracy** | % of questions routed to the *right* data source (lakehouse vs semantic model vs KQL). Diff `generatedQuery` kind against expected. |
-| **Query faithfulness** | Diff `generatedQuery` AST against an expected SQL/DAX baseline (`sqlglot` for SQL; for DAX, normalize whitespace and compare token streams) |
-| **Refusal rate** | Run an "out-of-scope" suite; agent should refuse, not fabricate or pick a tangentially-related table |
-| **Cost per turn** | CU consumed per message — pull from the Capacity Metrics app, attribute by agent item ID |
-| **Latency** | p50 / p95 end-to-end (Copilot + query execution) |
-| **Hallucination** | Heuristic: % of answers where `generatedQuery` is null but the response cites figures |
-| **Drift** | Re-run the golden set weekly; alert on regressions tied to model updates or schema changes |
+Re-run weekly (or after every agent edit) and alert on regressions. See the
+[Microsoft blog post on programmatic evaluation](https://blog.fabric.microsoft.com/en-US/blog/evaluate-your-fabric-data-agents-programmatically-with-the-python-sdk/)
+for the canonical pattern.
 
 ---
 
-## Common Patterns & Gotchas
+## Common Patterns
 
 ### Pattern: agent-per-domain, not one mega-agent
 
+A single agent capped at 5 sources is also capped in instruction-context
+budget. For broad analytics, build per-domain agents:
+
 ```
-sales-analyst       → sales_curated lakehouse, Sales Star semantic model
-finance-analyst     → finance_warehouse, Finance Star semantic model
-ops-analyst         → ops_curated lakehouse, telemetry KQL eventhouse
-exec-summary        → cross-domain *_summary views in an exec semantic model
-```
-
-A single agent grounded on 200 tables produces worse SQL than 5 agents grounded
-on 40 each (longer context, more ambiguous column resolution, slower planning).
-
-### Pattern: prefer semantic model over lakehouse SQL when both are grounded
-
-For business aggregations, the semantic model wins:
-- Measures encode business logic deterministically (`[Booked Revenue]` = one definition)
-- DAX result is typically smaller than equivalent SQL row sets → cheaper, faster
-- Direct Lake means no data movement
-Direct the agent in instructions: *"Prefer the semantic model for any question
-that maps to an existing measure. Use the lakehouse only for row-level detail."*
-
-### Pattern: snapshot for reproducible analytics
-
-If users complain *"the agent gave me a different number yesterday,"* it's
-usually because the underlying data changed. Snapshot curated tables daily:
-
-```python
-# In a scheduled notebook: snapshot sales_curated.opportunities → opportunities_YYYYMMDD
-from datetime import date
-spark.sql(f"""
-  CREATE OR REPLACE TABLE sales_snapshot.opportunities_{date.today():%Y%m%d}
-  SHALLOW CLONE sales_curated.opportunities
-""")
+sales-analyst       → sales_lakehouse, crm_warehouse, Sales Model
+finance-analyst     → finance_warehouse, billing_lakehouse, Finance Model
+ops-analyst         → ops_lakehouse, telemetry_kql
+exec-summary        → cross-domain *_summary semantic models
 ```
 
-Ground a "reproducible" agent on the snapshot dataset, and a "live" agent on
-the moving curated tables. Users pick the agent that matches the question.
+### Pattern: curated layer is non-negotiable
 
-### Pattern: "why did this answer change?" debugging
+Don't point an agent at raw landing tables. Build curated `*_curated`
+schemas with descriptive names, column comments, partitioning/liquid
+clustering, and views that hide unstable internals. The agent is only as good
+as the schema it reads.
 
-```kql
-// Eventhouse with the audit stream
-CopilotInteractions
-| where AgentId == "<agent-guid>"
-| where Question has "Q1 revenue"
-| order by Timestamp desc
-| take 20
-| project Timestamp, UserId = User.UserPrincipalName, Question, GeneratedQuery, ResultRowCount
-```
+### Pattern: validate few-shots in CI
 
-Then re-run the `GeneratedQuery` as the same user (T-SQL: connect to the
-SQL endpoint with that user; DAX: use *Run as different user* in Power BI
-Desktop).
+Wire the Few-Shot Examples Validator into a scheduled notebook. Any few-shot
+whose query returns 0 rows or errors should fail the build — that means
+schema drift broke the example, and the agent is now learning from broken
+SQL.
 
-### Gotcha: agent caches schema, not data
+### Pattern: snapshot for reproducible answers
 
-`ALTER TABLE ... SET TBLPROPERTIES (comment=...)`, new measures, and added
-example questions take effect on the next conversation. **But schema changes
-(new columns, renamed columns, new tables) require explicit refresh of the
-data source binding** — some surfaces auto-refresh on the next chat after a
-publish, others require re-publishing the agent. Until refresh, the agent
-emits queries against the stale schema and fails. Always re-publish after
-schema changes.
+If users complain "the agent gave a different number yesterday," it's almost
+always because the data changed. For monthly-board-deck reproducibility,
+snapshot `*_curated` to `*_curated_snapshot_YYYYMMDD` and bind the agent to
+the snapshot.
 
-### Gotcha: fixed-identity + RLS = silent over-permission
+---
 
-T-SQL `USER_NAME()`, DAX `USERPRINCIPALNAME()`, and KQL `current_principal()`
-return the *SP* in fixed-identity mode. RLS predicates that filter on the user
-become permissive (the SP is granted everything). **Use run-as-user, OR
-audience-scope the bound items, OR both.**
+## Gotchas
 
-### Gotcha: semantic-model `Read` without `Build` silently drops the agent's access
+1. **F2 vs F64 SKU contradiction.** The official prerequisites include says
+   F2 is enough; the official SDK consumption sample says F64. Reality: F2
+   gets you a functioning agent for the portal chat path; the OpenAI-Assistants
+   notebook consumption path is more reliable on F64+. Plan accordingly.
 
-Workspace `Viewer` gives read on reports but not `Build` on the semantic model.
-Without `Build`, the agent can't issue DAX queries on behalf of the user — the
-agent will silently fall back to lakehouse SQL (often picking the wrong table)
-or refuse. Grant `Build` on every semantic model the agent is grounded on, to
-every audience group that should be able to chat.
+2. **The SDK is preview and notebook-only.** Don't try to `pip install` it on
+   your laptop; it expects the Fabric notebook runtime.
 
-### Gotcha: example-question overfit
+3. **The REST `definition` body is base64-encoded JSON parts**, not the
+   friendly `{dataSources: [...]}` shape that some unofficial blog posts
+   imply. The SDK or portal generates these for you.
 
-If an example question joins `opportunities` to `quotas` on `owner_email`, the
-agent will prefer that join even when the user asks a question about a
-*different* dimension. Keep examples narrow and high-quality (5–30), not broad
-and many (100+). Diverse, deduplicated examples beat exhaustive ones.
+4. **Default table selection is empty.** After `add_datasource()`, NO tables
+   are visible to the agent until you `ds.select("schema", "table")`. A
+   freshly-added datasource that returns "I don't see any tables" usually
+   just means you forgot to select.
 
-### Gotcha: cost from "exploration" turns
+5. **Lakehouse SQL endpoint is read-only.** Add column descriptions via
+   Spark `ALTER TABLE … ALTER COLUMN … COMMENT '…'` on the underlying Delta
+   table, not via T-SQL `sp_addextendedproperty` against the SQL endpoint
+   (which will fail). Warehouses (writable T-SQL) do accept
+   `sp_addextendedproperty`.
 
-Every "show me top 10 anything" runs a real warehouse / Direct Lake / KQL query.
-Without query-time caps, a Teams channel of 50 users averaging 5 questions per
-day on a multi-TB lakehouse can saturate an F64 capacity. Set warehouse query
-timeouts; monitor CU via the Capacity Metrics app; route low-priority agents
-to a separate, smaller capacity.
+6. **Cross-region = hard fail**, not slow. Same-region the agent and all its
+   sources, or use shortcuts to bring the data into the agent's region.
 
-### Gotcha: regional pinning & Copilot availability
+7. **Publish or no chat for others.** Drafts work only for the creator.
+   Recipients of a `share` see "no access" until you `data_agent.publish()`.
 
-The Copilot orchestrator runs in a Microsoft-managed region tied to the
-capacity's home region. Some regions don't yet have Copilot for Fabric in GA.
-Verify under tenant settings → *Copilot and Azure OpenAI Service*. If the
-capacity is in an unsupported region, agents fail at chat time with an opaque
-"Copilot is not available" error. Move the capacity, or enable
-*"data sent to Azure OpenAI may be processed outside your geography"*.
+8. **Sharing the agent ≠ granting data access.** Recipient still needs Read
+   on each underlying source (except Power BI semantic models, where Read on
+   the model is sufficient and workspace membership is not required).
 
-### Gotcha: Direct Lake fallback hides behind agent answers
+9. **5 source maximum per agent.** Hard cap. Hit this and you need to either
+   consolidate sources via shortcuts/views, or split into multiple agents.
 
-When the semantic model's grounded table exceeds the SKU's Direct Lake
-guardrails (rows / size / columns — see the azure-fabric skill table), Power
-BI silently falls back to DirectQuery. The agent's DAX still works, but
-latency jumps from sub-second to several seconds and CU consumption rises.
-Monitor with Power BI Performance Analyzer; if fallback is consistent, either
-upsize the capacity or aggregate the table further.
+10. **Few-shots can override descriptions.** A few-shot that joins
+    `opportunities` to `quotas` on `owner_email` will bias the agent toward
+    that join even when irrelevant. Keep few-shots narrow and high-quality.
 
-### Gotcha: agents do not honor sensitivity labels for output gating
+11. **No service-account "mode."** Every query runs as the caller. If a Teams
+    bot uses an SP, that SP needs Read on the data sources — and *every user
+    of the bot effectively gets the SP's data access*, regardless of their
+    own permissions. For mixed-audience bots, build audience filtering at the
+    data layer (separate datasets/lakehouses per audience), not "in the bot."
 
-A Confidential-labeled lakehouse can be grounded on by a Public-audience agent.
-Sensitivity labels propagate to *exports* (Excel, CSV) but do not block the
-agent from reading and narrating the data in chat. Treat the agent's grounded
-items as the security boundary, not the labels on those items.
+12. **Tenant settings can silently disable agents.** "AI skill", "Copilot for
+    Fabric", and "cross-geo processing/storing for AI" all need to be on for
+    your security group. Agents in disabled tenants fail with vague auth
+    errors.
+
+13. **Renamed columns require re-publish.** Schema changes propagate to the
+    agent only on the next publish. Until then it generates SQL using the old
+    names.
+
+14. **The agent does not do analytics.** It does NL→SQL/DAX/KQL→answer. Root
+    cause / forecasting / "why" questions are explicitly out of scope per the
+    Microsoft docs. Refuse them in the agent instructions.
 
 ---
 
 ## Quick Reference
 
-| Action | REST endpoint (POST/PATCH/DELETE under `https://api.fabric.microsoft.com/v1`) |
+| Action | SDK call |
 |---|---|
-| Create agent | `POST /workspaces/{ws}/dataAgents` |
-| List agents | `GET  /workspaces/{ws}/dataAgents` |
-| Get agent | `GET  /workspaces/{ws}/dataAgents/{id}` |
-| Update agent (instructions, sources, examples) | `PATCH /workspaces/{ws}/dataAgents/{id}` |
-| Publish | `POST /workspaces/{ws}/dataAgents/{id}/publish` |
-| Delete | `DELETE /workspaces/{ws}/dataAgents/{id}` |
-| New conversation | `POST /workspaces/{ws}/dataAgents/{id}/conversations` |
-| Send message (SSE) | `POST /workspaces/{ws}/dataAgents/{id}/conversations/{conv}/messages` |
-| List conversations (admin/audit) | `GET  /workspaces/{ws}/dataAgents/{id}/conversations` |
+| Create | `data_agent = create_data_agent("name")` |
+| Attach to existing | `data_agent = FabricDataAgentManagement("name")` |
+| Set agent instructions | `data_agent.update_configuration(instructions="…")` |
+| Inspect config | `data_agent.get_configuration()` |
+| Add data source | `data_agent.add_datasource("item-name", type="lakehouse"\|"warehouse"\|"semanticmodel"\|"kqldatabase")` |
+| List sources | `data_agent.get_datasources()` |
+| Select tables | `ds.select("schema", "table")` / `ds.unselect(...)` |
+| Datasource instructions | `ds.update_configuration(instructions="…")` |
+| Add few-shots | `ds.add_fewshots({"NL": "SQL", …})` |
+| Inspect/delete few-shots | `ds.get_fewshots()` / `ds.remove_fewshot(id)` |
+| Publish | `data_agent.publish()` |
+| Delete | `delete_data_agent("name")` |
+| Chat from code | `FabricOpenAI(artifact_name="name").beta.threads.…` |
 
-| Workspace role on the agent | What chat users can do |
+| REST endpoint | Purpose |
 |---|---|
-| `Viewer`        | Chat with the published agent |
-| `Contributor`   | Chat + view audit history |
-| `Member`        | Edit draft, add examples, publish |
-| `Admin`         | All of the above + delete + identity binding |
+| `POST /v1/workspaces/{ws}/dataAgents` | Create (Contributor+, scope `Item.ReadWrite.All`) |
+| `GET  /v1/workspaces/{ws}/dataAgents` | List |
+| `GET  /v1/workspaces/{ws}/dataAgents/{id}` | Read |
+| `PATCH /v1/workspaces/{ws}/dataAgents/{id}` | Update |
+| `DELETE /v1/workspaces/{ws}/dataAgents/{id}` | Delete |
 
-| Permission needed on grounded items (run-as-user mode) | |
+| Source type strings (SDK) | Engine |
 |---|---|
-| Lakehouse SQL endpoint | `Read` on the lakehouse + T-SQL `SELECT` on grounded tables |
-| Warehouse              | `Read` on the warehouse + T-SQL `SELECT` on grounded tables |
-| Semantic model         | `Read` + `Build` (Build is required for DAX execution) |
-| KQL database           | `Viewer` on the database + table-level access |
+| `"lakehouse"` | NL2SQL over lakehouse SQL endpoint |
+| `"warehouse"` | NL2SQL over Fabric Warehouse |
+| `"semanticmodel"` | NL2DAX over Power BI semantic model |
+| `"kqldatabase"` | NL2KQL over KQL DB / Eventhouse |
 
-| Token resource URIs | |
-|---|---|
-| Fabric REST API   | `https://api.fabric.microsoft.com` |
-| Power BI XMLA     | `https://analysis.windows.net/powerbi/api` |
-| OneLake (ABFS)    | `https://storage.azure.com` |
-| KQL ingestion     | `https://<cluster>.<region>.kusto.fabric.microsoft.com` |
+(Per the docs, ontologies, mirrored databases, and Microsoft Graph are also
+supported source types — check current SDK release notes for the exact `type=`
+string for each, which has been moving.)
+
+---
+
+## See also
+
+- **`azure-fabric-data-agents-quickstart`** — 20-minute first-agent path
+- Concept: `learn.microsoft.com/en-us/fabric/data-science/concept-data-agent`
+- How-to: `learn.microsoft.com/en-us/fabric/data-science/how-to-create-data-agent`
+- SDK: `learn.microsoft.com/en-us/fabric/data-science/fabric-data-agent-sdk`
+- Sharing: `learn.microsoft.com/en-us/fabric/data-science/data-agent-sharing`
+- Tenant settings: `learn.microsoft.com/en-us/fabric/data-science/data-agent-tenant-settings`
+- REST API: `learn.microsoft.com/en-us/rest/api/fabric/dataagent`
+- Sample notebooks: `github.com/microsoft/fabric-samples/tree/main/docs-samples/data-science/data-agent-sdk`
+- Evaluation blog: `blog.fabric.microsoft.com/en-US/blog/evaluate-your-fabric-data-agents-programmatically-with-the-python-sdk/`

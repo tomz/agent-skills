@@ -1,8 +1,8 @@
 ---
 name: azure-fabric-data-agents-quickstart
-description: Fast-path quickstart for standing up a Microsoft Fabric Data Agent in ~20 minutes — workspace setup, one lakehouse table grounded, instructions, 3 example questions, publish, smoke test via REST. For the full reference (governance, eval, embedding, multi-source, gotchas) see the azure-fabric-data-agents skill.
+description: Fast-path quickstart for standing up a Microsoft Fabric Data Agent in ~20 minutes — using the Microsoft fabric-data-agent-sdk inside a Fabric notebook. Lakehouse + table descriptions + 3 few-shot examples + publish + smoke test. For the full reference (governance, Purview, multi-source, sharing, evaluation) see the azure-fabric-data-agents skill.
 license: MIT
-version: 1.0.0
+version: 2.0.0
 updated: 2026-04-28
 allowed-tools: read_file, write_file, edit_file, shell, grep, glob
 ---
@@ -10,82 +10,69 @@ allowed-tools: read_file, write_file, edit_file, shell, grep, glob
 # Microsoft Fabric Data Agents — Quickstart
 
 A 20-minute path from zero to a working **Fabric Data Agent** you can chat with
-from the Fabric portal or via REST. Optimized for proof-of-concept / first-agent.
-For production governance, identity modes, evaluation, embedding, and the full
-gotcha list, see the companion skill **`azure-fabric-data-agents`**.
+from the Fabric portal or from a notebook. Optimized for proof-of-concept /
+first-agent setup. For production governance, sharing model, evaluation harness,
+multi-source patterns, and the full gotcha list, see the companion skill
+**`azure-fabric-data-agents`**.
 
-> Naming: workspace item type is `DataAgent`. Some Fabric UIs surface it as
-> "AI Skills." REST base: `https://api.fabric.microsoft.com/v1/workspaces/{ws}/dataAgents`.
+> **Sources** — this quickstart is grounded in the Microsoft Learn docs at
+> `learn.microsoft.com/en-us/fabric/data-science/how-to-create-data-agent`,
+> `…/concept-data-agent`, `…/fabric-data-agent-sdk`, and the official sample
+> notebooks at `github.com/microsoft/fabric-samples/tree/main/docs-samples/data-science/data-agent-sdk`.
+> Programmatic management uses the **`fabric-data-agent-sdk`** Python package
+> (preview, designed to run inside a Fabric notebook). The SDK is **not**
+> supported for local execution — all code below assumes a Fabric notebook.
 
 ---
 
-## Prereqs (2 min)
+## Prereqs
 
 You need:
-- A Microsoft Fabric tenant with **Copilot for Fabric enabled** by your tenant admin
-  (Admin portal → Tenant settings → "Copilot and Azure OpenAI" → enabled for your group)
-- A Fabric capacity with **F64 or higher** (Copilot/Data Agents require F64+)
-- A workspace assigned to that capacity, where you have **Member** or **Admin** role
-  (`Viewer`/`Contributor` is not enough to create agents)
-- `azure-cli` for getting a token (`az login` already done)
-
-```bash
-# Set these once
-export WS_ID="<your-workspace-guid>"          # Fabric portal → Workspace settings → ID
-export AGENT_NAME="quickstart-analyst"
-export LAKEHOUSE_NAME="quickstart_lh"
-
-# Get a Fabric API token (valid ~1 hr)
-export FABRIC_TOKEN=$(az account get-access-token \
-  --resource https://api.fabric.microsoft.com \
-  --query accessToken -o tsv)
-```
+- A Fabric tenant with **Data Agents tenant switches enabled** (Admin portal →
+  Tenant settings → "AI skill", "Copilot for Fabric", and the **cross-geo
+  processing / cross-geo storing for AI** toggles per
+  `data-agent-tenant-settings`).
+- A capacity:
+  - **Per Microsoft prerequisites**: a paid **F2 or higher** F SKU, or P1+
+    Power BI Premium with Fabric enabled.
+  - **Per the official SDK sample notebook**: F64+ is recommended for
+    end-to-end reliability of the OpenAI-Assistants-API consumption path.
+  - The honest truth: F2 will let you create and chat in the portal; the SDK
+    consumption sample explicitly states F64. Start on whatever you have.
+- A workspace where you have **Contributor** role or higher (Contributor is
+  enough — that's what the REST `Create DataAgent` API requires).
+- At least one of: **lakehouse, warehouse, Power BI semantic model, KQL
+  database, mirrored database, or ontology** — with data and **Read access**
+  for the user who will chat.
 
 ---
 
-## Step 1 — Create a lakehouse with a demo table (4 min)
+## Step 1 — Create a lakehouse with a demo table (5 min)
 
-If you already have a lakehouse with a described table, skip to Step 2.
+In the Fabric portal:
+1. Open your workspace → **+ New item** → search **Lakehouse** → name it
+   `quickstart_lh`.
+2. Open the lakehouse → **Open notebook** → **New notebook** (this attaches
+   the lakehouse as the default).
 
-```bash
-# Create lakehouse
-LH_RESP=$(curl -sX POST "https://api.fabric.microsoft.com/v1/workspaces/$WS_ID/lakehouses" \
-  -H "Authorization: Bearer $FABRIC_TOKEN" \
-  -H "Content-Type: application/json" \
-  -d "{\"displayName\": \"$LAKEHOUSE_NAME\"}")
-
-export LH_ID=$(echo "$LH_RESP" | python3 -c "import sys,json; print(json.load(sys.stdin)['id'])")
-echo "Lakehouse: $LH_ID"
-
-# Get the lakehouse's SQL endpoint connection string for later
-SQL_EP=$(curl -s "https://api.fabric.microsoft.com/v1/workspaces/$WS_ID/lakehouses/$LH_ID" \
-  -H "Authorization: Bearer $FABRIC_TOKEN" \
-  | python3 -c "import sys,json; print(json.load(sys.stdin)['properties']['sqlEndpointProperties']['connectionString'])")
-echo "SQL endpoint: $SQL_EP"
-```
-
-Now load a demo `orders` table. Easiest path is via the **Fabric portal**:
-1. Open the new lakehouse → **Get data** → **New shortcut** is *not* what you want.
-   Instead: **Upload** → upload a small Parquet/CSV, OR use a notebook:
+Paste and run:
 
 ```python
-# Run this in a Fabric notebook attached to the lakehouse
+# Cell 1 — generate a demo orders table
 from pyspark.sql import functions as F, types as T
 import random, datetime
 
-regions = ['NA','EMEA','APAC','LATAM']
-statuses = ['Closed Won','Closed Lost','Open']
-rows = []
-today = datetime.date.today()
-for i in range(5000):
-    rows.append((
-        f"o-{i:05d}",
-        today - datetime.timedelta(days=random.randint(0, 180)),
-        random.choice(regions),
-        random.choice(statuses),
-        round(random.random()*10000, 2),
-        f"rep{random.randint(0,9)}@example.com",
-    ))
+regions  = ["NA", "EMEA", "APAC", "LATAM"]
+statuses = ["Closed Won", "Closed Lost", "Open"]
+today    = datetime.date.today()
+rows = [(
+    f"o-{i:05d}",
+    today - datetime.timedelta(days=random.randint(0, 180)),
+    random.choice(regions),
+    random.choice(statuses),
+    round(random.random()*10000, 2),
+    f"rep{random.randint(0,9)}@example.com",
+) for i in range(5000)]
 
 schema = T.StructType([
     T.StructField("order_id",    T.StringType()),
@@ -95,233 +82,229 @@ schema = T.StructType([
     T.StructField("amount_usd",  T.DoubleType()),
     T.StructField("owner_email", T.StringType()),
 ])
-df = spark.createDataFrame(rows, schema=schema)
-df.write.mode("overwrite").format("delta").saveAsTable("orders")
+spark.createDataFrame(rows, schema=schema) \
+     .write.mode("overwrite").format("delta").saveAsTable("orders")
 ```
 
 ### Add table & column descriptions (high-ROI step)
 
-In a Fabric notebook (or SQL editor against the lakehouse SQL endpoint):
+The agent reads schema descriptions when generating SQL. Use Spark SQL on the
+underlying Delta table — the lakehouse SQL endpoint is **read-only** so DDL
+must go through Spark, not T-SQL.
 
-```sql
--- Run against the lakehouse SQL endpoint (T-SQL)
-EXEC sp_addextendedproperty 'MS_Description',
-  'One row per order. Use status=''Closed Won'' for booked revenue. Use order_date for revenue recognition.',
-  'SCHEMA','dbo','TABLE','orders';
+```python
+# Cell 2 — describe the table & columns (Delta column comments)
+spark.sql("""
+ALTER TABLE orders SET TBLPROPERTIES (
+  'comment' = 'One row per order. Use status="Closed Won" for booked revenue. Use order_date for revenue recognition.'
+)
+""")
 
-EXEC sp_addextendedproperty 'MS_Description',
-  'Order amount in USD. SUM(amount_usd) WHERE status=''Closed Won'' = booked revenue.',
-  'SCHEMA','dbo','TABLE','orders','COLUMN','amount_usd';
-
-EXEC sp_addextendedproperty 'MS_Description',
-  'One of: Closed Won (booked), Closed Lost, Open (still in pipeline).',
-  'SCHEMA','dbo','TABLE','orders','COLUMN','status';
-
-EXEC sp_addextendedproperty 'MS_Description',
-  'Sales region: NA, EMEA, APAC, LATAM.',
-  'SCHEMA','dbo','TABLE','orders','COLUMN','region';
-
-EXEC sp_addextendedproperty 'MS_Description',
-  'Email of the rep who owns the order.',
-  'SCHEMA','dbo','TABLE','orders','COLUMN','owner_email';
+for col, desc in [
+    ("amount_usd",  'Order amount in USD. SUM(amount_usd) WHERE status="Closed Won" = booked revenue.'),
+    ("status",      'One of: Closed Won (booked), Closed Lost, Open (still in pipeline).'),
+    ("region",      'Sales region: NA, EMEA, APAC, LATAM.'),
+    ("owner_email", 'Email of the rep who owns the order.'),
+    ("order_date",  'Calendar date the order was placed/closed.'),
+]:
+    spark.sql(f"ALTER TABLE orders ALTER COLUMN {col} COMMENT '{desc}'")
 ```
 
-> The agent reads these descriptions when generating SQL. Skipping this step is
-> the single biggest cause of a vague-feeling agent.
+> Skipping the descriptions is the single biggest cause of a vague-feeling agent.
 
 ---
 
-## Step 2 — Write a minimal system instruction (1 min)
+## Step 2 — Create the agent via the SDK (3 min)
 
-```bash
-cat > ./instructions.md <<'EOF'
+Still in the Fabric notebook:
+
+```python
+# Cell 3 — install SDK (only needed once per session/environment)
+%pip install fabric-data-agent-sdk
+```
+
+```python
+# Cell 4 — create the agent
+from fabric.dataagent.client import (
+    FabricDataAgentManagement,
+    create_data_agent,
+    delete_data_agent,
+)
+
+DATA_AGENT_NAME = "quickstart-analyst"
+
+# Creates the workspace item. Use FabricDataAgentManagement(name) to attach
+# to an existing one (create_data_agent on an existing name errors out).
+data_agent = create_data_agent(DATA_AGENT_NAME)
+data_agent.get_configuration()
+```
+
+---
+
+## Step 3 — Add the lakehouse and select tables (2 min)
+
+```python
+# Cell 5 — attach the lakehouse
+# datasource type can be: "lakehouse", "warehouse", "kqldatabase", "semanticmodel"
+data_agent.add_datasource("quickstart_lh", type="lakehouse")
+
+datasource = data_agent.get_datasources()[0]
+datasource.pretty_print()   # tables NOT marked "*" are NOT visible to the agent
+```
+
+```python
+# Cell 6 — explicitly select the table(s) you want the agent to use
+datasource.select("dbo", "orders")
+datasource.pretty_print()   # "orders" should now have a "*"
+```
+
+> The agent ignores any unselected tables. This is your scoping mechanism:
+> select only what the agent should see.
+
+---
+
+## Step 4 — Add agent + datasource instructions (1 min)
+
+```python
+# Cell 7 — agent-level instructions (persona, refusal policy)
+agent_instructions = """\
 You are the Demo Analyst. Answer questions about orders using ONLY the
-`dbo.orders` table in the quickstart_lh lakehouse.
+dbo.orders table in the quickstart_lh lakehouse.
 
-## Scope
-- For "revenue" or "bookings", default to `status='Closed Won'`.
-- For "pipeline" or "open", use `status='Open'`.
-- All amounts are USD in `amount_usd`.
-
-## Refusals
-- If a question requires a table outside `dbo.orders`, say so and stop.
-- If asked for PII beyond `owner_email`, refuse.
-
-## Output
+Rules:
+- For "revenue" or "bookings": filter status = 'Closed Won'.
+- For "pipeline" or "open":     filter status = 'Open'.
+- All amounts are USD in amount_usd.
 - Always show the executed SQL beneath the answer.
 - Round currency to whole dollars with thousands separators.
-EOF
+- If a question is out of scope (root cause, prediction, factors not in the
+  table), say so and stop. Do not fabricate.
+"""
+data_agent.update_configuration(instructions=agent_instructions)
+```
+
+```python
+# Cell 8 — datasource-specific instructions (query-generation hints)
+datasource.update_configuration(instructions="""\
+- Booked revenue = SUM(amount_usd) WHERE status = 'Closed Won'.
+- Open pipeline  = SUM(amount_usd) WHERE status = 'Open'.
+- "Last 30 days" means order_date >= current_date - 30.
+""")
 ```
 
 ---
 
-## Step 3 — Create the agent (3 min)
-
-```bash
-# Escape the instruction file content as JSON
-INSTRUCTIONS_JSON=$(python3 -c "import json,sys; print(json.dumps(open('instructions.md').read()))")
-
-CREATE_RESP=$(curl -sX POST \
-  "https://api.fabric.microsoft.com/v1/workspaces/$WS_ID/dataAgents" \
-  -H "Authorization: Bearer $FABRIC_TOKEN" \
-  -H "Content-Type: application/json" \
-  -d "{
-    \"displayName\": \"$AGENT_NAME\",
-    \"description\": \"Quickstart agent over dbo.orders\",
-    \"definition\": {
-      \"instructions\": $INSTRUCTIONS_JSON,
-      \"dataSources\": [
-        {
-          \"type\": \"LakehouseSqlEndpoint\",
-          \"workspaceId\": \"$WS_ID\",
-          \"itemId\": \"$LH_ID\",
-          \"schemas\": [\"dbo\"],
-          \"tables\": [\"dbo.orders\"]
-        }
-      ]
-    }
-  }")
-
-export AGENT_ID=$(echo "$CREATE_RESP" | python3 -c "import sys,json; print(json.load(sys.stdin)['id'])")
-echo "Agent: $AGENT_ID"
-```
-
-If you get `400 InvalidArgument` on `LakehouseSqlEndpoint`, your tenant may use
-the older `Lakehouse` source type — substitute and retry. Some preview tenants
-also require `"sqlEndpointId"` instead of (or in addition to) `"itemId"`.
-
----
-
-## Step 4 — Add 3 example questions (2 min)
+## Step 5 — Add 3 few-shot examples (2 min)
 
 Three is the sweet spot for a quickstart. Don't bulk-load 50 — quality beats
 quantity for routing.
 
-```bash
-cat > ./example_questions.json <<EOF
-{
-  "definition": {
-    "exampleQuestions": [
-      {
-        "question": "Total booked revenue last 30 days",
-        "answerKind": "SQL",
-        "dataSourceRef": "$LH_ID",
-        "sql": "SELECT SUM(amount_usd) AS booked_revenue_usd FROM dbo.orders WHERE status='Closed Won' AND order_date >= DATEADD(day, -30, CAST(GETDATE() AS DATE))"
-      },
-      {
-        "question": "Booked revenue by region",
-        "answerKind": "SQL",
-        "dataSourceRef": "$LH_ID",
-        "sql": "SELECT region, SUM(amount_usd) AS booked_revenue_usd FROM dbo.orders WHERE status='Closed Won' GROUP BY region ORDER BY booked_revenue_usd DESC"
-      },
-      {
-        "question": "Top 5 reps by open pipeline",
-        "answerKind": "SQL",
-        "dataSourceRef": "$LH_ID",
-        "sql": "SELECT TOP 5 owner_email, SUM(amount_usd) AS open_pipeline_usd FROM dbo.orders WHERE status='Open' GROUP BY owner_email ORDER BY open_pipeline_usd DESC"
-      }
-    ]
-  }
+```python
+# Cell 9 — few-shot examples (NL → SQL, lakehouse Spark SQL dialect)
+examples = {
+    "Total booked revenue last 30 days":
+        "SELECT SUM(amount_usd) AS booked_revenue_usd "
+        "FROM dbo.orders "
+        "WHERE status = 'Closed Won' "
+        "  AND order_date >= date_sub(current_date(), 30)",
+
+    "Booked revenue by region":
+        "SELECT region, SUM(amount_usd) AS booked_revenue_usd "
+        "FROM dbo.orders "
+        "WHERE status = 'Closed Won' "
+        "GROUP BY region "
+        "ORDER BY booked_revenue_usd DESC",
+
+    "Top 5 reps by open pipeline":
+        "SELECT owner_email, SUM(amount_usd) AS open_pipeline_usd "
+        "FROM dbo.orders "
+        "WHERE status = 'Open' "
+        "GROUP BY owner_email "
+        "ORDER BY open_pipeline_usd DESC "
+        "LIMIT 5",
 }
-EOF
 
-curl -sX PATCH \
-  "https://api.fabric.microsoft.com/v1/workspaces/$WS_ID/dataAgents/$AGENT_ID" \
-  -H "Authorization: Bearer $FABRIC_TOKEN" \
-  -H "Content-Type: application/json" \
-  -d @example_questions.json
+datasource.add_fewshots(examples)
+datasource.get_fewshots()   # verify
 ```
 
 ---
 
-## Step 5 — Publish (30 sec)
+## Step 6 — Publish (30 sec)
 
-Drafts only serve chat to the creator. **Publish** to let other workspace members
-(and your own smoke-test below) use it.
+Until you publish, only you (the creator) can use the agent. Publishing
+snapshots the current draft into the consumable version.
 
-```bash
-curl -sX POST \
-  "https://api.fabric.microsoft.com/v1/workspaces/$WS_ID/dataAgents/$AGENT_ID/publish" \
-  -H "Authorization: Bearer $FABRIC_TOKEN"
+```python
+# Cell 10 — publish
+data_agent.publish()
 ```
 
 ---
 
-## Step 6 — Grant chat access (1 min)
+## Step 7 — Smoke test (2 min)
 
-In **END_USER mode** (the default), the chatting user needs:
-1. **Workspace `Viewer`+** on the agent's workspace (to see/chat the agent)
-2. **Read on the lakehouse** (the SQL endpoint enforces this)
+### A. From the Fabric portal (recommended for first test)
 
-```bash
-# Add a user as Viewer of the workspace
-curl -sX POST "https://api.fabric.microsoft.com/v1/workspaces/$WS_ID/roleAssignments" \
-  -H "Authorization: Bearer $FABRIC_TOKEN" \
-  -H "Content-Type: application/json" \
-  -d '{
-    "principal": {"id": "<user-or-group-object-id>", "type": "User"},
-    "role": "Viewer"
-  }'
+1. Open the workspace → click `quickstart-analyst` → the chat surface opens.
+2. Ask: *"What is total booked revenue in the last 30 days?"*
+3. You should see a narrated answer + the executed SQL + a result row.
+
+### B. From the notebook via the OpenAI client wrapper
+
+```python
+# Cell 11 — programmatic chat using the bundled OpenAI client
+from fabric.dataagent.client import FabricOpenAI
+
+fabric_client = FabricOpenAI(artifact_name=DATA_AGENT_NAME)
+assistant = fabric_client.beta.assistants.create(model="gpt-4o")
+thread    = fabric_client.beta.threads.create()
+
+# Send a message
+fabric_client.beta.threads.messages.create(
+    thread_id=thread.id,
+    role="user",
+    content="What is total booked revenue in the last 30 days?",
+)
+
+# Run and wait
+run = fabric_client.beta.threads.runs.create_and_poll(
+    thread_id=thread.id, assistant_id=assistant.id,
+)
+print("status:", run.status)
+
+# Read the assistant's reply
+msgs = fabric_client.beta.threads.messages.list(thread_id=thread.id)
+for m in msgs.data:
+    if m.role == "assistant":
+        for part in m.content:
+            if part.type == "text":
+                print(part.text.value)
+        break
 ```
-
-> If a user can see the agent in the portal but gets "I don't have access to that
-> data," they're missing #2 — the lakehouse SQL endpoint permission. Grant from
-> the lakehouse → **Manage permissions** → Read.
-
----
-
-## Step 7 — Smoke test (1 min)
-
-### Via REST
-
-```bash
-# Open a session
-SESS_RESP=$(curl -sX POST \
-  "https://api.fabric.microsoft.com/v1/workspaces/$WS_ID/dataAgents/$AGENT_ID/sessions" \
-  -H "Authorization: Bearer $FABRIC_TOKEN" \
-  -H "Content-Type: application/json" -d '{}')
-SESS_ID=$(echo "$SESS_RESP" | python3 -c "import sys,json; print(json.load(sys.stdin)['id'])")
-
-# Ask
-curl -sX POST \
-  "https://api.fabric.microsoft.com/v1/workspaces/$WS_ID/dataAgents/$AGENT_ID/sessions/$SESS_ID/messages" \
-  -H "Authorization: Bearer $FABRIC_TOKEN" \
-  -H "Content-Type: application/json" \
-  -d '{"content": "What is total booked revenue in the last 30 days?"}' \
-  | python3 -m json.tool
-```
-
-You should see a response containing narration text, the executed T-SQL, and a
-result row.
-
-### Via the portal
-
-Open the workspace → click `quickstart-analyst` → **Chat**. Same agent.
 
 ### Common failures
 
 | Symptom | Fix |
 |---|---|
-| `403` creating agent | Workspace role is `Viewer`/`Contributor` — needs `Member`+ |
-| `409 CapacityNotEntitled` | Capacity is below F64 or Copilot disabled tenant-wide |
-| Agent says "I can't see any tables" | Wrong `itemId`/`tables` in step 3, or you forgot to publish (step 5) |
-| `Could not authenticate to data source` | User missing lakehouse read (step 6 #2) |
-| Wildly wrong number | Add an example question for that exact phrasing, or tighten `instructions.md` |
-| Schema changed but agent uses old columns | Re-PATCH the agent (re-send `dataSources`) and re-publish |
+| `403` creating the agent | You're a Viewer; need Contributor+ on the workspace |
+| `409 ConflictName` from `create_data_agent` | Agent already exists — use `FabricDataAgentManagement(name)` instead |
+| Agent says "I can't see any tables" | You forgot `datasource.select("dbo", "orders")` (Step 3) |
+| Other users get "no access" | You forgot `data_agent.publish()` (Step 6), or they lack Read on the lakehouse |
+| Wildly wrong number | Add a few-shot example for that exact phrasing, or tighten agent instructions |
+| `%pip install` fails | Tenant blocks public PyPI — install `fabric-data-agent-sdk` into a Fabric Environment instead |
+| Cross-region error | Agent's workspace capacity must be in the same region as the data source's capacity |
 
 ---
 
 ## Cleanup
 
-```bash
-curl -sX DELETE \
-  "https://api.fabric.microsoft.com/v1/workspaces/$WS_ID/dataAgents/$AGENT_ID" \
-  -H "Authorization: Bearer $FABRIC_TOKEN"
-
-curl -sX DELETE \
-  "https://api.fabric.microsoft.com/v1/workspaces/$WS_ID/lakehouses/$LH_ID" \
-  -H "Authorization: Bearer $FABRIC_TOKEN"
+```python
+from fabric.dataagent.client import delete_data_agent
+delete_data_agent(DATA_AGENT_NAME)
 ```
+
+(Then delete the lakehouse from the workspace UI if you no longer need it.)
 
 ---
 
@@ -329,74 +312,28 @@ curl -sX DELETE \
 
 These belong in the production setup — see **`azure-fabric-data-agents`** skill:
 
-- Service-principal / fixed-identity execution (for embedded apps & Teams bots)
-- Multiple grounding sources (warehouse + semantic model + KQL together)
-- Power BI **RLS / OLS** enforcement nuances
-- Workspace RBAC + OneLake ACL composition rules
-- Deployment Pipelines for Dev → Test → Prod promotion
-- Purview integration / sensitivity labels propagation
-- Eval harness with regression tracking against a golden Q&A set
-- Embedded chat in Teams / Power BI / custom apps
-- Audit logs (M365 unified audit) for "who asked what"
-- Per-domain agent decomposition vs. mega-agent anti-pattern
-
----
-
-## One-shot script
-
-```bash
-# fabric_quickstart.sh
-set -euo pipefail
-: "${WS_ID:?set WS_ID to your Fabric workspace GUID}"
-: "${AGENT_NAME:=quickstart-analyst}"
-: "${LAKEHOUSE_NAME:=quickstart_lh}"
-
-FABRIC_TOKEN=$(az account get-access-token \
-  --resource https://api.fabric.microsoft.com --query accessToken -o tsv)
-H=(-H "Authorization: Bearer $FABRIC_TOKEN" -H "Content-Type: application/json")
-BASE="https://api.fabric.microsoft.com/v1/workspaces/$WS_ID"
-
-LH_ID=$(curl -sX POST "$BASE/lakehouses" "${H[@]}" \
-  -d "{\"displayName\":\"$LAKEHOUSE_NAME\"}" | python3 -c "import sys,json;print(json.load(sys.stdin)['id'])")
-echo "Lakehouse $LH_ID — now load dbo.orders via notebook (see quickstart Step 1)."
-read -p "Press Enter once dbo.orders is populated and described..."
-
-cat > /tmp/instructions.md <<'EOF'
-You are the Demo Analyst. Use ONLY dbo.orders in quickstart_lh.
-For "revenue"/"bookings" use status='Closed Won'. For "pipeline"/"open" use status='Open'.
-Always show the executed SQL.
-EOF
-INST=$(python3 -c "import json;print(json.dumps(open('/tmp/instructions.md').read()))")
-
-AGENT_ID=$(curl -sX POST "$BASE/dataAgents" "${H[@]}" -d "{
-  \"displayName\":\"$AGENT_NAME\",
-  \"definition\":{
-    \"instructions\": $INST,
-    \"dataSources\":[{\"type\":\"LakehouseSqlEndpoint\",\"workspaceId\":\"$WS_ID\",
-                       \"itemId\":\"$LH_ID\",\"schemas\":[\"dbo\"],\"tables\":[\"dbo.orders\"]}]
-  }}" | python3 -c "import sys,json;print(json.load(sys.stdin)['id'])")
-
-curl -sX PATCH "$BASE/dataAgents/$AGENT_ID" "${H[@]}" -d "{
-  \"definition\":{\"exampleQuestions\":[
-    {\"question\":\"Total booked revenue last 30 days\",\"answerKind\":\"SQL\",\"dataSourceRef\":\"$LH_ID\",
-     \"sql\":\"SELECT SUM(amount_usd) FROM dbo.orders WHERE status='Closed Won' AND order_date >= DATEADD(day,-30,CAST(GETDATE() AS DATE))\"},
-    {\"question\":\"Booked revenue by region\",\"answerKind\":\"SQL\",\"dataSourceRef\":\"$LH_ID\",
-     \"sql\":\"SELECT region, SUM(amount_usd) FROM dbo.orders WHERE status='Closed Won' GROUP BY region\"},
-    {\"question\":\"Top 5 reps by open pipeline\",\"answerKind\":\"SQL\",\"dataSourceRef\":\"$LH_ID\",
-     \"sql\":\"SELECT TOP 5 owner_email, SUM(amount_usd) FROM dbo.orders WHERE status='Open' GROUP BY owner_email ORDER BY 2 DESC\"}
-  ]}}"
-
-curl -sX POST "$BASE/dataAgents/$AGENT_ID/publish" "${H[@]}"
-
-SESS_ID=$(curl -sX POST "$BASE/dataAgents/$AGENT_ID/sessions" "${H[@]}" -d '{}' \
-  | python3 -c "import sys,json;print(json.load(sys.stdin)['id'])")
-
-curl -sX POST "$BASE/dataAgents/$AGENT_ID/sessions/$SESS_ID/messages" "${H[@]}" \
-  -d '{"content":"What is total booked revenue in the last 30 days?"}' | python3 -m json.tool
-```
+- **Sharing model** — read/write/owner permission tiers, sharing to specific
+  users vs. publish-to-workspace.
+- **Multi-source agents** — combining lakehouse + warehouse + semantic model +
+  KQL (up to 5 sources total per agent).
+- **Microsoft Purview governance** — DLP policies in Warehouse (GA), access
+  restriction policies (preview) for KQL/SQL DB/Warehouse, sensitivity labels,
+  Insider Risk, audit/eDiscovery.
+- **Evaluation harness** — `fabric-data-agent-sdk` evaluation utilities and the
+  `Fabric-DataAgent-Evaluation-sample.ipynb` pattern for golden-set scoring.
+- **Few-shot validator** — `Fabric-DataAgent-Few-Shot-Examples-Validator-sample.ipynb`
+  for checking that examples actually return correct results.
+- **Cross-tenant data sharing** — querying tables shared into your tenant via
+  OneLake external sharing.
+- **Out-of-scope question patterns** — what questions to refuse (root-cause,
+  forecasting, ML — Data Agents do retrieval, not analytics).
 
 ---
 
 ## See also
 
-- **`azure-fabric-data-agents`** — full reference: identity modes, governance, eval, embedding
+- **`azure-fabric-data-agents`** — full reference (governance, Purview, sharing,
+  multi-source, evaluation)
+- Microsoft Learn: `learn.microsoft.com/en-us/fabric/data-science/how-to-create-data-agent`
+- Microsoft Learn: `learn.microsoft.com/en-us/fabric/data-science/fabric-data-agent-sdk`
+- Sample notebooks: `github.com/microsoft/fabric-samples/tree/main/docs-samples/data-science/data-agent-sdk`
