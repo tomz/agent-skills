@@ -1,6 +1,6 @@
 # Agent Skills — Cloud Platform Library
 
-89 comprehensive cloud platform skills for AI coding agents. Each skill is a standalone `SKILL.md` file that any AI coding assistant with skills support can use — including [GitHub Copilot](https://docs.github.com/en/copilot), [Claude Code](https://docs.anthropic.com/en/docs/claude-code), [JaaiCode](https://github.com/tomz/jaaicode), and other agents that follow the SKILL.md convention.
+90 comprehensive cloud platform skills for AI coding agents. Each skill is a standalone `SKILL.md` file that any AI coding assistant with skills support can use — including [GitHub Copilot](https://docs.github.com/en/copilot), [Claude Code](https://docs.anthropic.com/en/docs/claude-code), [JaaiCode](https://github.com/tomz/jaaicode), and other agents that follow the SKILL.md convention.
 
 ## What Are Skills?
 
@@ -26,7 +26,7 @@ cp -r /tmp/agent-skills/aws-*/ ~/.jaaicode/skills/
 
 ## Skills Catalog
 
-### Azure (38 skills)
+### Azure (39 skills)
 
 | Skill | Description |
 |-------|-------------|
@@ -49,6 +49,7 @@ cp -r /tmp/agent-skills/aws-*/ ~/.jaaicode/skills/
 | `azure-devtest-labs` | Azure DevTest Labs — lab environments, VM management, formulas, artifacts, cost management |
 | `azure-fabric` | Microsoft Fabric unified analytics — OneLake, lakehouses, warehouses, Data Factory, Real-Time |
 | `azure-fabric-data-agents` | Microsoft Fabric Data Agents — Copilot-grounded conversational AI over OneLake (lakehouses, warehouses, semantic models, KQL); identity, governance, evaluation, embedding |
+| `azure-fabric-data-agents-quickstart` | 20-minute fast-path to a working Microsoft Fabric Data Agent — workspace + lakehouse, instructions, 3 example questions, publish, REST smoke test |
 | `azure-firewall` | Azure Firewall — Standard/Premium/Basic SKUs, policies, DNAT/network/application rules |
 | `azure-hdinsight` | Azure HDInsight — managed Hadoop ecosystem (Spark, Hive, HBase, Kafka, Storm) |
 | `azure-iac` | Infrastructure as Code for Azure — Bicep, ARM templates, Terraform azurerm |
