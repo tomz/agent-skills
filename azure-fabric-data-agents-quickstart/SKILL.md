@@ -3,7 +3,7 @@ name: azure-fabric-data-agents-quickstart
 description: Fast-path quickstart for standing up a Microsoft Fabric Data Agent in ~20 minutes — workspace setup, one lakehouse table grounded, instructions, 3 example questions, publish, smoke test via REST. For the full reference (governance, eval, embedding, multi-source, gotchas) see the azure-fabric-data-agents skill.
 license: MIT
 version: 1.0.0
-updated: 2026-04-27
+updated: 2026-04-28
 allowed-tools: read_file, write_file, edit_file, shell, grep, glob
 ---
 
@@ -400,5 +400,3 @@ curl -sX POST "$BASE/dataAgents/$AGENT_ID/sessions/$SESS_ID/messages" "${H[@]}" 
 ## See also
 
 - **`azure-fabric-data-agents`** — full reference: identity modes, governance, eval, embedding
-- **`gcp-bigquery-data-agents-quickstart`** — equivalent on GCP BigQuery
-- **`gcp-bigquery-data-agents`** — full GCP reference

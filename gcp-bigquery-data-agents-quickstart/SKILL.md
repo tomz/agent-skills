@@ -3,7 +3,7 @@ name: gcp-bigquery-data-agents-quickstart
 description: Fast-path quickstart for standing up a GCP BigQuery Data Agent (Conversational Analytics) in ~15 minutes — minimal IAM, one curated dataset, a system instruction, 3 golden queries, and a smoke test. For the full reference (governance, eval, embedding, gotchas) see the gcp-bigquery-data-agents skill.
 license: MIT
 version: 1.0.0
-updated: 2026-04-27
+updated: 2026-04-28
 allowed-tools: read_file, write_file, edit_file, shell, grep, glob
 ---
 
@@ -341,4 +341,3 @@ gcloud alpha geminidataanalytics data-agents chat "$AGENT_ID" \
 ## See also
 
 - **`gcp-bigquery-data-agents`** — full reference: governance, eval, embedding, gotchas
-- **`azure-fabric-data-agents`** — equivalent on the Microsoft Fabric side
