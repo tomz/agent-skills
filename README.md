@@ -1,6 +1,6 @@
 # Agent Skills — Cloud Platform Library
 
-90 comprehensive cloud platform skills for AI coding agents. Each skill is a standalone `SKILL.md` file that any AI coding assistant with skills support can use — including [GitHub Copilot](https://docs.github.com/en/copilot), [Claude Code](https://docs.anthropic.com/en/docs/claude-code), [JaaiCode](https://github.com/tomz/jaaicode), and other agents that follow the SKILL.md convention.
+95 comprehensive cloud platform skills for AI coding agents. Each skill is a standalone `SKILL.md` file that any AI coding assistant with skills support can use — including [GitHub Copilot](https://docs.github.com/en/copilot), [Claude Code](https://docs.anthropic.com/en/docs/claude-code), [JaaiCode](https://github.com/tomz/jaaicode), and other agents that follow the SKILL.md convention.
 
 ## What Are Skills?
 
@@ -26,7 +26,7 @@ cp -r /tmp/agent-skills/aws-*/ ~/.jaaicode/skills/
 
 ## Skills Catalog
 
-### Azure (39 skills)
+### Azure (44 skills)
 
 | Skill | Description |
 |-------|-------------|
@@ -52,6 +52,11 @@ cp -r /tmp/agent-skills/aws-*/ ~/.jaaicode/skills/
 | `azure-fabric-data-agents-quickstart` | 20-minute fast-path to a working Microsoft Fabric Data Agent — workspace + lakehouse, instructions, 3 example questions, publish, REST smoke test |
 | `azure-firewall` | Azure Firewall — Standard/Premium/Basic SKUs, policies, DNAT/network/application rules |
 | `azure-hdinsight` | Azure HDInsight — managed Hadoop ecosystem (Spark, Hive, HBase, Kafka, Storm) |
+| `azure-hdinsight-migration-spark-to-fabric` | Migrate HDInsight Spark → Microsoft Fabric Spark (Lakehouse + OneLake) |
+| `azure-hdinsight-migration-kafka-to-fabric-rti` | Migrate HDInsight Kafka → Event Hubs Kafka endpoint + Fabric Eventstream/Eventhouse RTI |
+| `azure-hdinsight-migration-interactive-query-to-fabric-spark-or-dw` | Migrate HDInsight Interactive Query (Hive LLAP) → Fabric Lakehouse SQL endpoint or Warehouse |
+| `azure-hdinsight-migration-hbase-to-fabric-cosmosdb` | Migrate HDInsight HBase → Azure Cosmos DB (NoSQL/Cassandra) + Fabric Mirroring |
+| `azure-hdinsight-migration-esp-to-non-esp` | Migrate HDInsight ESP (retiring 31 Jul 2026) → non-ESP HDI with compensating Azure-native security controls |
 | `azure-iac` | Infrastructure as Code for Azure — Bicep, ARM templates, Terraform azurerm |
 | `azure-iot` | Azure IoT — IoT Hub, IoT Central, IoT Edge, Device Provisioning Service, Digital Twins |
 | `azure-lighthouse` | Azure Lighthouse — cross-tenant management, delegated resource management |
