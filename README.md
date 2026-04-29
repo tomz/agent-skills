@@ -178,4 +178,40 @@ To add a new skill, create a directory with a `SKILL.md` file. The frontmatter s
 
 ## License
 
-MIT
+MIT — see [LICENSE](LICENSE) for the full text. In short: you can use, copy, modify,
+merge, publish, distribute, sublicense, and/or sell copies of these skills, provided
+the copyright notice and permission notice are preserved.
+
+## Disclaimer
+
+These skills were authored with the assistance of large language models (LLMs) and
+have been edited and reviewed for accuracy. They describe third-party products
+(Microsoft Azure, Google Cloud, AWS, Oracle Cloud, IBM Cloud, DigitalOcean, CoreWeave,
+Salesforce, etc.) whose features, pricing, quotas, and APIs change over time —
+information accurate at the time of writing may have shifted. **Treat every command,
+quota, pricing figure, product name, and recommendation as a starting point that
+should be verified against the official vendor documentation before relying on it
+in production.**
+
+The skills are provided **"AS IS", WITHOUT WARRANTY OF ANY KIND, express or implied,
+including but not limited to the warranties of merchantability, fitness for a
+particular purpose, accuracy, completeness, or non-infringement.** In no event shall
+the authors or copyright holders be liable for any claim, damages, data loss, service
+disruption, financial loss, or other liability — whether in an action of contract,
+tort, or otherwise — arising from, out of, or in connection with the use of these
+skills or the actions an AI agent takes based on them.
+
+By using these skills, you acknowledge that:
+- You are responsible for **reviewing and validating** any commands, code, or
+  configuration before executing them, especially destructive operations
+  (`rm`, `DELETE`, `DROP`, `terraform apply`, force-pushes, capacity changes).
+- You are responsible for **understanding the cost, security, and compliance
+  implications** of any cloud resource these skills help you provision or modify.
+- LLM-assisted content can contain inaccuracies, hallucinations, or outdated
+  information. **Always cross-check against the vendor's current documentation.**
+- These skills do not constitute professional architectural, security, legal, or
+  financial advice. For production-critical or regulated workloads, engage
+  qualified subject-matter experts.
+
+The MIT license above governs the legal terms of use, copy, and distribution of the
+skill files themselves; this disclaimer covers the substantive content within them.
