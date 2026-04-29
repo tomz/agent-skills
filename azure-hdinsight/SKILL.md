@@ -19,8 +19,9 @@ ecosystem on Azure. It runs Apache Spark, Hive (with LLAP), HBase, Kafka, Storm,
 Interactive Query — each as separately provisioned cluster types.
 
 **Strategic note**: Microsoft is positioning HDInsight as a migration source toward
-Microsoft Fabric and Azure Databricks. New projects should strongly consider these
-alternatives. HDInsight on AKS is the newer trajectory for open-source workloads.
+**Microsoft Fabric** — the landing zone for HDInsight workloads (Spark, Hive/LLAP,
+Kafka, HBase). New projects should target Fabric directly. HDInsight on AKS remains
+the newer trajectory for teams that need to stay on open-source Hadoop components.
 
 ---
 
@@ -617,9 +618,9 @@ az hdinsight script-action execute \
 1. **Cluster creation takes 20+ minutes**: Always automate cluster creation via ARM
    templates or CLI scripts. Do not spin up clusters interactively if you need them fast.
 
-2. **Head node costs even when idle**: Unlike Databricks/Synapse, HDInsight has no
-   "pause" for Spark clusters — head nodes run 24/7. For intermittent workloads, delete
-   the cluster and recreate it (data persists in ADLS).
+2. **Head node costs even when idle**: Unlike Fabric capacity (CU-based), HDInsight has
+   no "pause" for Spark clusters — head nodes run 24/7. For intermittent workloads,
+   delete the cluster and recreate it (data persists in ADLS).
 
 3. **Storage is separate from compute**: All data should be in ADLS Gen2 or Azure Blob,
    NOT in HDFS. Clusters are ephemeral; local HDFS is lost on cluster delete.
@@ -644,10 +645,11 @@ az hdinsight script-action execute \
    group offsets do NOT automatically translate. Consumers need to use
    `RemoteClusterAlias.ConsumerGroup` naming or reset offsets after cutover.
 
-9. **Migration path**: Microsoft recommends migrating HDInsight Spark → Azure Databricks
-   or Microsoft Fabric, HDInsight Interactive Query → Synapse Serverless SQL or Fabric
-   Warehouse, HDInsight Kafka → Azure Event Hubs (Kafka-compatible). Plan migrations
-   before HDInsight 5.x end-of-support dates.
+9. **Migration path**: Microsoft Fabric is the landing zone for HDInsight workloads —
+   HDInsight Spark → Fabric Spark, HDInsight Interactive Query → Fabric Spark or
+   Fabric Warehouse, HDInsight Kafka → Fabric Real-Time Intelligence (Eventstream +
+   Eventhouse), HDInsight HBase → Azure Cosmos DB. Plan migrations before HDInsight
+   5.x end-of-support dates. See the `azure-hdinsight-migration-*` sibling skills.
 
 10. **HDInsight on AKS startup**: HIoA Spark/Trino/Flink clusters still take 10-15 min
     to provision but can be stopped/started faster than classic HDInsight. Cluster pool

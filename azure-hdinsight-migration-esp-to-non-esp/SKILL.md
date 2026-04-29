@@ -20,7 +20,7 @@ Azure-native controls instead of the Hadoop-ecosystem ones.
 > Microsoft has announced the **retirement of HDInsight ESP at end of July 2026**.
 > After that date, ESP-enabled clusters will not be supported and AAD DS integration
 > plus Ranger will not be available on HDI. **All ESP clusters must be either
-> migrated to Fabric/Databricks/Synapse, or re-deployed as non-ESP HDInsight clusters
+> migrated to Microsoft Fabric, or re-deployed as non-ESP HDInsight clusters
 > with compensating Azure-native controls — before the deadline.**
 >
 > This skill focuses on **path B** (stay on HDI, drop ESP). For full re-platforms, see:
@@ -38,21 +38,21 @@ Azure-native controls instead of the Hadoop-ecosystem ones.
 
 ---
 
-## 1. Decision Matrix — Stay on HDI Non-ESP vs Re-platform
+## 1. Decision Matrix — Stay on HDI Non-ESP vs Re-platform to Fabric
 
-| Driver | Stay on HDI Non-ESP | Re-platform (Fabric / Databricks / Synapse) |
-|--------|---------------------|---------------------------------------------|
+| Driver | Stay on HDI Non-ESP | Re-platform to Microsoft Fabric |
+|--------|---------------------|---------------------------------|
 | Hard deadline pressure (months left) | ✅ Faster path | ⚠ Re-platforms often run >6 months |
 | Existing scripts/JARs deeply Hadoop-coupled | ✅ Minimal code change | ⚠ Significant rewrite |
-| Workload uses HBase / Storm / Pig | ✅ HDI still supports these | ❌ No equivalents in Fabric |
+| Workload uses HBase / Storm / Pig | ✅ HDI still supports these | ⚠ Re-platform components first (HBase → Cosmos DB, Kafka → RTI) |
 | Multi-user interactive analytics | ⚠ Lose Ranger fine-grained ACLs | ✅ Workspace RBAC + SQL endpoint RLS |
-| Cost-sensitive, idle clusters | ❌ Always-on head nodes | ✅ Serverless capacity (Fabric / Databricks SQL) |
-| Strong audit / compliance requirements | ✅ With Log Analytics + Sentinel + Defender | ✅ Native Fabric/Databricks audit logs |
+| Cost-sensitive, idle clusters | ❌ Always-on head nodes | ✅ Capacity-based (CU) — pay for what you consume |
+| Strong audit / compliance requirements | ✅ With Log Analytics + Sentinel + Defender | ✅ Native Fabric audit logs + Purview |
 | Strategic direction = Microsoft Fabric | ⚠ Tactical only — schedule re-platform later | ✅ Strategic |
 
 **Decision shortcut**: If you have **<6 months** to ESP retirement and the workload
-isn't in scope for a Fabric/Databricks migration this fiscal year, **drop ESP, stay on
-HDI**, harden with Azure-native controls. Schedule the strategic re-platform as a
+isn't in scope for a Fabric migration this fiscal year, **drop ESP, stay on HDI**,
+harden with Azure-native controls. Schedule the strategic re-platform to Fabric as a
 separate Q+1 / Q+2 initiative.
 
 ---
@@ -65,14 +65,14 @@ separate Q+1 / Q+2 initiative.
 | **SSH/Ambari login as AAD user** | LDAP via AAD DS | SSH-key-only access via **Azure Bastion**; AAD authentication for the storage and management planes |
 | **Hive/HBase/Kafka Kerberos auth** | GSSAPI / SPN | **Network isolation** (private cluster, no public ingress); workload identity via **Managed Identity for storage** |
 | **Apache Ranger fine-grained ACL** (db/table/column/row) | Ranger admin + plugins | **ADLS Gen2 ABAC + RBAC** for data-plane; **per-table physical separation** (one storage container per security tier); Ranger no longer available |
-| **Apache Atlas data lineage** *(not bundled in ESP — only present if self-installed via custom script action)* | Atlas catalog | **Microsoft Purview** (managed catalog) — connects to ADLS, Synapse, Databricks, Fabric |
+| **Apache Atlas data lineage** *(not bundled in ESP — only present if self-installed via custom script action)* | Atlas catalog | **Microsoft Purview** (managed catalog) — connects to ADLS, Synapse, Fabric, and other Azure data sources |
 | **Service-account (kinit) per-job auth** | Keytab files | **Managed Identity** for cluster's compute → ADLS Gen2; per-job identity isolation via **MSI per cluster** |
 | **Audit logs** (Ranger audit DB) | DB-backed | **Diagnostic Settings → Log Analytics → Sentinel**; Storage account diagnostic logs for data-plane; Defender for Storage / Key Vault |
 
 > **Critical reality**: There is **no fine-grained-table-ACL replacement** on non-ESP
 > HDI. If Ranger column/row-level policies are load-bearing for compliance, you have
 > two real options:
-> 1. **Re-platform** to Fabric SQL endpoint / Databricks Unity Catalog (where Spark SQL
+> 1. **Re-platform** to Fabric SQL endpoint / Fabric Warehouse (where Spark SQL
 >    + RLS/CLS exist).
 > 2. **Physically separate** data into multiple storage containers/accounts, each gated
 >    by its own RBAC/ABAC, and run separate clusters per tenant/role.
@@ -160,7 +160,7 @@ EOF
 | Service-level / table-level WRITE for an AAD group | **ADLS Gen2 RBAC** (Storage Blob Data Contributor on container scope) |
 | Path-prefix grant (e.g. `/data/sales/*`) | **ADLS Gen2 ABAC condition** on `@Resource[Microsoft.Storage/storageAccounts/blobServices/containers/blobs:path]` |
 | Column-level grant | **No 1:1 control** — physical separation (one container per sensitivity tier) OR re-platform |
-| Row-filter (`region = '${user.region}'`) | **No 1:1 control** — re-platform to Fabric/Synapse/Databricks for SQL RLS |
+| Row-filter (`region = '${user.region}'`) | **No 1:1 control** — re-platform to Fabric SQL endpoint / Warehouse for SQL RLS |
 | Column mask (e.g. mask SSN) | **No 1:1 control** — re-platform OR pre-redact in ETL stage |
 | Tag-based policy (Atlas tag → Ranger, only if Atlas was self-installed) | **Purview** classifications + custom policy via Purview-driven ETL gates |
 
@@ -392,8 +392,8 @@ did. Three viable patterns:
    + container + UAMI. Row filters become tenant-physical-separation.
 
 3. **Re-platform the policy-bearing piece only** — push the SQL/analytical surface to
-   **Fabric SQL endpoint** (with RLS/CLS) or **Databricks SQL Warehouse** (Unity
-   Catalog ACLs). HDI continues to host pure compute (Spark batch ETL).
+   **Fabric SQL endpoint** or **Fabric Warehouse** (with RLS/CLS). HDI continues to
+   host pure compute (Spark batch ETL) until the strategic re-platform completes.
 
 ### 4.6 Key Vault for All Secrets
 
@@ -688,7 +688,7 @@ issues, no Ranger policy sync drift).
 
 1. **Ranger column/row policies have NO direct replacement** on non-ESP HDI. If they
    are load-bearing for compliance, **physical separation** + **re-platform** the
-   policy-bearing surface to Fabric/Databricks SQL is the only honest answer.
+   policy-bearing surface to Fabric SQL endpoint / Warehouse is the only honest answer.
 
 2. **AAD DS is shared infrastructure** — don't decommission it until ALL ESP clusters
    in the tenant are gone. Other services (e.g., Windows VM domain join) may also use it.

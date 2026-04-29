@@ -15,29 +15,29 @@ A field guide for migrating production Apache Spark workloads from **Azure HDIns
 Covers assessment, code rewrites, storage cutover, orchestration, security, and validation.
 
 > **Why this migration?** HDInsight 4.0 reached end-of-standard-support; 5.x is the
-> last classic generation. Microsoft's recommended landing zones for HDInsight Spark
-> are **Microsoft Fabric** (SaaS, OneLake, Direct Lake) or **Azure Databricks** (PaaS,
-> Unity Catalog). This skill targets Fabric.
+> last classic generation. **Microsoft Fabric** (SaaS, OneLake, Direct Lake) is the
+> landing zone for HDInsight Spark workloads — unified data platform, single bill,
+> Workspace Identity for ADLS access, and native Power BI integration. This skill
+> covers the end-to-end migration.
 
 ---
 
-## 1. Decision Matrix — Is Fabric the Right Target?
+## 1. Workload Readiness Matrix
 
-| Workload Pattern | Recommended Target | Reason |
-|------------------|-------------------|--------|
-| Batch ETL → Power BI reporting | **Fabric** | Direct Lake, OneLake, single bill |
-| Interactive notebooks for analysts | **Fabric** | Built-in notebooks, Git integration |
-| ML training + MLflow | **Fabric** or Databricks | Both have MLflow; Databricks more mature |
-| Streaming with Kafka source | **Fabric Eventstream + Spark** | Or keep Kafka, point Fabric at it |
-| Heavy Scala JAR jobs, custom Spark internals | **Databricks** | More Spark version flexibility |
-| Delta Sharing producer | **Databricks** | Fabric is consumer-only |
-| Tight Hadoop-ecosystem coupling (HBase, Storm, Pig) | **Migrate components first** | Fabric has no HBase/Storm equivalent |
-| Cost-sensitive, bursty workloads | **Fabric** | CU model > always-on HDI head nodes |
-| Strict VNet isolation, custom kernel | **Databricks (VNet injection)** | Fabric private link is newer |
+Fabric is the target for all HDInsight Spark workloads. This matrix flags which
+patterns are straightforward versus which need re-architecture **before** migration.
 
-**Decision shortcut**: If the workload's output goes to Power BI and the team is
-comfortable with SaaS, choose Fabric. If it's part of a broader data platform with
-Unity Catalog ambitions or needs Spark version pinning, choose Databricks.
+| Workload Pattern | Readiness | Notes |
+|------------------|-----------|-------|
+| Batch ETL → Power BI reporting | ✅ Ideal fit | Direct Lake, OneLake, single bill |
+| Interactive notebooks for analysts | ✅ Ideal fit | Built-in notebooks, Git integration |
+| ML training + MLflow | ✅ Supported | Fabric has built-in MLflow tracking |
+| Streaming with Kafka source | ✅ Supported | Fabric Eventstream, or point Fabric Spark at existing Kafka |
+| Heavy Scala JAR jobs | ⚠ Verify Spark version | Fabric Runtime 1.3 = Spark 3.4, Runtime 2.0 = Spark 3.5 — pin and test |
+| Delta Sharing producer | ⚠ Re-architect | Fabric is consumer-only — publish via OneLake shortcuts or external sharing |
+| Tight Hadoop-ecosystem coupling (HBase, Storm, Pig) | ⚠ Re-platform components first | See sibling skills (HBase → Cosmos DB, Kafka → RTI) |
+| Cost-sensitive, bursty workloads | ✅ Ideal fit | CU model > always-on HDI head nodes |
+| Strict VNet isolation, custom kernel | ⚠ Validate Private Link | Fabric Managed VNet / Private Link covers most patterns — confirm per-feature support |
 
 ---
 
@@ -739,8 +739,10 @@ migration_pass_criteria:
     → Spark properties** (workspace level) or per-session `spark.conf.set(...)`.
 
 14. **Network isolation**. HDI in a VNet with NSG locks down public ingress. Fabric
-    Private Link / Managed VNet is newer (some features still preview as of early 2026).
-    If you need true VNet injection, **Databricks** is the safer landing zone today.
+    Managed VNet + Private Link covers the common HDI VNet patterns; some features were
+    still in preview in early 2026, so validate the specific endpoints (OneLake, Spark
+    pool, Pipelines, KQL DB) you depend on against the current Fabric Private Link
+    feature matrix before cutover.
 
 15. **Test data PII**. Migration is a great opportunity to introduce **column masking**
     via SQL endpoint CLS — but it's a **breaking change** for downstream consumers if
@@ -753,7 +755,7 @@ migration_pass_criteria:
 ```
 [ ] Inventory all HDI clusters, jobs, tables, schedules, custom libs
 [ ] Categorize jobs by complexity (Low / Medium / High / Blocker)
-[ ] Decide per-workload target (Fabric / Databricks / re-platform)
+[ ] Categorize per-workload action (lift-shift to Fabric / re-architect / re-platform component)
 [ ] Provision Fabric workspace + capacity (start with F32 trial)
 [ ] Create destination Lakehouse(s) — one per data domain
 [ ] Grant Workspace Identity access to legacy ADLS storage

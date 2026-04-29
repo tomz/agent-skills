@@ -340,8 +340,8 @@ from response headers, then re-size — sizing on paper is always 30-50% wrong.
 
 ### 5.1 Pattern A — Spark Bulk Load (Recommended)
 
-Use a **Fabric Spark notebook** (or Databricks / HDInsight Spark transitional) to read
-from HBase and write to Cosmos DB in parallel.
+Use a **Fabric Spark notebook** (or your existing HDInsight Spark cluster as a
+transitional bridge) to read from HBase and write to Cosmos DB in parallel.
 
 ```python
 # Read HBase → Spark DataFrame
