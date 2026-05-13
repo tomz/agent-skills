@@ -1,6 +1,6 @@
 # Agent Skills — Cloud Platform Library
 
-95 comprehensive cloud platform skills for AI coding agents. Each skill is a standalone `SKILL.md` file that any AI coding assistant with skills support can use — including [GitHub Copilot](https://docs.github.com/en/copilot), [Claude Code](https://docs.anthropic.com/en/docs/claude-code), [JaaiCode](https://github.com/tomz/jaaicode), and other agents that follow the SKILL.md convention.
+106 comprehensive cloud platform skills for AI coding agents. Each skill is a standalone `SKILL.md` file that any AI coding assistant with skills support can use — including [GitHub Copilot](https://docs.github.com/en/copilot), [Claude Code](https://docs.anthropic.com/en/docs/claude-code), [JaaiCode](https://github.com/tomz/jaaicode), and other agents that follow the SKILL.md convention.
 
 ## What Are Skills?
 
@@ -160,6 +160,22 @@ cp -r /tmp/agent-skills/aws-*/ ~/.jaaicode/skills/
 | `coreweave-gpu` | CoreWeave GPU workloads — requesting GPUs, multi-GPU jobs, MIG, spot pricing, NCCL |
 | `coreweave-inference` | CoreWeave inference endpoints — vLLM/TGI/Triton on Kubernetes, autoscaling |
 | `coreweave-k8s` | CoreWeave Kubernetes platform — kubeconfig, namespaces, storage, networking |
+
+### Cloudflare (11 skills)
+
+| Skill | Description |
+|-------|-------------|
+| `cloudflare-cdn-cache` | Cloudflare CDN and cache control — Cache Rules, cache keys, tiered caching, Cache API in Workers, purge strategies |
+| `cloudflare-d1` | Cloudflare D1 — serverless SQLite at the edge, migrations, prepared statements, batching, read replication |
+| `cloudflare-dns` | Cloudflare DNS — record types, proxied vs DNS-only, CNAME flattening, DNSSEC, API/Terraform automation |
+| `cloudflare-kv` | Cloudflare Workers KV — eventually-consistent global key-value store, TTL/metadata, list pagination |
+| `cloudflare-pages` | Cloudflare Pages — JAMstack hosting, git-based deploys, Pages Functions, preview URLs |
+| `cloudflare-r2` | Cloudflare R2 — S3-compatible object storage with zero egress, presigned URLs, multipart uploads, lifecycle |
+| `cloudflare-terraform` | Cloudflare IaC — terraform-provider-cloudflare v5 for zones, DNS, WAF, Workers, Pages, Access |
+| `cloudflare-waf` | Cloudflare WAF — Custom/Managed Rules, rate limiting, bot management, Turnstile CAPTCHA, incident response |
+| `cloudflare-workers` | Cloudflare Workers — serverless edge compute, wrangler, bindings, Durable Objects, KV/R2/D1, scheduled triggers |
+| `cloudflare-wrangler` | Cloudflare Wrangler CLI — unified tool for Workers, Pages, R2, KV, D1, Queues, secrets, tail logs, Miniflare dev |
+| `cloudflare-zero-trust` | Cloudflare Zero Trust — Access, Tunnel (cloudflared), Gateway, WARP, Service Tokens for M2M |
 
 ## Skill Format
 
