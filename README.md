@@ -54,7 +54,7 @@ cp -r /tmp/agent-skills/aws-*/ ~/.jaaicode/skills/
 | `azure-hdinsight` | Azure HDInsight — managed Hadoop ecosystem (Spark, Hive, HBase, Kafka, Storm) |
 | `azure-hdinsight-migration-spark-to-fabric` | Migrate HDInsight Spark → Microsoft Fabric Spark (Lakehouse + OneLake) |
 | `azure-hdinsight-migration-kafka-to-fabric-rti` | Migrate HDInsight Kafka → Event Hubs Kafka endpoint + Fabric Eventstream/Eventhouse RTI |
-| `azure-hdinsight-migration-interactive-query-to-fabric-spark-or-dw` | Migrate HDInsight Interactive Query (Hive LLAP) → Fabric Lakehouse SQL endpoint or Warehouse |
+| `azure-hdinsight-migration-interactive-query-to-fabric` | Migrate HDInsight Interactive Query (Hive LLAP) → Fabric Lakehouse SQL endpoint or Warehouse |
 | `azure-hdinsight-migration-hbase-to-fabric-cosmosdb` | Migrate HDInsight HBase → Azure Cosmos DB (NoSQL/Cassandra) + Fabric Mirroring |
 | `azure-hdinsight-migration-esp-to-non-esp` | Migrate HDInsight ESP (retiring 31 Jul 2026) → non-ESP HDI with compensating Azure-native security controls |
 | `azure-iac` | Infrastructure as Code for Azure — Bicep, ARM templates, Terraform azurerm |

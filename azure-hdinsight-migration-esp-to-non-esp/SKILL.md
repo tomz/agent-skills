@@ -3,7 +3,7 @@ name: azure-hdinsight-migration-esp-to-non-esp
 description: End-to-end migration playbook for moving Azure HDInsight Enterprise Security Package (ESP) clusters to non-ESP HDInsight before ESP retirement (end of July 2026), with compensating security controls — VNet isolation, Private Endpoints, Managed Identity for storage (no keys), per-cluster local auth, Azure RBAC + ABAC for ADLS Gen2, Azure Policy guardrails, Key Vault secrets, Log Analytics + Sentinel auditing, Bastion-only SSH, NSG/ASG firewalling, OneLake/Purview data-plane protections, and Ranger replacement strategies plus Microsoft Purview for data lineage (Atlas is not part of HDI ESP).
 license: MIT
 version: 1.0.0
-updated: 2026-04-29
+updated: 2026-06-04
 allowed-tools: read_file, write_file, edit_file, shell, grep, glob
 triggers: hdinsight esp, esp retirement, esp migration, non-esp hdinsight, aad ds, azure ad domain services, ranger hdi, kerberos hdinsight, hdi security, hdi private endpoint, hdi managed identity, hdi vnet, ldaps hdi
 requires: azure-hdinsight
@@ -25,7 +25,7 @@ Azure-native controls instead of the Hadoop-ecosystem ones.
 >
 > This skill focuses on **path B** (stay on HDI, drop ESP). For full re-platforms, see:
 > - `azure-hdinsight-migration-spark-to-fabric`
-> - `azure-hdinsight-migration-interactive-query-to-fabric-spark-or-dw`
+> - `azure-hdinsight-migration-interactive-query-to-fabric`
 > - `azure-hdinsight-migration-kafka-to-fabric-rti`
 > - `azure-hdinsight-migration-hbase-to-fabric-cosmosdb`
 
