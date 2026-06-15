@@ -197,6 +197,13 @@ az network vnet subnet update \
 
 ## Azure Load Balancer (Layer 4)
 
+> **Basic SKU is retired (September 30, 2025).** Basic Load Balancer and Basic
+> public IP addresses are no longer supported — always use **Standard** SKU
+> (shown below) for both the load balancer and its public IP. Standard is
+> secure-by-default (closed unless an NSG allows traffic), zone-redundant
+> capable, and required for Availability Zones. Migrate any remaining Basic
+> resources with the upgrade scripts in Microsoft's guidance.
+
 ```bash
 # Create public IP for LB
 az network public-ip create \

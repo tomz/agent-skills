@@ -396,8 +396,13 @@ az aks nodepool add \
   --node-taints kubernetes.azure.com/scalesetpriority=spot:NoSchedule
 
 # Upgrade cluster
+# Always check available versions first — AKS supports roughly the latest 3
+# minor versions (N, N-1, N-2) and rolls forward continuously; don't hard-code.
 az aks get-upgrades --resource-group myRG --name myAKS --output table
-az aks upgrade --resource-group myRG --name myAKS --kubernetes-version 1.30
+# List versions available in the region:
+az aks get-versions --location eastus --output table
+# Then upgrade to a currently-supported version (substitute the value you saw above):
+az aks upgrade --resource-group myRG --name myAKS --kubernetes-version <supported-version>
 
 # Enable addons
 az aks enable-addons \

@@ -15,6 +15,15 @@ Azure Synapse is an enterprise analytics service combining dedicated SQL pools
 Data Factory-compatible pipelines — all within a single workspace with shared security,
 monitoring, and a unified Studio UI.
 
+> **Strategic direction (verify before greenfield builds):** Microsoft now positions
+> **Microsoft Fabric** as the primary target for new analytics investments; Synapse
+> is effectively in maintenance mode (no major new feature investment, though it
+> remains supported with no announced end-of-life for the core SQL/Spark/pipeline
+> workloads). New projects should evaluate Fabric first (see the **azure-fabric**
+> skill); treat Synapse **Data Explorer** (retired **October 7, 2025**) and
+> Synapse Link as transitional and plan migration to Fabric Eventhouse / mirroring.
+> Existing Synapse workspaces continue to work — this skill remains valid for them.
+
 ---
 
 ## Workspace Setup
