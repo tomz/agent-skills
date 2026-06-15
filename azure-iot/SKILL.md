@@ -511,6 +511,14 @@ az stream-analytics input create \
 
 ## IoT Central
 
+> **⚠️ Retiring March 31, 2027.** Azure IoT Central is on a retirement path:
+> since **April 1, 2024** you cannot create new IoT Central applications without
+> a support-ticket exception, and the service is fully retired on **March 31,
+> 2027**. Existing apps keep running and remain manageable until then. **For new
+> solutions, do not start on IoT Central** — build on **IoT Hub + DPS** (plus
+> Azure Digital Twins / Azure Data Explorer for app-platform features) instead.
+> The commands below are for maintaining existing apps only.
+
 ```bash
 # Create IoT Central application (free tier)
 az iot central app create \
