@@ -17,7 +17,7 @@ data, and services via a visual designer and JSON-based Workflow Definition Lang
 
 ## 1. Hosting Models
 
-| Feature                | Consumption (multi-tenant)      | Standard (single-tenant)          | ISE (deprecated Aug 2024) |
+| Feature                | Consumption (multi-tenant)      | Standard (single-tenant)          | ISE (retired Aug 31 2024) |
 |------------------------|---------------------------------|-----------------------------------|---------------------------|
 | Pricing                | Per action (~$0.000025/action)  | vCPU + memory (App Service Plan)  | Dedicated, fixed           |
 | Workflows per app      | 1                               | Many (stateful + stateless)       | Many                       |
@@ -28,6 +28,11 @@ data, and services via a visual designer and JSON-based Workflow Definition Lang
 
 **Choose Consumption** for low-volume, spiky workloads. **Choose Standard** for high-volume,
 VNet requirements, multi-workflow apps, or local development needs.
+
+> **ISE is retired** (end of life August 31, 2024 — it depended on Azure Cloud
+> Services classic). It is no longer selectable for new deployments; the column
+> above is kept only to map legacy ISE features onto their Standard equivalents.
+> Migrate any remaining ISE workloads to **Logic Apps Standard**.
 
 ---
 

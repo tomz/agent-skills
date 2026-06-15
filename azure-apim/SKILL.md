@@ -41,6 +41,12 @@ billed per million calls with zero idle cost.
 
 ## Creating an APIM Instance
 
+> **Platform note:** new APIM instances are provisioned on the **stv2** compute
+> platform. The legacy **stv1** platform was **retired August 31, 2024** — any
+> remaining stv1 instances must be migrated to stv2 (Microsoft provides an
+> in-place `migratetostv2` operation). There is no action needed for instances
+> created recently; they are already stv2.
+
 ```bash
 # Create resource group
 az group create --name rg-apim-prod --location eastus
