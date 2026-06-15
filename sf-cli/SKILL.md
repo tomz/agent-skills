@@ -18,6 +18,19 @@ for new work. Install via npm: `npm install -g @salesforce/cli`
 
 Check version: `sf version` — expect `@salesforce/cli/2.x.x`
 
+> **API version note:** Salesforce ships **three releases a year** (Spring,
+> Summer, Winter), each bumping the API version by one (e.g. v61.0 = Summer '24,
+> v62.0 = Winter '25, …). Examples in these Salesforce skills pin a concrete
+> `apiVersion`/`sourceApiVersion` (e.g. `61.0`) for reproducibility — **set
+> yours to your org's current version**. Find it with:
+>
+> ```bash
+> sf org display --target-org myorg --json | jq -r '.result.apiVersion'
+> # or list everything the org supports:
+> sf api request rest '/services/data' --target-org myorg
+> ```
+> Keep `sourceApiVersion` in `sfdx-project.json` ≤ your org's max API version.
+
 ---
 
 ## Authentication
