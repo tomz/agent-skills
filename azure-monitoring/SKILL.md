@@ -392,7 +392,7 @@ az monitor activity-log alert create \
 
 ## Azure Monitor Agent (AMA)
 
-AMA replaces the deprecated Log Analytics Agent (MMA/OMS) and Dependency Agent.
+AMA replaces the **retired** Log Analytics Agent (MMA/OMS) and Dependency Agent.
 
 ```bash
 # Install AMA via VM extension (Linux)
@@ -508,7 +508,7 @@ az portal dashboard create \
 - **KQL `has` vs `contains`**: `has` checks whole tokens (faster, uses index); `contains` is substring search (slower). Prefer `has` for known terms.
 - **Workspace retention cost**: Data older than 31 days (Basic) or 90 days (Analytics tier) incurs additional archival charges.
 - **Application Insights classic vs workspace-based**: Classic is deprecated. Always create workspace-based (linked to Log Analytics workspace).
-- **AMA vs MMA**: Log Analytics Agent (MMA) is deprecated since August 2024. Migrate to Azure Monitor Agent + DCRs.
+- **AMA vs MMA**: the Log Analytics Agent (MMA/OMS) was **retired in November 2024** — it no longer ships data. Migrate any remaining machines to Azure Monitor Agent + DCRs.
 - **Action group limits**: Max 10 action groups per alert rule. Each group can have multiple receivers (email, SMS, webhook, ITSM, Logic App, etc.).
 - **Alert evaluation window**: Log alerts have minimum 5-minute evaluation frequency. For sub-minute alerting, use metric alerts.
 - **`ago()` in KQL**: Always use in the query — workspace queries without time filters can scan all data and be very slow.

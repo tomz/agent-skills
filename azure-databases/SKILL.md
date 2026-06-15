@@ -848,15 +848,18 @@ CALL mysql.az_replication_stop();
 
 ## MariaDB
 
-> **Note:** Azure Database for MariaDB is **retiring September 19, 2025**.
-> Migrate to Azure Database for MySQL Flexible Server (binary compatible for most workloads)
-> or to MariaDB on an Azure VM. Do not start new MariaDB workloads.
+> **Retired:** Azure Database for MariaDB was **retired on September 19, 2025**.
+> The service is no longer available — instances were deprovisioned and the
+> `az mariadb` CLI command group was removed. There is no managed MariaDB on
+> Azure today. For new workloads use **Azure Database for MySQL Flexible Server**
+> (binary-compatible for most MariaDB workloads) or self-host MariaDB on an
+> Azure VM / AKS. This section is retained only for teams completing a late
+> migration off a self-managed export.
 
 ```bash
-# Migration path: export from MariaDB, import to MySQL Flexible Server
-mysqldump -h mariadb-prod.mariadb.database.azure.com \
-  -u admin@mariadb-prod -p mydb > mydb_dump.sql
-
+# Migration path (from a pre-retirement dump): import into MySQL Flexible Server
+# Azure Database for MariaDB endpoints no longer resolve — restore from a
+# mysqldump captured before the retirement, or from your own MariaDB VM.
 mysql -h mysql-prod-eastus.mysql.database.azure.com \
   -u mysqladmin -p myapp < mydb_dump.sql
 ```

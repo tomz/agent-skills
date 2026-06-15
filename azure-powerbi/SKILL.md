@@ -515,7 +515,7 @@ curl -s -H "Authorization: Bearer $TOKEN" \
 ### Direct Lake mode
 - Reads Parquet/Delta files directly from OneLake — no data import or DirectQuery pass-through
 - Best performance: in-memory speed, no copy, no Gateway
-- Requires Fabric capacity (F-SKU); not available on P-SKU legacy Premium
+- Requires Fabric capacity (F-SKU). Power BI Premium **P-SKUs are being retired** — they can no longer be purchased or renewed (renewals ended Jan 1, 2025) and customers move to F-SKUs at renewal, so target F-SKU for any new Direct Lake work.
 
 ### Lakehouse as dataset source
 ```
