@@ -1,6 +1,6 @@
 ---
 name: azure-hdinsight-migration-spark-to-fabric
-description: End-to-end migration playbook for moving Apache Spark workloads from Azure HDInsight (3.6/4.0/5.x) to Microsoft Fabric — assessment, code conversion, storage migration (WASB/ADLS → OneLake), Hive Metastore → Lakehouse, Livy/Oozie → Pipelines/Notebooks, security mapping (Ranger/ESP → Workspace RBAC + OneLake roles), cutover, and validation.
+description: Migrate Apache Spark from Azure HDInsight to Microsoft Fabric — code conversion, ADLS to OneLake, Hive Metastore to Lakehouse, cutover.
 license: MIT
 version: 1.0.0
 updated: 2026-04-29

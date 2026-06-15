@@ -1,15 +1,11 @@
 ---
 name: oci-data
 description: OCI data services — Autonomous Database, MySQL HeatWave, NoSQL, Object Storage, GoldenGate, Streaming
+triggers: oci, oracle cloud, oci data, database, databases, autonomous database, mysql heatwave, nosql, object storage, goldengate, streaming
 license: MIT
 version: 1.0.0
 updated: 2026-04-24
-allowed-tools:
-  - shell
-  - read_file
-  - write_file
-  - glob
-  - grep
+allowed-tools: shell, read_file, write_file, glob, grep
 ---
 
 # OCI Data Services

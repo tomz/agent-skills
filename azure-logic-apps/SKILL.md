@@ -1,6 +1,7 @@
 ---
 name: azure-logic-apps
 description: Azure Logic Apps — workflow automation, connectors, triggers, actions, Standard vs Consumption, integration with 1000+ services
+triggers: azure, azure logic apps, consumption
 license: MIT
 version: 1.0.0
 updated: 2026-04-24

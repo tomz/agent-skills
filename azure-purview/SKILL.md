@@ -1,6 +1,7 @@
 ---
 name: azure-purview
 description: Microsoft Purview — data governance, data catalog, data map, lineage, classification, sensitivity labels, compliance, Data Loss Prevention
+triggers: azure, azure purview, purview, microsoft purview, data loss prevention
 license: MIT
 version: 1.0.0
 updated: 2026-04-24

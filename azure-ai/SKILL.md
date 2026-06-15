@@ -1,15 +1,11 @@
 ---
 name: azure-ai
-description: Azure OpenAI Service, Azure AI Search, Azure AI Services (Cognitive Services), Azure Machine Learning — deployments, patterns, content filtering, RAG, compute
+description: Azure OpenAI Service, Azure AI Search, Azure AI Services (Cognitive Services), Azure Machine Learning — deployments, content filtering, RAG.
+triggers: azure, azure ai, ai, ml, machine learning, rag, azure openai service, azure ai search, azure ai services, cognitive services, azure machine learning
 license: MIT
 version: 1.0.0
 updated: 2026-04-24
-allowed-tools:
-  - shell
-  - read_file
-  - write_file
-  - glob
-  - grep
+allowed-tools: shell, read_file, write_file, glob, grep
 ---
 
 # Azure AI Skills

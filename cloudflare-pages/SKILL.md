@@ -1,6 +1,7 @@
 ---
 name: cloudflare-pages
-description: Cloudflare Pages — JAMstack hosting with git-based deploys, Pages Functions, preview URLs, custom domains, and integration with Workers, KV, R2, D1.
+description: Cloudflare Pages — JAMstack hosting with git-based deploys, Pages Functions, preview URLs, custom domains, integration with Workers, KV, R2.
+triggers: cloudflare, cloudflare pages, kv, r2, d1, jamstack, pages functions, workers, git-based
 license: MIT
 version: 1.0.0
 updated: 2026-05-12

@@ -1,6 +1,7 @@
 ---
 name: gcp-security
 description: GCP security — IAM, Secret Manager, SCC, VPC Service Controls, Binary Authorization, Certificate Authority Service, BeyondCorp, Org Policies
+triggers: gcp, google cloud, gcp security, security, iam, scc, vpc, secret manager, vpc service controls, binary authorization, certificate authority service, beyondcorp, org policies
 license: MIT
 version: 1.0.0
 updated: 2026-04-24

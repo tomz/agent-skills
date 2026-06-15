@@ -1,15 +1,11 @@
 ---
 name: azure-monitoring
-description: Azure Monitor, Log Analytics, KQL query patterns, Application Insights, Alerts, Diagnostic Settings, Workbooks, Azure Monitor Agent, metric namespaces
+description: Azure Monitor, Log Analytics, KQL queries, Application Insights, Alerts, Diagnostic Settings, Workbooks, Azure Monitor Agent, namespaces.
+triggers: azure, azure monitoring, monitoring, observability, logs, metrics, kql, azure monitor, log analytics, application insights, alerts, diagnostic settings, workbooks, azure monitor agent
 license: MIT
 version: 1.0.0
 updated: 2026-04-24
-allowed-tools:
-  - shell
-  - read_file
-  - write_file
-  - glob
-  - grep
+allowed-tools: shell, read_file, write_file, glob, grep
 ---
 
 # Azure Monitoring Skills

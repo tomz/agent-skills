@@ -1,15 +1,11 @@
 ---
 name: oci-monitoring
 description: OCI observability — Monitoring metrics/MQL/alarms, Logging, Logging Analytics, Events, Notifications, Service Connector, APM
+triggers: oci, oracle cloud, oci monitoring, monitoring, observability, logs, metrics, mql, apm, logging, logging analytics, notifications, service connector
 license: MIT
 version: 1.0.0
 updated: 2026-04-24
-allowed-tools:
-  - shell
-  - read_file
-  - write_file
-  - glob
-  - grep
+allowed-tools: shell, read_file, write_file, glob, grep
 ---
 
 # OCI Monitoring & Observability

@@ -1,15 +1,11 @@
 ---
 name: aws-networking
 description: AWS networking — VPC, Security Groups, NACLs, ALB/NLB, CloudFront, Route 53, Transit Gateway, PrivateLink, VPC Flow Logs
+triggers: aws, aws networking, networking, network, vpc, nacl, alb, nlb, security groups, nacls, cloudfront, route, transit gateway, privatelink, vpc flow logs
 license: MIT
 version: 1.0.0
 updated: 2026-04-24
-allowed-tools:
-  - shell
-  - read_file
-  - write_file
-  - glob
-  - grep
+allowed-tools: shell, read_file, write_file, glob, grep
 ---
 
 # AWS Networking — Comprehensive Reference

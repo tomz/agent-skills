@@ -1,6 +1,7 @@
 ---
 name: azure-apim
 description: Azure API Management — APIs, products, subscriptions, policies, developer portal, gateway, OAuth, rate limiting, caching, versioning
+triggers: azure, azure apim, api management, apim, api, azure api management, apis, oauth
 license: MIT
 version: 1.0.0
 updated: 2026-04-24

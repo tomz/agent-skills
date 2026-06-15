@@ -1,6 +1,6 @@
 ---
 name: azure-hdinsight-migration-kafka-to-fabric-rti
-description: End-to-end migration playbook for moving Apache Kafka workloads from Azure HDInsight Kafka clusters to Microsoft Fabric Real-Time Intelligence (Eventstreams, Eventhouse/KQL DB, Activator, Real-Time Dashboards) and/or Azure Event Hubs Kafka endpoint — assessment, topic + consumer-group inventory, schema/serde migration, MirrorMaker 2 cutover, producer/consumer code rewrites, security mapping (ESP/Kerberos → Entra ID + Managed Identity), KQL ingestion mappings, validation.
+description: Migrate Azure HDInsight Kafka to Microsoft Fabric Real-Time Intelligence or Event Hubs Kafka endpoint — MirrorMaker 2, schema, security.
 license: MIT
 version: 1.0.0
 updated: 2026-04-29

@@ -1,15 +1,11 @@
 ---
 name: oci-security
 description: OCI security — IAM with Identity Domains, policies, Vault, Cloud Guard, Bastion, Security Zones, WAF
+triggers: oci, oracle cloud, oci security, security, iam, waf, identity domains, vault, cloud guard, bastion, security zones
 license: MIT
 version: 1.0.0
 updated: 2026-04-24
-allowed-tools:
-  - shell
-  - read_file
-  - write_file
-  - glob
-  - grep
+allowed-tools: shell, read_file, write_file, glob, grep
 ---
 
 # OCI Security

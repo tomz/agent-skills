@@ -1,6 +1,7 @@
 ---
 name: cloudflare-dns
-description: Cloudflare DNS management — record types, proxied vs DNS-only, CNAME flattening, DNSSEC, API/Terraform automation, and migration from other registrars.
+description: Cloudflare DNS — record types, proxied vs DNS-only, CNAME flattening, DNSSEC, API/Terraform automation, migration from other registrars.
+triggers: cloudflare, cloudflare dns, dns, cname, dnssec, api, terraform
 license: MIT
 version: 1.0.0
 updated: 2026-05-12

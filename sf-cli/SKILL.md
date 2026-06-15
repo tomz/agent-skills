@@ -1,15 +1,11 @@
 ---
 name: sf-cli
 description: Salesforce CLI (sf command) — auth, scratch orgs, sandboxes, deployments, metadata API, project structure, and package development
+triggers: salesforce, sf cli, cli, command line, api, salesforce cli
 license: MIT
 version: 1.0.0
 updated: 2026-04-24
-allowed-tools:
-  - shell
-  - read_file
-  - write_file
-  - glob
-  - grep
+allowed-tools: shell, read_file, write_file, glob, grep
 ---
 
 # Salesforce CLI (sf) Skill

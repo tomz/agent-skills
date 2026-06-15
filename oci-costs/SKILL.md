@@ -1,15 +1,11 @@
 ---
 name: oci-costs
 description: OCI cost management — Cost Analysis, Budgets, Usage Reports, quotas, Always Free, Reserved capacity, tagging, Cost Advisor
+triggers: oci, oracle cloud, oci costs, cost, costs, billing, budget, pricing, cost analysis, budgets, usage reports, always free, reserved, cost advisor
 license: MIT
 version: 1.0.0
 updated: 2026-04-24
-allowed-tools:
-  - shell
-  - read_file
-  - write_file
-  - glob
-  - grep
+allowed-tools: shell, read_file, write_file, glob, grep
 ---
 
 # OCI Cost Management

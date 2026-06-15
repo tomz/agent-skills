@@ -1,6 +1,7 @@
 ---
 name: cloudflare-wrangler
-description: Cloudflare Wrangler CLI — the unified command-line tool for Workers, Pages, R2, KV, D1, Queues, secrets, tail logs, and local dev with Miniflare.
+description: Cloudflare Wrangler CLI — unified tool for Workers, Pages, R2, KV, D1, Queues, secrets, tail logs, and local dev with Miniflare.
+triggers: cloudflare, cloudflare wrangler, cli, r2, kv, d1, cloudflare wrangler cli, workers, pages, queues, miniflare, command-line
 license: MIT
 version: 1.0.0
 updated: 2026-05-12

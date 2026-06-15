@@ -1,6 +1,6 @@
 ---
 name: azure-hdinsight-migration-esp-to-non-esp
-description: End-to-end migration playbook for moving Azure HDInsight Enterprise Security Package (ESP) clusters to non-ESP HDInsight before ESP retirement (end of July 2026), with compensating security controls — VNet isolation, Private Endpoints, Managed Identity for storage (no keys), per-cluster local auth, Azure RBAC + ABAC for ADLS Gen2, Azure Policy guardrails, Key Vault secrets, Log Analytics + Sentinel auditing, Bastion-only SSH, NSG/ASG firewalling, OneLake/Purview data-plane protections, and Ranger replacement strategies plus Microsoft Purview for data lineage (Atlas is not part of HDI ESP).
+description: Migrate Azure HDInsight ESP to non-ESP before the July 2026 retirement, with compensating security controls (VNet, MI, RBAC, Sentinel).
 license: MIT
 version: 1.0.0
 updated: 2026-06-04

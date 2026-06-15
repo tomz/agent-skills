@@ -1,15 +1,11 @@
 ---
 name: azure-databricks
 description: Azure Databricks — workspace provisioning, Unity Catalog, clusters, SQL warehouses, Delta Lake, MLflow, Jobs, CLI, and security
+triggers: azure, azure databricks, databricks, sql, cli, unity catalog, delta lake, mlflow
 license: MIT
 version: 1.0.0
 updated: 2026-04-24
-allowed-tools:
-  - shell
-  - read_file
-  - write_file
-  - glob
-  - grep
+allowed-tools: shell, read_file, write_file, glob, grep
 ---
 
 # Azure Databricks

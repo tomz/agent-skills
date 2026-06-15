@@ -1,6 +1,7 @@
 ---
 name: azure-fabric-data-agents-quickstart
-description: Fast-path quickstart for standing up a Microsoft Fabric Data Agent in ~20 minutes — using the Microsoft fabric-data-agent-sdk inside a Fabric notebook. Lakehouse + table descriptions + 3 few-shot examples + publish + smoke test. For the full reference (governance, Purview, multi-source, sharing, evaluation) see the azure-fabric-data-agents skill.
+description: Fast-path quickstart for a Microsoft Fabric Data Agent in ~20 min via fabric-data-agent-sdk — lakehouse, examples, publish, smoke test.
+triggers: azure, azure fabric data agents quickstart, fabric, onelake, database, databases, microsoft fabric data, lakehouse, purview, fabric-data-agent, few-shot, multi-source, azure-fabric-data
 license: MIT
 version: 2.0.0
 updated: 2026-04-28

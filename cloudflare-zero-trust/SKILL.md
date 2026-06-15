@@ -1,6 +1,7 @@
 ---
 name: cloudflare-zero-trust
-description: Cloudflare Zero Trust — Access (identity-aware proxy), Tunnel (cloudflared), Gateway (DNS/HTTP filtering), WARP client, and Service Tokens for machine-to-machine.
+description: Cloudflare Zero Trust — Access (identity-aware proxy), Tunnel (cloudflared), Gateway (DNS/HTTP filtering), WARP client, Service Tokens.
+triggers: cloudflare, cloudflare zero trust, dns, warp, access, tunnel, service tokens, identity-aware, machine-to-machine
 license: MIT
 version: 1.0.0
 updated: 2026-05-12

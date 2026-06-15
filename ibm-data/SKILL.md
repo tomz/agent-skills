@@ -1,15 +1,11 @@
 ---
 name: ibm-data
-description: Db2 on Cloud, IBM Cloud Databases (PostgreSQL/MongoDB/Redis/etc via ibmcloud cdb), Cloud Object Storage (S3-compatible, HMAC, Aspera), Cloudant (CouchDB), Event Streams (Kafka)
+description: Db2 on Cloud, IBM Cloud Databases (PostgreSQL/MongoDB/Redis via ibmcloud cdb), Cloud Object Storage (S3), Cloudant, Event Streams.
+triggers: ibm cloud, ibm, ibm data, database, databases, s3, hmac, db2, ibm cloud databases, postgresql, mongodb, redis, cloud object storage, aspera, cloudant, couchdb
 license: MIT
 version: 1.0.0
 updated: 2026-04-24
-allowed-tools:
-  - shell
-  - read_file
-  - write_file
-  - glob
-  - grep
+allowed-tools: shell, read_file, write_file, glob, grep
 ---
 
 # IBM Cloud Data Services Skill

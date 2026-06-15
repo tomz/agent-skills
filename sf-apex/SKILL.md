@@ -1,15 +1,11 @@
 ---
 name: sf-apex
-description: Apex language patterns — triggers, classes, batch/queueable/schedulable, governor limits, bulkification, trigger frameworks, test classes, and debug logs
+description: Apex language — triggers, classes, batch/queueable/schedulable, governor limits, bulkification, trigger frameworks, test classes.
+triggers: salesforce, sf apex, apex
 license: MIT
 version: 1.0.0
 updated: 2026-04-24
-allowed-tools:
-  - shell
-  - read_file
-  - write_file
-  - glob
-  - grep
+allowed-tools: shell, read_file, write_file, glob, grep
 ---
 
 # Salesforce Apex Skill

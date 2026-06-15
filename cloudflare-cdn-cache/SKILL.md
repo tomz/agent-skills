@@ -1,6 +1,7 @@
 ---
 name: cloudflare-cdn-cache
-description: Cloudflare CDN and cache control — Cache Rules, Page Rules deprecation, cache keys, tiered caching, Cache API in Workers, and purge strategies.
+description: Cloudflare CDN and cache control — Cache Rules, cache keys, tiered caching, Cache API in Workers, purge strategies.
+triggers: cloudflare, cloudflare cdn cache, cdn, api, cloudflare cdn, cache rules, page rules, cache api, workers
 license: MIT
 version: 1.0.0
 updated: 2026-05-12

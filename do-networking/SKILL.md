@@ -1,15 +1,11 @@
 ---
 name: do-networking
 description: DigitalOcean networking — VPC, Load Balancers, DNS, CDN, and firewall strategies
+triggers: digitalocean, doctl, do networking, networking, network, vpc, dns, cdn, load balancers
 license: MIT
 version: 1.0.0
 updated: 2026-04-24
-allowed-tools:
-  - shell
-  - read_file
-  - write_file
-  - glob
-  - grep
+allowed-tools: shell, read_file, write_file, glob, grep
 ---
 
 # DigitalOcean Networking Skill

@@ -1,15 +1,11 @@
 ---
 name: ibm-watsonx
-description: watsonx.ai (foundation models, prompt lab, tuning), watsonx.data (Presto/Iceberg lakehouse), watsonx.governance (AI factsheets, monitoring, bias), Python SDK and REST API patterns
+description: watsonx.ai (foundation models, prompt lab, tuning), watsonx.data (Presto/Iceberg lakehouse), watsonx.governance (factsheets, bias).
+triggers: ibm cloud, ibm, ibm watsonx, watsonx, ai, sdk, api, presto, iceberg, python sdk, rest api
 license: MIT
 version: 1.0.0
 updated: 2026-04-24
-allowed-tools:
-  - shell
-  - read_file
-  - write_file
-  - glob
-  - grep
+allowed-tools: shell, read_file, write_file, glob, grep
 ---
 
 # IBM watsonx Skill

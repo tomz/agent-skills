@@ -1,15 +1,11 @@
 ---
 name: sf-data
 description: SOQL, SOSL, Data Loader, sf data CLI, Bulk API 2.0, Record Types, sharing rules, field-level security, and data management patterns
+triggers: salesforce, sf data, database, databases, soql, sosl, cli, api, data loader, bulk api, record types, field-level
 license: MIT
 version: 1.0.0
 updated: 2026-04-24
-allowed-tools:
-  - shell
-  - read_file
-  - write_file
-  - glob
-  - grep
+allowed-tools: shell, read_file, write_file, glob, grep
 ---
 
 # Salesforce Data Skill

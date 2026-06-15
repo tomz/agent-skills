@@ -1,6 +1,7 @@
 ---
 name: azure-static-web-apps
-description: Azure Static Web Apps — JAMstack hosting, API backends, authentication, custom domains, staging environments, CLI, framework presets, database connections
+description: Azure Static Web Apps — JAMstack hosting, API backends, authentication, custom domains, staging, CLI, framework presets, database links.
+triggers: azure, azure static web apps, api, cli, azure static web, jamstack
 license: MIT
 version: 1.0.0
 updated: 2026-04-24

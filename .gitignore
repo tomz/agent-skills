@@ -1,0 +1,19 @@
+# jaaicode local working dir (audit scripts, reports, sessions)
+.jaaicode/
+
+# graphify knowledge-graph output
+graphify-out/
+
+# OS / editor cruft
+.DS_Store
+Thumbs.db
+*.swp
+*~
+.idea/
+.vscode/
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/

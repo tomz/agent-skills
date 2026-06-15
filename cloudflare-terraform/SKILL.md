@@ -1,6 +1,7 @@
 ---
 name: cloudflare-terraform
-description: Cloudflare infrastructure as code — terraform-provider-cloudflare v5 patterns for zones, DNS, WAF rules, Workers, Pages, Access apps, and account-level resources. Includes v4→v5 migration notes.
+description: Cloudflare IaC — terraform-provider-cloudflare v5 for zones, DNS, WAF, Workers, Pages, Access, account resources. Includes v4 to v5 notes.
+triggers: cloudflare, cloudflare terraform, dns, waf, workers, pages, access, terraform-provider-cloudflare, account-level
 license: MIT
 version: 1.1.0
 updated: 2026-05-12

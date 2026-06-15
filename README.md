@@ -1,6 +1,6 @@
 # Agent Skills — Cloud Platform Library
 
-106 comprehensive cloud platform skills for AI coding agents. Each skill is a standalone `SKILL.md` file that any AI coding assistant with skills support can use — including [GitHub Copilot](https://docs.github.com/en/copilot), [Claude Code](https://docs.anthropic.com/en/docs/claude-code), [JaaiCode](https://github.com/tomz/jaaicode), and other agents that follow the SKILL.md convention.
+107 comprehensive cloud platform skills for AI coding agents. Each skill is a standalone `SKILL.md` file that any AI coding assistant with skills support can use — including [GitHub Copilot](https://docs.github.com/en/copilot), [Claude Code](https://docs.anthropic.com/en/docs/claude-code), [JaaiCode](https://github.com/tomz/jaaicode), and other agents that follow the SKILL.md convention.
 
 ## What Are Skills?
 
@@ -26,7 +26,7 @@ cp -r /tmp/agent-skills/aws-*/ ~/.jaaicode/skills/
 
 ## Skills Catalog
 
-### Azure (44 skills)
+### Azure (45 skills)
 
 | Skill | Description |
 |-------|-------------|
@@ -50,6 +50,7 @@ cp -r /tmp/agent-skills/aws-*/ ~/.jaaicode/skills/
 | `azure-fabric` | Microsoft Fabric unified analytics — OneLake, lakehouses, warehouses, Data Factory, Real-Time |
 | `azure-fabric-data-agents` | Microsoft Fabric Data Agents — Copilot-grounded conversational AI over OneLake (lakehouses, warehouses, semantic models, KQL); identity, governance, evaluation, embedding |
 | `azure-fabric-data-agents-quickstart` | 20-minute fast-path to a working Microsoft Fabric Data Agent — workspace + lakehouse, instructions, 3 example questions, publish, REST smoke test |
+| `azure-fabric-using-spark-job-definition` | Spark Job Definition (SJD) in Microsoft Fabric — headless Spark batch jobs (PySpark/Scala/SparkR) on OneLake, scheduling, CI/CD |
 | `azure-firewall` | Azure Firewall — Standard/Premium/Basic SKUs, policies, DNAT/network/application rules |
 | `azure-hdinsight` | Azure HDInsight — managed Hadoop ecosystem (Spark, Hive, HBase, Kafka, Storm) |
 | `azure-hdinsight-migration-spark-to-fabric` | Migrate HDInsight Spark → Microsoft Fabric Spark (Lakehouse + OneLake) |

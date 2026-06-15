@@ -1,15 +1,11 @@
 ---
 name: aws-iac
 description: Infrastructure as Code for AWS — CloudFormation, CDK (TypeScript/Python), Terraform, SAM, and Rain CLI
+triggers: aws, aws iac, iac, infrastructure as code, terraform, cdk, sam, cli, infrastructure, cloudformation, typescript, python, rain cli
 license: MIT
 version: 1.0.0
 updated: 2026-04-24
-allowed-tools:
-  - shell
-  - read_file
-  - write_file
-  - glob
-  - grep
+allowed-tools: shell, read_file, write_file, glob, grep
 ---
 
 # AWS Infrastructure as Code — Comprehensive Reference

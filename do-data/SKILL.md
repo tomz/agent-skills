@@ -1,15 +1,11 @@
 ---
 name: do-data
 description: DigitalOcean managed databases (PostgreSQL, MySQL, Redis, MongoDB, Kafka) and Spaces object storage
+triggers: digitalocean, doctl, do data, database, databases, postgresql, mysql, redis, mongodb, kafka, spaces
 license: MIT
 version: 1.0.0
 updated: 2026-04-24
-allowed-tools:
-  - shell
-  - read_file
-  - write_file
-  - glob
-  - grep
+allowed-tools: shell, read_file, write_file, glob, grep
 ---
 
 # DigitalOcean Data Services Skill

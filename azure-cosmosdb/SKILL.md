@@ -1,6 +1,7 @@
 ---
 name: azure-cosmosdb
-description: Azure Cosmos DB — multi-model globally distributed database, SQL API, MongoDB API, Cassandra, Gremlin, Table, partitioning, consistency levels, change feed
+description: Azure Cosmos DB — multi-model globally distributed DB; SQL, MongoDB, Cassandra, Gremlin, Table APIs, partitioning, consistency, change feed.
+triggers: azure, azure cosmosdb, cosmos db, cosmosdb, db, sql, api, azure cosmos db, mongodb api, cassandra, gremlin, multi-model
 license: MIT
 version: 1.0.0
 updated: 2026-04-24

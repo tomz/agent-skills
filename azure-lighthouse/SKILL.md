@@ -1,6 +1,7 @@
 ---
 name: azure-lighthouse
 description: Azure Lighthouse — cross-tenant management, delegated resource management, managed service offers, RBAC projections, MSP scenarios
+triggers: azure, azure lighthouse, rbac, msp, cross-tenant
 license: MIT
 version: 1.0.0
 updated: 2026-04-24

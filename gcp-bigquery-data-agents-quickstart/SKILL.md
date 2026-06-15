@@ -1,6 +1,7 @@
 ---
 name: gcp-bigquery-data-agents-quickstart
-description: Fast-path quickstart for standing up a GCP BigQuery Data Agent (Conversational Analytics) in ~15 minutes — minimal IAM, one curated dataset, a system instruction, 3 golden queries, and a smoke test. For the full reference (governance, eval, embedding, gotchas) see the gcp-bigquery-data-agents skill.
+description: Fast-path quickstart for a GCP BigQuery Data Agent (Conversational Analytics) in ~15 min — minimal IAM, one dataset, smoke test.
+triggers: gcp, google cloud, gcp bigquery data agents quickstart, database, databases, iam, gcp bigquery data, conversational analytics, gcp-bigquery-data
 license: MIT
 version: 1.0.0
 updated: 2026-04-28

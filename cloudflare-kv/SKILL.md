@@ -1,6 +1,7 @@
 ---
 name: cloudflare-kv
-description: Cloudflare Workers KV — eventually-consistent global key-value store. When to use vs D1/DO/R2, TTL/metadata, list pagination, and consistency model.
+description: Cloudflare Workers KV — eventually-consistent global key-value store. When to use vs D1/DO/R2, TTL/metadata, list pagination, consistency.
+triggers: cloudflare, cloudflare kv, kv, d1, r2, ttl, cloudflare workers kv, eventually-consistent, key-value
 license: MIT
 version: 1.0.0
 updated: 2026-05-12

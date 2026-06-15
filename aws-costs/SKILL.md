@@ -1,15 +1,11 @@
 ---
 name: aws-costs
-description: AWS cost management — Cost Explorer, Budgets, Savings Plans, Reserved Instances, Spot, Trusted Advisor, Compute Optimizer, right-sizing, Cost Anomaly Detection
+description: AWS cost management — Cost Explorer, Budgets, Savings Plans, Reserved Instances, Spot, Trusted Advisor, Compute Optimizer, right-sizing.
+triggers: aws, aws costs, cost, costs, billing, budget, pricing, cost explorer, budgets, savings plans, reserved instances, spot, trusted advisor, compute optimizer, cost anomaly detection, right-sizing
 license: MIT
 version: 1.0.0
 updated: 2026-04-24
-allowed-tools:
-  - shell
-  - read_file
-  - write_file
-  - glob
-  - grep
+allowed-tools: shell, read_file, write_file, glob, grep
 ---
 
 # AWS Cost Management — Comprehensive Reference

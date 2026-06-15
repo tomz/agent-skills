@@ -1,15 +1,11 @@
 ---
 name: azure-fabric
-description: Microsoft Fabric unified analytics platform — OneLake, lakehouses, warehouses, Data Factory, Real-Time Intelligence, Power BI, capacities, Spark engineering, and data science
+description: Microsoft Fabric unified analytics — OneLake, lakehouses, warehouses, Data Factory, Real-Time Intelligence, Power BI, Spark, data science.
+triggers: azure, azure fabric, fabric, onelake, microsoft fabric, data factory, time intelligence, power bi, spark
 license: MIT
 version: 2.0.0
 updated: 2026-04-27
-allowed-tools:
-  - shell
-  - read_file
-  - write_file
-  - glob
-  - grep
+allowed-tools: shell, read_file, write_file, glob, grep
 ---
 
 # Microsoft Fabric

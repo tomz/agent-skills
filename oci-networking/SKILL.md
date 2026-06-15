@@ -1,15 +1,11 @@
 ---
 name: oci-networking
 description: OCI networking — VCN, subnets, security, load balancers, gateways, DRG, VPN, DNS, and peering
+triggers: oci, oracle cloud, oci networking, networking, network, vpc, vcn, drg, vpn, dns
 license: MIT
 version: 1.0.0
 updated: 2026-04-24
-allowed-tools:
-  - shell
-  - read_file
-  - write_file
-  - glob
-  - grep
+allowed-tools: shell, read_file, write_file, glob, grep
 ---
 
 # OCI Networking

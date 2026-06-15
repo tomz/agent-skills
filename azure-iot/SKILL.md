@@ -1,6 +1,7 @@
 ---
 name: azure-iot
 description: Azure IoT — IoT Hub, IoT Central, IoT Edge, Device Provisioning Service, Digital Twins, device management, telemetry, edge computing
+triggers: azure, azure iot, iot hub, iot central, iot edge, device provisioning service, digital twins
 license: MIT
 version: 1.0.0
 updated: 2026-04-24

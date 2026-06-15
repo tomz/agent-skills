@@ -1,15 +1,11 @@
 ---
 name: oci-iac
 description: Infrastructure as Code for OCI — Terraform provider, Resource Manager, Ansible, and state management patterns
+triggers: oci, oracle cloud, oci iac, iac, infrastructure as code, terraform, infrastructure, resource manager, ansible
 license: MIT
 version: 1.0.0
 updated: 2026-04-24
-allowed-tools:
-  - shell
-  - read_file
-  - write_file
-  - glob
-  - grep
+allowed-tools: shell, read_file, write_file, glob, grep
 ---
 
 # OCI Infrastructure as Code

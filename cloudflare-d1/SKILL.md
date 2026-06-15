@@ -1,6 +1,7 @@
 ---
 name: cloudflare-d1
 description: Cloudflare D1 — serverless SQLite at the edge. Schema/migrations, prepared statements, batching, read replication, and Worker integration.
+triggers: cloudflare, cloudflare d1, d1, sqlite, worker
 license: MIT
 version: 1.0.0
 updated: 2026-05-12

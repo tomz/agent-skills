@@ -1,14 +1,10 @@
 ---
 name: aws-devops
 description: AWS DevOps — CodePipeline, CodeBuild, CodeDeploy, ECR, GitHub Actions OIDC, CodeArtifact, deployment strategies
+triggers: aws, aws devops, devops, ci/cd, pipeline, ecr, oidc, codepipeline, codebuild, codedeploy, github actions oidc, codeartifact
 license: MIT
 version: 1.0.0
-allowed-tools:
-  - shell
-  - read_file
-  - write_file
-  - glob
-  - grep
+allowed-tools: shell, read_file, write_file, glob, grep
 ---
 
 # AWS DevOps — Comprehensive Reference

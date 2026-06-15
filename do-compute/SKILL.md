@@ -1,15 +1,11 @@
 ---
 name: do-compute
 description: DigitalOcean Compute — Droplets, volumes, snapshots, firewalls, reserved IPs, SSH keys, and tags
+triggers: digitalocean, doctl, do compute, compute, vm, vms, instances, ssh, digitalocean compute, droplets
 license: MIT
 version: 1.0.0
 updated: 2026-04-24
-allowed-tools:
-  - shell
-  - read_file
-  - write_file
-  - glob
-  - grep
+allowed-tools: shell, read_file, write_file, glob, grep
 ---
 
 # DigitalOcean Compute Skill

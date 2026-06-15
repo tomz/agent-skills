@@ -1,6 +1,7 @@
 ---
 name: azure-messaging
 description: Azure messaging — Event Hubs, Service Bus, Event Grid, Queue Storage, stream processing, pub/sub, dead-letter queues, Schema Registry
+triggers: azure, azure messaging, messaging, queue, pub/sub, event hubs, service bus, event grid, queue storage, schema registry, dead-letter
 license: MIT
 version: 1.0.0
 updated: 2026-04-24

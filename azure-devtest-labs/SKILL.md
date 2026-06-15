@@ -1,6 +1,7 @@
 ---
 name: azure-devtest-labs
 description: Azure DevTest Labs — lab environments, VM management, formulas, artifacts, cost management, auto-shutdown, claimable VMs, policies
+triggers: azure, azure devtest labs, vm, vms, auto-shutdown
 license: MIT
 version: 1.0.0
 updated: 2026-04-24

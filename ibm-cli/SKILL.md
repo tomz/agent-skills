@@ -1,15 +1,11 @@
 ---
 name: ibm-cli
 description: IBM Cloud CLI (ibmcloud) — login, targeting, IAM, plugins, resource management, output formats
+triggers: ibm cloud, ibm, ibm cli, cli, command line, iam, ibm cloud cli
 license: MIT
 version: 1.0.0
 updated: 2026-04-24
-allowed-tools:
-  - shell
-  - read_file
-  - write_file
-  - glob
-  - grep
+allowed-tools: shell, read_file, write_file, glob, grep
 ---
 
 # IBM Cloud CLI Skill

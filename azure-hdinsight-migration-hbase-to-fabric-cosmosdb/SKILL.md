@@ -1,6 +1,6 @@
 ---
 name: azure-hdinsight-migration-hbase-to-fabric-cosmosdb
-description: End-to-end migration playbook for moving Azure HDInsight HBase (and Phoenix-on-HBase) workloads to Azure Cosmos DB (NoSQL or Cassandra API) and/or Cosmos DB in Microsoft Fabric (mirrored database) — schema redesign (column-family → JSON document or wide-column), row-key → partition-key translation, RU/s sizing from HBase region/throughput, bulk export (HFile/Snapshot → Cosmos bulk import), client SDK rewrites, Phoenix SQL → Cosmos SQL/T-SQL via Mirroring, security mapping, dual-write cutover, validation.
+description: Migrate Azure HDInsight HBase/Phoenix to Azure Cosmos DB (NoSQL/Cassandra) or Fabric mirrored DB — schema redesign, row-key mapping.
 license: MIT
 version: 1.0.0
 updated: 2026-04-29

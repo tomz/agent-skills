@@ -1,15 +1,11 @@
 ---
 name: azure-synapse
 description: Azure Synapse Analytics — dedicated SQL pools, serverless SQL, Spark pools, pipelines, Synapse Link, security, and monitoring
+triggers: azure, azure synapse, synapse, sql, azure synapse analytics, spark, synapse link
 license: MIT
 version: 1.0.0
 updated: 2026-04-24
-allowed-tools:
-  - shell
-  - read_file
-  - write_file
-  - glob
-  - grep
+allowed-tools: shell, read_file, write_file, glob, grep
 ---
 
 # Azure Synapse Analytics

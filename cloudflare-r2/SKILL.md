@@ -1,6 +1,7 @@
 ---
 name: cloudflare-r2
-description: Cloudflare R2 object storage — S3-compatible API with zero egress fees. Bucket setup, presigned URLs, multipart uploads, lifecycle rules, and Worker bindings.
+description: Cloudflare R2 object storage — S3-compatible API, zero egress fees. Buckets, presigned URLs, multipart uploads, lifecycle, Worker bindings.
+triggers: cloudflare, cloudflare r2, r2, s3, api, bucket, worker
 license: MIT
 version: 1.0.0
 updated: 2026-05-12

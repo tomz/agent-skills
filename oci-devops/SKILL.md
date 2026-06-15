@@ -1,14 +1,10 @@
 ---
 name: oci-devops
 description: OCI DevOps service — build/deploy pipelines, OCIR container registry, GitHub Actions integration, Artifact Registry
+triggers: oci, oracle cloud, oci devops, devops, ci/cd, pipeline, ocir, github actions, artifact registry
 license: MIT
 version: 1.0.0
-allowed-tools:
-  - shell
-  - read_file
-  - write_file
-  - glob
-  - grep
+allowed-tools: shell, read_file, write_file, glob, grep
 ---
 
 # OCI DevOps

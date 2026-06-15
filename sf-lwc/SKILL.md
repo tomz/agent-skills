@@ -1,15 +1,11 @@
 ---
 name: sf-lwc
-description: Lightning Web Components — component structure, reactive properties, lifecycle hooks, wire service, imperative Apex, events, navigation, LDS, and common patterns
+description: Lightning Web Components — structure, reactive properties, lifecycle hooks, wire service, imperative Apex, events, navigation, LDS patterns.
+triggers: salesforce, sf lwc, lwc, lightning web components, lds, apex
 license: MIT
 version: 1.0.0
 updated: 2026-04-24
-allowed-tools:
-  - shell
-  - read_file
-  - write_file
-  - glob
-  - grep
+allowed-tools: shell, read_file, write_file, glob, grep
 ---
 
 # Lightning Web Components (LWC) Skill

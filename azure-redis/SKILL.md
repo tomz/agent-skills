@@ -1,6 +1,7 @@
 ---
 name: azure-redis
 description: Azure Cache for Redis — caching patterns, tiers, clustering, geo-replication, data persistence, Redis Enterprise, session store
+triggers: azure, azure redis, redis, cache, azure cache, redis enterprise, geo-replication
 license: MIT
 version: 1.0.0
 updated: 2026-04-24

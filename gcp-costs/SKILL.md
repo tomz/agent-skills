@@ -1,6 +1,7 @@
 ---
 name: gcp-costs
 description: GCP cost management — billing accounts, budgets, BigQuery export, Recommender, CUDs, Spot pricing, labels, reports
+triggers: gcp, google cloud, gcp costs, cost, costs, billing, budget, pricing, cud, bigquery, recommender, cuds, spot
 license: MIT
 version: 1.0.0
 updated: 2026-04-24

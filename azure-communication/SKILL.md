@@ -1,6 +1,7 @@
 ---
 name: azure-communication
 description: Azure Communication Services — SMS, email, voice calling, video calling, chat, phone numbers, rooms, job router, Teams interop
+triggers: azure, azure communication, sms, azure communication services, teams
 license: MIT
 version: 1.0.0
 updated: 2026-04-24

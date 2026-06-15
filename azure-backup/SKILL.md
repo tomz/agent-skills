@@ -1,6 +1,7 @@
 ---
 name: azure-backup
-description: Azure Backup — Recovery Services vault, Backup vault, VM backup, SQL/SAP HANA backup, MARS agent, Azure Files backup, disk backup, blob backup, policies, instant restore, cross-region restore
+description: Azure Backup — Recovery Services vault, Backup vault, VM/SQL/SAP HANA backup, MARS agent, Azure Files, disk/blob, cross-region restore.
+triggers: azure, azure backup, backup, restore, vm, sql, mars, recovery services, sap hana, azure files, cross-region
 license: MIT
 version: 1.0.0
 updated: 2026-04-24
