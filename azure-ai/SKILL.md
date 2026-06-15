@@ -67,6 +67,15 @@ az cognitiveservices account deployment delete \
   --deployment-name gpt-4o
 ```
 
+> **Current model families (verify in the Foundry model catalog before pinning — these
+> rotate fast):** the **gpt-4.1** series (`gpt-4.1`, `gpt-4.1-mini`, `gpt-4.1-nano`) is
+> the successor to gpt-4o for coding/instruction-following; the **o-series reasoning
+> models** (`o3`, `o4-mini`) target hard multi-step reasoning. `gpt-4o`/`gpt-4o-mini`
+> remain widely available and cheap. Reasoning models use `max_completion_tokens`
+> (not `max_tokens`) and ignore `temperature`. Embeddings: `text-embedding-3-large`
+> /`-small` are current. Always check `az cognitiveservices account list-models` for
+> what's deployable in your region.
+
 ### Deployment SKU Types
 ```
 GlobalStandard       → Routes globally for best availability; TPM-based billing; default for most

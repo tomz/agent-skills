@@ -219,7 +219,7 @@ the legacy Hive metastore (workspace-local, no cross-workspace sharing).
 ```json
 {
   "cluster_name": "my-cluster",
-  "spark_version": "14.3.x-scala2.12",
+  "spark_version": "16.4.x-scala2.12",
   "node_type_id": "Standard_DS3_v2",
   "driver_node_type_id": "Standard_DS3_v2",
   "autoscale": {
@@ -239,6 +239,10 @@ the legacy Hive metastore (workspace-local, no cross-workspace sharing).
   "autotermination_minutes": 60
 }
 ```
+
+> **Runtime selection**: pin an **LTS** runtime for production (currently **16.4 LTS**,
+> Spark 3.5.2 — 2-year support). 15.4 LTS is still supported; non-LTS releases (e.g. 17.x)
+> get ~6 months. Check current LTS at the Databricks Runtime release-notes before pinning.
 
 ### Photon
 Photon is Databricks' C++ native vectorized query engine — drop-in replacement for
@@ -401,7 +405,7 @@ and prefer Liquid Clustering for new tables.
   "job_clusters": [{
     "job_cluster_key": "main_cluster",
     "new_cluster": {
-      "spark_version": "14.3.x-scala2.12",
+      "spark_version": "16.4.x-scala2.12",
       "node_type_id": "Standard_DS3_v2",
       "num_workers": 4
     }
