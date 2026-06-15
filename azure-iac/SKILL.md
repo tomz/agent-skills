@@ -318,7 +318,7 @@ terraform {
   required_providers {
     azurerm = {
       source  = "hashicorp/azurerm"
-      version = "~> 3.110"
+      version = "~> 4.0"
     }
   }
   backend "azurerm" {
@@ -339,6 +339,8 @@ provider "azurerm" {
       prevent_deletion_if_contains_resources = true
     }
   }
+  # azurerm v4 (current major) requires an explicit subscription_id — set it
+  # here or via the ARM_SUBSCRIPTION_ID env var, else `terraform plan` errors.
   subscription_id = var.subscription_id
 }
 

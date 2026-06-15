@@ -156,13 +156,24 @@ curl -sH "Authorization: Bearer Oracle" \
 
 ## OKE — Oracle Kubernetes Engine
 
+> **Don't hard-code Kubernetes versions** — OKE's supported range moves with
+> upstream (~3 minor versions; older ones are deprecated then unsupported).
+> Look up the current list and pin a variable instead of copying a literal:
+>
+> ```bash
+> # Latest supported version OKE offers right now
+> export KVERSION=$(oci ce cluster-options get --cluster-option-id all \
+>   --query 'data."kubernetes-versions"[-1]' --raw-output)
+> echo "$KVERSION"   # e.g. v1.31.x — use whatever is current
+> ```
+
 ### Create Cluster
 ```bash
 # Create enhanced cluster (recommended — supports virtual nodes, add-ons)
 oci ce cluster create \
   --compartment-id $C \
   --name "prod-k8s" \
-  --kubernetes-version "v1.29.1" \
+  --kubernetes-version "$KVERSION" \
   --vcn-id $VCN_ID \
   --type "ENHANCED_CLUSTER" \
   --endpoint-config '{"isPublicIpEnabled":true,"subnetId":"'$PUBLIC_SUBNET_ID'"}' \
@@ -180,7 +191,7 @@ oci ce node-pool create \
   --compartment-id $C \
   --cluster-id $CLUSTER_ID \
   --name "workers" \
-  --kubernetes-version "v1.29.1" \
+  --kubernetes-version "$KVERSION" \
   --node-shape "VM.Standard.E4.Flex" \
   --node-shape-config '{"ocpus":4,"memoryInGBs":32}' \
   --node-image-name "Oracle-Linux-8.9-aarch64-2024.03.22-0" \
@@ -198,7 +209,7 @@ oci ce virtual-node-pool create \
   --compartment-id $C \
   --cluster-id $CLUSTER_ID \
   --display-name "virtual-workers" \
-  --kubernetes-version "v1.29.1" \
+  --kubernetes-version "$KVERSION" \
   --pod-configuration '{"shape":"Pod.Standard.E4.Flex","subnetId":"'$POD_SUBNET_ID'"}' \
   --placement-configurations '[{"availabilityDomain":"kWVD:US-ASHBURN-AD-1","subnetId":"'$VN_SUBNET_ID'"}]' \
   --size 10
@@ -221,8 +232,8 @@ kubectl get pods --all-namespaces
 
 ### OKE Add-ons (Enhanced Clusters)
 ```bash
-# List available add-ons
-oci ce addon-option list --kubernetes-version "v1.29.1"
+# List available add-ons (uses $KVERSION from the top of the OKE section)
+oci ce addon-option list --kubernetes-version "$KVERSION"
 
 # Install CoreDNS, kube-proxy add-ons are automatic
 # Install Cluster Autoscaler
