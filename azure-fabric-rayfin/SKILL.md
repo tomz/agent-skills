@@ -4,7 +4,7 @@ description: Rayfin — open-source Backend-as-a-Service on Microsoft Fabric; Ty
 triggers: azure, fabric, microsoft fabric, rayfin, microsoft rayfin, baas, backend-as-a-service, rayfin-cli, rayfin-core, rayfinclient, create-rayfin, onelake, data api builder, decorator entity, fabric baas
 license: MIT
 version: 1.0.0
-updated: 2026-04-28
+updated: 2026-06-14
 allowed-tools: read_file, write_file, edit_file, shell, grep, glob
 ---
 
