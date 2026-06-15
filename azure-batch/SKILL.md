@@ -4,7 +4,7 @@ description: Azure Batch — HPC workloads, pools, jobs, tasks, auto-scaling, co
 triggers: azure, azure batch, hpc, vm, vms, auto-scaling, multi-instance, low-priority
 license: MIT
 version: 1.0.0
-updated: 2026-04-24
+updated: 2026-06-14
 allowed-tools: shell, read_file, write_file, edit_file, glob, grep
 ---
 

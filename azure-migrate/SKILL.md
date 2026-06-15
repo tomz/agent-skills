@@ -4,7 +4,7 @@ description: Azure Migrate — discovery, assessment, migration of servers, data
 triggers: azure, azure migrate, vdi, azure site recovery, database migration service
 license: MIT
 version: 1.0.0
-updated: 2026-04-24
+updated: 2026-06-14
 allowed-tools: shell, read_file, write_file, edit_file, glob, grep
 ---
 

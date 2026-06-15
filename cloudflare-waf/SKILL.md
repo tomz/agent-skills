@@ -4,7 +4,7 @@ description: Cloudflare WAF and security — Custom Rules, Managed Rules, rate l
 triggers: cloudflare, cloudflare waf, waf, custom rules, managed rules, turnstile captcha
 license: MIT
 version: 1.0.0
-updated: 2026-05-12
+updated: 2026-06-14
 allowed-tools: read_file, write_file, edit_file, shell, grep, glob
 ---
 # Cloudflare WAF & Security

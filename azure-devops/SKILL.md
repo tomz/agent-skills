@@ -4,7 +4,7 @@ description: Azure DevOps Pipelines (YAML), Repos, Artifacts, GitHub Actions for
 triggers: azure, azure devops, devops, ci/cd, pipeline, yaml, acr, azure devops pipelines, repos, artifacts, github actions, blue-green
 license: MIT
 version: 1.0.0
-updated: 2026-04-24
+updated: 2026-06-14
 allowed-tools: shell, read_file, write_file, glob, grep
 ---
 

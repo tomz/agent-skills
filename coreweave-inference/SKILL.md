@@ -4,7 +4,7 @@ description: CoreWeave inference endpoints — vLLM/TGI/Triton on Kubernetes, au
 triggers: coreweave, coreweave inference, tgi, triton, kubernetes
 license: MIT
 version: 1.0.0
-updated: 2026-04-24
+updated: 2026-06-14
 allowed-tools: shell, read_file, write_file, glob, grep
 ---
 

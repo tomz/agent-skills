@@ -4,7 +4,7 @@ description: gcloud CLI patterns, authentication, configurations, output formats
 triggers: gcp, google cloud, gcp cli, cli, command line
 license: MIT
 version: 1.0.0
-updated: 2026-04-24
+updated: 2026-06-14
 allowed-tools: shell, read_file, write_file, glob, grep
 ---
 

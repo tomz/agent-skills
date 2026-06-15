@@ -4,7 +4,7 @@ description: Azure compute — VMs, VMSS, App Service, Container Apps, Functions
 triggers: azure, azure compute, compute, vm, vms, instances, vmss, aks, aci, app service, container apps, functions
 license: MIT
 version: 1.0.0
-updated: 2026-04-24
+updated: 2026-06-14
 allowed-tools: shell, read_file, write_file, glob, grep
 ---
 

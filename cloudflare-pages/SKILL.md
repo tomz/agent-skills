@@ -4,7 +4,7 @@ description: Cloudflare Pages — JAMstack hosting with git-based deploys, Pages
 triggers: cloudflare, cloudflare pages, kv, r2, d1, jamstack, pages functions, workers, git-based
 license: MIT
 version: 1.0.0
-updated: 2026-05-12
+updated: 2026-06-14
 allowed-tools: read_file, write_file, edit_file, shell, grep, glob
 ---
 # Cloudflare Pages

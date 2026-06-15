@@ -4,7 +4,7 @@ description: AWS AI/ML services — Bedrock, SageMaker, Comprehend, Rekognition,
 triggers: aws, aws ai, ai, ml, machine learning, bedrock, sagemaker, comprehend, rekognition, textract, lex, polly, transcribe, kendra
 license: MIT
 version: 1.0.0
-updated: 2026-04-24
+updated: 2026-06-14
 allowed-tools: shell, read_file, write_file, glob, grep
 ---
 

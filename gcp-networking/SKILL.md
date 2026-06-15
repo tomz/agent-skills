@@ -4,7 +4,7 @@ description: GCP networking — VPC, Load Balancing, Cloud CDN, DNS, Armor, NAT,
 triggers: gcp, google cloud, gcp networking, networking, network, vpc, cdn, dns, nat, vpn, load balancing, cloud cdn, armor, interconnect, vpc service controls
 license: MIT
 version: 1.0.0
-updated: 2026-04-24
+updated: 2026-06-14
 allowed-tools: shell, read_file, write_file, glob, grep
 ---
 

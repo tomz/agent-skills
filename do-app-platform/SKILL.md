@@ -4,7 +4,7 @@ description: DigitalOcean App Platform — app specs, components, deploys, scali
 triggers: digitalocean, doctl, do app platform, digitalocean app platform
 license: MIT
 version: 1.0.0
-updated: 2026-04-24
+updated: 2026-06-14
 allowed-tools: shell, read_file, write_file, glob, grep
 ---
 

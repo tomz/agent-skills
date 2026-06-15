@@ -4,7 +4,7 @@ description: Azure Cosmos DB — multi-model globally distributed DB; SQL, Mongo
 triggers: azure, azure cosmosdb, cosmos db, cosmosdb, db, sql, api, azure cosmos db, mongodb api, cassandra, gremlin, multi-model
 license: MIT
 version: 1.0.0
-updated: 2026-04-24
+updated: 2026-06-14
 allowed-tools: shell, read_file, write_file, edit_file, glob, grep
 ---
 

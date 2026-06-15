@@ -4,7 +4,7 @@ description: Apex language — triggers, classes, batch/queueable/schedulable, g
 triggers: salesforce, sf apex, apex
 license: MIT
 version: 1.0.0
-updated: 2026-04-24
+updated: 2026-06-14
 allowed-tools: shell, read_file, write_file, glob, grep
 ---
 

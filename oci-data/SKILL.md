@@ -4,7 +4,7 @@ description: OCI data services — Autonomous Database, MySQL HeatWave, NoSQL, O
 triggers: oci, oracle cloud, oci data, database, databases, autonomous database, mysql heatwave, nosql, object storage, goldengate, streaming
 license: MIT
 version: 1.0.0
-updated: 2026-04-24
+updated: 2026-06-14
 allowed-tools: shell, read_file, write_file, glob, grep
 ---
 

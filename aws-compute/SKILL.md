@@ -4,7 +4,7 @@ description: AWS compute services — EC2, ECS (Fargate/EC2), EKS, Lambda, App R
 triggers: aws, aws compute, compute, vm, vms, instances, ec2, ecs, eks, fargate, lambda, app runner, elastic beanstalk, lightsail
 license: MIT
 version: 1.0.0
-updated: 2026-04-24
+updated: 2026-06-14
 allowed-tools: shell, read_file, write_file, glob, grep
 ---
 

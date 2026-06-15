@@ -4,7 +4,7 @@ description: Red Hat OpenShift on IBM Cloud (ROKS) — cluster lifecycle, worker
 triggers: ibm cloud, ibm, ibm openshift, openshift, roks, oc, cli, red hat openshift
 license: MIT
 version: 1.0.0
-updated: 2026-04-24
+updated: 2026-06-14
 allowed-tools: shell, read_file, write_file, glob, grep
 ---
 

@@ -4,7 +4,7 @@ description: Oracle Cloud Infrastructure CLI patterns, authentication, config, a
 triggers: oci, oracle cloud, oci cli, cli, command line, oracle cloud infrastructure
 license: MIT
 version: 1.0.0
-updated: 2026-04-24
+updated: 2026-06-14
 allowed-tools: shell, read_file, write_file, glob, grep
 ---
 

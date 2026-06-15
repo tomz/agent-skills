@@ -4,7 +4,7 @@ description: Cloudflare Wrangler CLI — unified tool for Workers, Pages, R2, KV
 triggers: cloudflare, cloudflare wrangler, cli, r2, kv, d1, cloudflare wrangler cli, workers, pages, queues, miniflare, command-line
 license: MIT
 version: 1.0.0
-updated: 2026-05-12
+updated: 2026-06-14
 allowed-tools: read_file, write_file, edit_file, shell, grep, glob
 ---
 # Wrangler CLI

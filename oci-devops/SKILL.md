@@ -4,6 +4,7 @@ description: OCI DevOps service — build/deploy pipelines, OCIR container regis
 triggers: oci, oracle cloud, oci devops, devops, ci/cd, pipeline, ocir, github actions, artifact registry
 license: MIT
 version: 1.0.0
+updated: 2026-06-14
 allowed-tools: shell, read_file, write_file, glob, grep
 ---
 

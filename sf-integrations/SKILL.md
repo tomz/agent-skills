@@ -4,7 +4,7 @@ description: Salesforce integrations — REST/Bulk/Streaming API, Platform Event
 triggers: salesforce, sf integrations, api, cdc, rest api, bulk api, streaming api, platform events, connected apps, oauth, named credentials, external services, outbound messages, heroku connect, mulesoft
 license: MIT
 version: 1.0.0
-updated: 2026-04-24
+updated: 2026-06-14
 allowed-tools: shell, read_file, write_file, glob, grep
 ---
 

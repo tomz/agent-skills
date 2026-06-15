@@ -4,7 +4,7 @@ description: Azure security — Microsoft Entra ID, RBAC, Key Vault, Managed Ide
 triggers: azure, azure security, security, iam, rbac, pim, microsoft entra id, key vault, managed identity, defender, sentinel, conditional access, azure policy
 license: MIT
 version: 1.0.0
-updated: 2026-04-24
+updated: 2026-06-14
 allowed-tools: shell, read_file, write_file, glob, grep
 ---
 

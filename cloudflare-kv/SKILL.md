@@ -4,7 +4,7 @@ description: Cloudflare Workers KV — eventually-consistent global key-value st
 triggers: cloudflare, cloudflare kv, kv, d1, r2, ttl, cloudflare workers kv, eventually-consistent, key-value
 license: MIT
 version: 1.0.0
-updated: 2026-05-12
+updated: 2026-06-14
 allowed-tools: read_file, write_file, edit_file, shell, grep, glob
 ---
 # Workers KV

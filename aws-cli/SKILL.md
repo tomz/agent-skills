@@ -4,7 +4,7 @@ description: AWS CLI v2 patterns, profiles, SSO, JMESPath queries, pagination, w
 triggers: aws, aws cli, cli, command line, sso, jmespath
 license: MIT
 version: 1.0.0
-updated: 2026-04-24
+updated: 2026-06-14
 allowed-tools: shell, read_file, write_file, glob, grep
 ---
 

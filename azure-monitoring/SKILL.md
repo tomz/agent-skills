@@ -4,7 +4,7 @@ description: Azure Monitor, Log Analytics, KQL queries, Application Insights, Al
 triggers: azure, azure monitoring, monitoring, observability, logs, metrics, kql, azure monitor, log analytics, application insights, alerts, diagnostic settings, workbooks, azure monitor agent
 license: MIT
 version: 1.0.0
-updated: 2026-04-24
+updated: 2026-06-14
 allowed-tools: shell, read_file, write_file, glob, grep
 ---
 

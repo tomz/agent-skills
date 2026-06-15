@@ -4,7 +4,7 @@ description: DigitalOcean doctl CLI — authentication, contexts, output formats
 triggers: digitalocean, doctl, do cli, cli, command line
 license: MIT
 version: 1.0.0
-updated: 2026-04-24
+updated: 2026-06-14
 allowed-tools: shell, read_file, write_file, glob, grep
 ---
 

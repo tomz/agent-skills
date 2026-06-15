@@ -4,7 +4,7 @@ description: SOQL, SOSL, Data Loader, sf data CLI, Bulk API 2.0, Record Types, s
 triggers: salesforce, sf data, database, databases, soql, sosl, cli, api, data loader, bulk api, record types, field-level
 license: MIT
 version: 1.0.0
-updated: 2026-04-24
+updated: 2026-06-14
 allowed-tools: shell, read_file, write_file, glob, grep
 ---
 

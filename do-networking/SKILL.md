@@ -4,7 +4,7 @@ description: DigitalOcean networking — VPC, Load Balancers, DNS, CDN, and fire
 triggers: digitalocean, doctl, do networking, networking, network, vpc, dns, cdn, load balancers
 license: MIT
 version: 1.0.0
-updated: 2026-04-24
+updated: 2026-06-14
 allowed-tools: shell, read_file, write_file, glob, grep
 ---
 

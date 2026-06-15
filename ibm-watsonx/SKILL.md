@@ -4,7 +4,7 @@ description: watsonx.ai (foundation models, prompt lab, tuning), watsonx.data (P
 triggers: ibm cloud, ibm, ibm watsonx, watsonx, ai, sdk, api, presto, iceberg, python sdk, rest api
 license: MIT
 version: 1.0.0
-updated: 2026-04-24
+updated: 2026-06-14
 allowed-tools: shell, read_file, write_file, glob, grep
 ---
 

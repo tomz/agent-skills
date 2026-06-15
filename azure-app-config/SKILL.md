@@ -4,7 +4,7 @@ description: Azure App Configuration — centralized config, feature flags, key-
 triggers: azure, azure app config, sdk, azure app configuration, key vault, java, python, js sdks, key-value
 license: MIT
 version: 1.0.0
-updated: 2026-04-24
+updated: 2026-06-14
 allowed-tools: shell, read_file, write_file, edit_file, glob, grep
 ---
 

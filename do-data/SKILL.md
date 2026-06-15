@@ -4,7 +4,7 @@ description: DigitalOcean managed databases (PostgreSQL, MySQL, Redis, MongoDB, 
 triggers: digitalocean, doctl, do data, database, databases, postgresql, mysql, redis, mongodb, kafka, spaces
 license: MIT
 version: 1.0.0
-updated: 2026-04-24
+updated: 2026-06-14
 allowed-tools: shell, read_file, write_file, glob, grep
 ---
 

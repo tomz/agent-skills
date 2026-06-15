@@ -4,7 +4,7 @@ description: Azure DevTest Labs — lab environments, VM management, formulas, a
 triggers: azure, azure devtest labs, vm, vms, auto-shutdown
 license: MIT
 version: 1.0.0
-updated: 2026-04-24
+updated: 2026-06-14
 allowed-tools: shell, read_file, write_file, edit_file, glob, grep
 ---
 

@@ -4,7 +4,7 @@ description: AWS networking — VPC, Security Groups, NACLs, ALB/NLB, CloudFront
 triggers: aws, aws networking, networking, network, vpc, nacl, alb, nlb, security groups, nacls, cloudfront, route, transit gateway, privatelink, vpc flow logs
 license: MIT
 version: 1.0.0
-updated: 2026-04-24
+updated: 2026-06-14
 allowed-tools: shell, read_file, write_file, glob, grep
 ---
 

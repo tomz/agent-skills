@@ -4,7 +4,7 @@ description: GCP data services — Cloud SQL, Firestore, Bigtable, BigQuery, Clo
 triggers: gcp, google cloud, gcp data, database, databases, sql, cloud sql, firestore, bigtable, bigquery, cloud storage, dataflow, spanner, memorystore
 license: MIT
 version: 1.0.0
-updated: 2026-04-24
+updated: 2026-06-14
 allowed-tools: shell, read_file, write_file, glob, grep
 ---
 

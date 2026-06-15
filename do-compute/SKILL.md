@@ -4,7 +4,7 @@ description: DigitalOcean Compute — Droplets, volumes, snapshots, firewalls, r
 triggers: digitalocean, doctl, do compute, compute, vm, vms, instances, ssh, digitalocean compute, droplets
 license: MIT
 version: 1.0.0
-updated: 2026-04-24
+updated: 2026-06-14
 allowed-tools: shell, read_file, write_file, glob, grep
 ---
 

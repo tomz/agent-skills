@@ -4,7 +4,7 @@ description: Fast-path quickstart for a GCP BigQuery Data Agent (Conversational 
 triggers: gcp, google cloud, gcp bigquery data agents quickstart, database, databases, iam, gcp bigquery data, conversational analytics, gcp-bigquery-data
 license: MIT
 version: 1.0.0
-updated: 2026-04-28
+updated: 2026-06-14
 allowed-tools: read_file, write_file, edit_file, shell, grep, glob
 ---
 

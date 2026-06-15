@@ -4,7 +4,7 @@ description: Cloudflare IaC — terraform-provider-cloudflare v5 for zones, DNS,
 triggers: cloudflare, cloudflare terraform, dns, waf, workers, pages, access, terraform-provider-cloudflare, account-level
 license: MIT
 version: 1.1.0
-updated: 2026-05-12
+updated: 2026-06-14
 allowed-tools: read_file, write_file, edit_file, shell, grep, glob
 ---
 # Cloudflare with Terraform

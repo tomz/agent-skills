@@ -4,7 +4,7 @@ description: Azure Databricks — workspace provisioning, Unity Catalog, cluster
 triggers: azure, azure databricks, databricks, sql, cli, unity catalog, delta lake, mlflow
 license: MIT
 version: 1.0.0
-updated: 2026-04-24
+updated: 2026-06-14
 allowed-tools: shell, read_file, write_file, glob, grep
 ---
 

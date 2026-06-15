@@ -3,6 +3,7 @@ name: azure-acr
 description: Azure Container Registry — image management, ACR Tasks, geo-replication, vulnerability scanning, OCI artifacts, Helm charts, token access.
 triggers: azure, azure acr, acr, azure container registry, acr tasks, helm, oci artifacts, geo-replication, token-based
 license: MIT
+updated: 2026-06-14
 allowed-tools: shell, read_file, write_file, edit_file, glob, grep
 ---
 

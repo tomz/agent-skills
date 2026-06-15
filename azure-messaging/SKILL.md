@@ -4,7 +4,7 @@ description: Azure messaging — Event Hubs, Service Bus, Event Grid, Queue Stor
 triggers: azure, azure messaging, messaging, queue, pub/sub, event hubs, service bus, event grid, queue storage, schema registry, dead-letter
 license: MIT
 version: 1.0.0
-updated: 2026-04-24
+updated: 2026-06-14
 allowed-tools: shell, read_file, write_file, edit_file, glob, grep
 ---
 

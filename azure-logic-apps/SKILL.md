@@ -4,7 +4,7 @@ description: Azure Logic Apps — workflow automation, connectors, triggers, act
 triggers: azure, azure logic apps, consumption
 license: MIT
 version: 1.0.0
-updated: 2026-04-24
+updated: 2026-06-14
 allowed-tools: shell, read_file, write_file, edit_file, glob, grep
 ---
 

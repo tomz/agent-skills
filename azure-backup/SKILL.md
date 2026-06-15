@@ -4,7 +4,7 @@ description: Azure Backup — Recovery Services vault, Backup vault, VM/SQL/SAP 
 triggers: azure, azure backup, backup, restore, vm, sql, mars, recovery services, sap hana, azure files, cross-region
 license: MIT
 version: 1.0.0
-updated: 2026-04-24
+updated: 2026-06-14
 allowed-tools: shell, read_file, write_file, edit_file, glob, grep
 ---
 

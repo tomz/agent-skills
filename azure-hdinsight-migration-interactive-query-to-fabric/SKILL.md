@@ -3,7 +3,7 @@ name: azure-hdinsight-migration-interactive-query-to-fabric
 description: Migrate Azure HDInsight Interactive Query (Hive LLAP) to Microsoft Fabric Spark or Data Warehouse — HiveQL to Spark SQL/T-SQL, ORC to Delta.
 license: MIT
 version: 1.0.0
-updated: 2026-06-04
+updated: 2026-06-14
 allowed-tools: read_file, write_file, edit_file, shell, grep, glob
 triggers: hdinsight interactive query, hive llap, hive migration, hiveserver2, beeline, hiveql, tez, llap, hive acid, orc to delta, fabric warehouse, fabric dw, sql endpoint, ranger hive, hive metastore, hdi iq
 requires: azure-hdinsight, azure-fabric

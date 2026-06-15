@@ -4,7 +4,7 @@ description: Infrastructure as Code for GCP — Terraform google provider, Deplo
 triggers: gcp, google cloud, gcp iac, iac, infrastructure as code, terraform, infrastructure, deployment manager, pulumi, config connector
 license: MIT
 version: 1.0.0
-updated: 2026-04-24
+updated: 2026-06-14
 allowed-tools: shell, read_file, write_file, glob, grep
 ---
 

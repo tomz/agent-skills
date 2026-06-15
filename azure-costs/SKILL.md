@@ -4,7 +4,7 @@ description: Azure Cost Management — Cost Analysis, Budgets, Advisor, Reservat
 triggers: azure, azure costs, cost, costs, billing, budget, pricing, vm, azure cost management, cost analysis, budgets, advisor, reservations, savings plans, hybrid benefit, vms
 license: MIT
 version: 1.0.0
-updated: 2026-04-24
+updated: 2026-06-14
 allowed-tools: shell, read_file, write_file, glob, grep
 ---
 

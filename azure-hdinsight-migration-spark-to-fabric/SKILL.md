@@ -3,7 +3,7 @@ name: azure-hdinsight-migration-spark-to-fabric
 description: Migrate Apache Spark from Azure HDInsight to Microsoft Fabric — code conversion, ADLS to OneLake, Hive Metastore to Lakehouse, cutover.
 license: MIT
 version: 1.0.0
-updated: 2026-04-29
+updated: 2026-06-14
 allowed-tools: read_file, write_file, edit_file, shell, grep, glob
 triggers: hdinsight, fabric, migration, migrate, spark migration, hdi to fabric, livy, oozie, wasb, adls to onelake, hive metastore, ranger, esp
 requires: azure-hdinsight, azure-fabric

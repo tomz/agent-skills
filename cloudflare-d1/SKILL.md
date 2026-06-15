@@ -4,7 +4,7 @@ description: Cloudflare D1 — serverless SQLite at the edge. Schema/migrations,
 triggers: cloudflare, cloudflare d1, d1, sqlite, worker
 license: MIT
 version: 1.0.0
-updated: 2026-05-12
+updated: 2026-06-14
 allowed-tools: read_file, write_file, edit_file, shell, grep, glob
 ---
 # Cloudflare D1

@@ -4,7 +4,7 @@ description: OCI observability — Monitoring metrics/MQL/alarms, Logging, Loggi
 triggers: oci, oracle cloud, oci monitoring, monitoring, observability, logs, metrics, mql, apm, logging, logging analytics, notifications, service connector
 license: MIT
 version: 1.0.0
-updated: 2026-04-24
+updated: 2026-06-14
 allowed-tools: shell, read_file, write_file, glob, grep
 ---
 

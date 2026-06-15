@@ -4,7 +4,7 @@ description: AWS monitoring — CloudWatch metrics/logs/alarms, X-Ray, CloudTrai
 triggers: aws, aws monitoring, monitoring, observability, logs, metrics, sns, sqs, cloudwatch, cloudtrail lake, eventbridge
 license: MIT
 version: 1.0.0
-updated: 2026-04-24
+updated: 2026-06-14
 allowed-tools: shell, read_file, write_file, glob, grep
 ---
 

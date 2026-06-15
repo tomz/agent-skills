@@ -4,7 +4,7 @@ description: Microsoft Power Platform — Power Apps, Power Automate, Power Page
 triggers: azure, azure power platform, alm, microsoft power platform, power apps, power automate, power pages, dataverse, copilot studio
 license: MIT
 version: 1.0.0
-updated: 2026-04-24
+updated: 2026-06-14
 allowed-tools: shell, read_file, write_file, edit_file, glob, grep
 ---
 

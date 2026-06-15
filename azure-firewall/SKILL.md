@@ -4,7 +4,7 @@ description: Azure Firewall — Standard/Premium/Basic SKUs, policies, DNAT/netw
 triggers: azure, azure firewall, firewall, dnat, idps, tls, dns, basic skus, firewall manager, hub-spoke
 license: MIT
 version: 1.0.0
-updated: 2026-04-24
+updated: 2026-06-14
 allowed-tools: shell, read_file, write_file, edit_file, glob, grep
 ---
 

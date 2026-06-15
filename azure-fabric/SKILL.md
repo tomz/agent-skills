@@ -4,7 +4,7 @@ description: Microsoft Fabric unified analytics — OneLake, lakehouses, warehou
 triggers: azure, azure fabric, fabric, onelake, microsoft fabric, data factory, time intelligence, power bi, spark
 license: MIT
 version: 2.0.0
-updated: 2026-04-27
+updated: 2026-06-14
 allowed-tools: shell, read_file, write_file, glob, grep
 ---
 

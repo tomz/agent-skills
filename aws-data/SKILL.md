@@ -4,7 +4,7 @@ description: AWS data services — RDS, Aurora, DynamoDB, S3, Redshift, ElastiCa
 triggers: aws, aws data, database, databases, rds, s3, aurora, dynamodb, redshift, elasticache, documentdb, glue
 license: MIT
 version: 1.0.0
-updated: 2026-04-24
+updated: 2026-06-14
 allowed-tools: shell, read_file, write_file, glob, grep
 ---
 

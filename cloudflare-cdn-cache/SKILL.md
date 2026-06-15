@@ -4,7 +4,7 @@ description: Cloudflare CDN and cache control — Cache Rules, cache keys, tiere
 triggers: cloudflare, cloudflare cdn cache, cdn, api, cloudflare cdn, cache rules, page rules, cache api, workers
 license: MIT
 version: 1.0.0
-updated: 2026-05-12
+updated: 2026-06-14
 allowed-tools: read_file, write_file, edit_file, shell, grep, glob
 ---
 # Cloudflare CDN & Cache

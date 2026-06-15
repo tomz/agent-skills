@@ -4,7 +4,7 @@ description: Azure SignalR Service & Web PubSub — real-time messaging, hubs, g
 triggers: azure, azure signalr, azure signalr service, web pubsub, websocket, real-time
 license: MIT
 version: 1.0.0
-updated: 2026-04-24
+updated: 2026-06-14
 allowed-tools: shell, read_file, write_file, edit_file, glob, grep
 ---
 

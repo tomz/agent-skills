@@ -4,7 +4,7 @@ description: CoreWeave Kubernetes platform — kubeconfig, namespaces, storage, 
 triggers: coreweave, coreweave k8s, kubernetes, k8s, coreweave kubernetes, coreweave apps
 license: MIT
 version: 1.0.0
-updated: 2026-04-24
+updated: 2026-06-14
 allowed-tools: shell, read_file, write_file, glob, grep
 ---
 

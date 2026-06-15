@@ -4,7 +4,7 @@ description: Cloudflare R2 object storage — S3-compatible API, zero egress fee
 triggers: cloudflare, cloudflare r2, r2, s3, api, bucket, worker
 license: MIT
 version: 1.0.0
-updated: 2026-05-12
+updated: 2026-06-14
 allowed-tools: read_file, write_file, edit_file, shell, grep, glob
 ---
 # Cloudflare R2

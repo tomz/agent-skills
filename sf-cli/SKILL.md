@@ -4,7 +4,7 @@ description: Salesforce CLI (sf command) — auth, scratch orgs, sandboxes, depl
 triggers: salesforce, sf cli, cli, command line, api, salesforce cli
 license: MIT
 version: 1.0.0
-updated: 2026-04-24
+updated: 2026-06-14
 allowed-tools: shell, read_file, write_file, glob, grep
 ---
 

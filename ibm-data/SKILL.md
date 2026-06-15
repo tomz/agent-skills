@@ -4,7 +4,7 @@ description: Db2 on Cloud, IBM Cloud Databases (PostgreSQL/MongoDB/Redis via ibm
 triggers: ibm cloud, ibm, ibm data, database, databases, s3, hmac, db2, ibm cloud databases, postgresql, mongodb, redis, cloud object storage, aspera, cloudant, couchdb
 license: MIT
 version: 1.0.0
-updated: 2026-04-24
+updated: 2026-06-14
 allowed-tools: shell, read_file, write_file, glob, grep
 ---
 

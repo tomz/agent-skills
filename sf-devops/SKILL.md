@@ -4,7 +4,7 @@ description: Salesforce DevOps — scratch orgs, unlocked packages, CI/CD with G
 triggers: salesforce, sf devops, devops, ci/cd, pipeline, salesforce devops, github actions, devops center
 license: MIT
 version: 1.0.0
-updated: 2026-04-24
+updated: 2026-06-14
 allowed-tools: shell, read_file, write_file, glob, grep
 ---
 
