@@ -1,6 +1,6 @@
 ---
 name: azure-fabric-rayfin
-description: Rayfin — open-source Backend-as-a-Service on Microsoft Fabric: TypeScript-decorator models provision DB, auth, APIs, storage, hosting.
+description: Rayfin — open-source Backend-as-a-Service on Microsoft Fabric; TypeScript-decorator models provision DB, auth, APIs, storage, hosting.
 triggers: azure, fabric, microsoft fabric, rayfin, microsoft rayfin, baas, backend-as-a-service, rayfin-cli, rayfin-core, rayfinclient, create-rayfin, onelake, data api builder, decorator entity, fabric baas
 license: MIT
 version: 1.0.0
