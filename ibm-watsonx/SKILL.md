@@ -5,8 +5,8 @@ license: MIT
 allowed-tools: shell, read_file, write_file, glob, grep
 metadata:
   triggers: ibm cloud, ibm, ibm watsonx, watsonx, ai, sdk, api, presto, iceberg, python sdk, rest api
-  version: 1.0.0
-  updated: 2026-06-14
+  version: 1.1.0
+  updated: 2026-06-26
 ---
 
 # IBM watsonx Skill
@@ -63,7 +63,7 @@ from ibm_watsonx_ai.foundation_models import ModelInference
 from ibm_watsonx_ai.metanames import GenTextParamsMetaNames as Params
 
 model = ModelInference(
-    model_id="ibm/granite-3-8b-instruct",   # see model list below
+    model_id="ibm/granite-4-0-small",   # see model list below
     credentials=credentials,
     project_id="your-project-id",
     params={
@@ -96,19 +96,20 @@ print(result["results"][0]["generated_token_count"])
 
 | Model ID | Description |
 |----------|-------------|
-| `ibm/granite-3-8b-instruct` | IBM Granite 3.0 8B — general purpose, multilingual |
-| `ibm/granite-3-2b-instruct` | IBM Granite 3.0 2B — lightweight, fast |
-| `ibm/granite-20b-multilingual` | Granite 20B — multilingual tasks |
-| `ibm/granite-34b-code-instruct` | Granite 34B — code generation |
-| `ibm/granite-8b-code-instruct` | Granite 8B — code tasks |
-| `meta-llama/llama-3-70b-instruct` | Meta Llama 3 70B |
-| `meta-llama/llama-3-8b-instruct` | Meta Llama 3 8B |
-| `mistralai/mixtral-8x7b-instruct-v01` | Mixtral MoE 8×7B |
+| `ibm/granite-4-0-small` | IBM Granite 4.0 Small — hybrid Mamba-2/MoE, general purpose |
+| `ibm/granite-4-0-tiny` | Granite 4.0 Tiny — efficient, low-latency |
+| `ibm/granite-4-0-micro` | Granite 4.0 Micro — dense, smallest footprint |
+| `ibm/granite-code-*` | Granite Code — code generation/completion |
+| `meta-llama/llama-3-3-70b-instruct` | Meta Llama 3.3 70B |
+| `meta-llama/llama-4-*` | Meta Llama 4 (Maverick/Scout) where available |
+| `mistralai/mistral-large` | Mistral Large |
 | `mistralai/mistral-large` | Mistral Large |
 | `ibm/granite-guardian-3-8b` | Granite Guardian — safety/alignment |
 
 ```python
 # List available models programmatically
+# Granite 4.0 (hybrid Mamba-2/MoE, Oct 2025) supersedes the 3.x line. Always
+# confirm live IDs — get_model_specs() lists what your region/plan exposes.
 from ibm_watsonx_ai.foundation_models.utils.enums import ModelTypes
 for m in client.foundation_models.get_model_specs()["resources"]:
     print(m["model_id"], "-", m.get("short_description", ""))

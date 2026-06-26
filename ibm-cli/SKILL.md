@@ -6,7 +6,7 @@ allowed-tools: shell, read_file, write_file, glob, grep
 metadata:
   triggers: ibm cloud, ibm, ibm cli, cli, command line, iam, ibm cloud cli
   version: 1.0.0
-  updated: 2026-06-14
+  updated: 2026-06-26
 ---
 
 # IBM Cloud CLI Skill

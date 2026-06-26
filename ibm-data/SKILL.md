@@ -6,7 +6,7 @@ allowed-tools: shell, read_file, write_file, glob, grep
 metadata:
   triggers: ibm cloud, ibm, ibm data, database, databases, s3, hmac, db2, ibm cloud databases, postgresql, mongodb, redis, cloud object storage, aspera, cloudant, couchdb
   version: 1.0.0
-  updated: 2026-06-14
+  updated: 2026-06-26
 ---
 
 # IBM Cloud Data Services Skill

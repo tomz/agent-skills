@@ -5,8 +5,8 @@ license: MIT
 allowed-tools: shell, read_file, write_file, glob, grep
 metadata:
   triggers: ibm cloud, ibm, ibm openshift, openshift, roks, oc, cli, red hat openshift
-  version: 1.0.0
-  updated: 2026-06-14
+  version: 1.1.0
+  updated: 2026-06-26
 ---
 
 # Red Hat OpenShift on IBM Cloud (ROKS) Skill
@@ -39,6 +39,8 @@ oc version
 
 ### VPC cluster (recommended for new deployments)
 ```bash
+# Don't hard-code OpenShift versions — ROKS supports a moving window (current
+# stable + a few EUS minors); older ones go unsupported. List live versions first:
 # List available VPC OpenShift versions
 ibmcloud ks versions --show-version openshift
 
