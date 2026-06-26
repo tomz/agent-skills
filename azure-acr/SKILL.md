@@ -142,7 +142,6 @@ az acr task delete   --registry $REGISTRY --name nightly-build --yes
 
 ```yaml
 version: v1.1.0
-updated: 2026-04-24
 stepTimeout: 600
 steps:
   - id: build

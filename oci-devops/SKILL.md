@@ -74,7 +74,6 @@ Place this file in your repository root:
 
 ```yaml
 version: 0.1
-updated: 2026-04-24
 component: build
 timeoutInSeconds: 600
 

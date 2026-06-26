@@ -388,7 +388,6 @@ jobs:
 
 ```yaml
 version: v0.1
-updated: 2026-04-24
 testId: jmx-test-001
 displayName: GitHub Actions load test
 description: Triggered from CI pipeline
