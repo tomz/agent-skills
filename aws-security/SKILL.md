@@ -5,8 +5,8 @@ license: MIT
 allowed-tools: shell, read_file, write_file, glob, grep
 metadata:
   triggers: aws, aws security, security, iam, kms, waf, scp, secrets manager, guardduty, security hub, cloudtrail, scps, organizations
-  version: 1.0.0
-  updated: 2026-06-14
+  version: 1.1.0
+  updated: 2026-06-26
 ---
 
 # AWS Security — Comprehensive Reference
@@ -260,7 +260,7 @@ aws securityhub enable-security-hub --enable-default-standards
 aws securityhub batch-enable-standards \
   --standards-subscription-requests \
     StandardsArn=arn:aws:securityhub:us-east-1::standards/aws-foundational-security-best-practices/v/1.0.0 \
-    StandardsArn=arn:aws:securityhub:::ruleset/cis-aws-foundations-benchmark/v/1.2.0
+    StandardsArn=arn:aws:securityhub:::ruleset/cis-aws-foundations-benchmark/v/3.0.0
 
 # Get failed controls
 aws securityhub get-findings \

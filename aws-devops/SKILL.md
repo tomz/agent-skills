@@ -5,8 +5,8 @@ license: MIT
 allowed-tools: shell, read_file, write_file, glob, grep
 metadata:
   triggers: aws, aws devops, devops, ci/cd, pipeline, ecr, oidc, codepipeline, codebuild, codedeploy, github actions oidc, codeartifact
-  version: 1.0.0
-  updated: 2026-06-14
+  version: 1.1.0
+  updated: 2026-06-26
 ---
 
 # AWS DevOps — Comprehensive Reference
@@ -17,7 +17,6 @@ metadata:
 
 ```yaml
 version: 0.2
-updated: 2026-04-24
 
 env:
   variables:
@@ -102,7 +101,6 @@ aws logs tail /aws/codebuild/my-api-build --follow
 
 ```yaml
 version: 0.0
-updated: 2026-04-24
 Resources:
   - TargetService:
       Type: AWS::ECS::Service
@@ -122,7 +120,6 @@ Hooks:
 
 ```yaml
 version: 0.0
-updated: 2026-04-24
 os: linux
 files:
   - source: /

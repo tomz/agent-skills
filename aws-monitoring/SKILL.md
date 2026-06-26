@@ -6,7 +6,7 @@ allowed-tools: shell, read_file, write_file, glob, grep
 metadata:
   triggers: aws, aws monitoring, monitoring, observability, logs, metrics, sns, sqs, cloudwatch, cloudtrail lake, eventbridge
   version: 1.0.0
-  updated: 2026-06-14
+  updated: 2026-06-26
 ---
 
 # AWS Monitoring & Observability — Comprehensive Reference

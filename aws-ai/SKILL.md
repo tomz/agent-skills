@@ -5,8 +5,8 @@ license: MIT
 allowed-tools: shell, read_file, write_file, glob, grep
 metadata:
   triggers: aws, aws ai, ai, ml, machine learning, bedrock, sagemaker, comprehend, rekognition, textract, lex, polly, transcribe, kendra
-  version: 1.0.0
-  updated: 2026-06-14
+  version: 1.1.0
+  updated: 2026-06-26
 ---
 
 # AWS AI/ML Services — Comprehensive Reference
@@ -22,7 +22,7 @@ aws bedrock list-foundation-models \
   --output table --region us-east-1
 
 # Request access to a model (done via console, but can check)
-aws bedrock get-foundation-model --model-identifier anthropic.claude-3-5-sonnet-20241022-v2:0
+aws bedrock get-foundation-model --model-identifier anthropic.claude-opus-4-6-v1
 
 # List models you have access to
 aws bedrock list-foundation-models \
@@ -32,13 +32,23 @@ aws bedrock list-foundation-models \
 
 ### Invoke Model (Converse API — preferred)
 
+> **Newer Claude models (4.x) are on-demand ONLY via a regional *inference
+> profile*, not the bare model ID.** Calling `modelId='anthropic.claude-opus-4-6-v1'`
+> directly throws `ValidationException: on-demand throughput isn't supported`.
+> Use the geo-prefixed inference-profile ID: `us.` (US), `eu.` (EU), `au.`
+> (Australia), or `global.` for global cross-region routing — e.g.
+> `us.anthropic.claude-opus-4-6-v1`. List them with
+> `aws bedrock list-inference-profiles`.
+
 ```python
 import boto3, json
 
 bedrock = boto3.client('bedrock-runtime', region_name='us-east-1')
 
+# Current flagship: Claude Opus 4.6 (1M context). Also available: Opus 4.7/4.8,
+# Sonnet 4.6, Haiku 4.5. Use the us./eu./global. inference-profile prefix.
 response = bedrock.converse(
-    modelId='anthropic.claude-3-5-sonnet-20241022-v2:0',
+    modelId='us.anthropic.claude-opus-4-6-v1',
     messages=[{'role': 'user', 'content': [{'text': 'Explain VPCs in 3 sentences.'}]}],
     system=[{'text': 'You are a helpful AWS expert.'}],
     inferenceConfig={'maxTokens': 512, 'temperature': 0.7, 'topP': 0.9},
@@ -51,7 +61,7 @@ print(f"Input tokens: {response['usage']['inputTokens']}, Output: {response['usa
 
 ```python
 response = bedrock.converse_stream(
-    modelId='anthropic.claude-3-5-sonnet-20241022-v2:0',
+    modelId='us.anthropic.claude-sonnet-4-6-v1',
     messages=[{'role': 'user', 'content': [{'text': 'Write a Python quicksort.'}]}],
 )
 for event in response['stream']:
@@ -63,7 +73,7 @@ for event in response['stream']:
 
 ```bash
 aws bedrock-runtime converse \
-  --model-id anthropic.claude-3-haiku-20240307-v1:0 \
+  --model-id us.anthropic.claude-haiku-4-5-v1 \
   --messages '[{"role":"user","content":[{"text":"What is S3?"}]}]' \
   --query 'output.message.content[0].text' --output text
 ```
@@ -74,7 +84,7 @@ aws bedrock-runtime converse \
 # Create agent
 aws bedrock create-agent \
   --agent-name my-ops-agent \
-  --foundation-model anthropic.claude-3-5-sonnet-20241022-v2:0 \
+  --foundation-model us.anthropic.claude-opus-4-6-v1 \
   --instruction "You are an AWS operations assistant. Help users manage their cloud resources." \
   --agent-resource-role-arn arn:aws:iam::123:role/BedrockAgentRole
 
@@ -114,7 +124,7 @@ aws bedrock-agent-runtime retrieve-and-generate \
     "type": "KNOWLEDGE_BASE",
     "knowledgeBaseConfiguration": {
       "knowledgeBaseId": "<kb-id>",
-      "modelArn": "arn:aws:bedrock:us-east-1::foundation-model/anthropic.claude-3-haiku-20240307-v1:0"
+      "modelArn": "arn:aws:bedrock:us-east-1:<acct-id>:inference-profile/us.anthropic.claude-haiku-4-5-v1"
     }
   }' \
   --query 'output.text' --output text

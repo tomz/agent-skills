@@ -6,7 +6,7 @@ allowed-tools: shell, read_file, write_file, glob, grep
 metadata:
   triggers: aws, aws costs, cost, costs, billing, budget, pricing, cost explorer, budgets, savings plans, reserved instances, spot, trusted advisor, compute optimizer, cost anomaly detection, right-sizing
   version: 1.0.0
-  updated: 2026-06-14
+  updated: 2026-06-26
 ---
 
 # AWS Cost Management — Comprehensive Reference

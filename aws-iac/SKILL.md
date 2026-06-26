@@ -5,8 +5,8 @@ license: MIT
 allowed-tools: shell, read_file, write_file, glob, grep
 metadata:
   triggers: aws, aws iac, iac, infrastructure as code, terraform, cdk, sam, cli, infrastructure, cloudformation, typescript, python, rain cli
-  version: 1.0.0
-  updated: 2026-06-14
+  version: 1.1.0
+  updated: 2026-06-26
 ---
 
 # AWS Infrastructure as Code — Comprehensive Reference
@@ -290,7 +290,7 @@ Transform: AWS::Serverless-2016-10-31
 
 Globals:
   Function:
-    Runtime: python3.12
+    Runtime: python3.13
     Timeout: 30
     Environment:
       Variables:

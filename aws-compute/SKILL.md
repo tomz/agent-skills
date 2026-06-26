@@ -5,8 +5,8 @@ license: MIT
 allowed-tools: shell, read_file, write_file, glob, grep
 metadata:
   triggers: aws, aws compute, compute, vm, vms, instances, ec2, ecs, eks, fargate, lambda, app runner, elastic beanstalk, lightsail
-  version: 1.0.0
-  updated: 2026-06-14
+  version: 1.1.0
+  updated: 2026-06-26
 ---
 
 # AWS Compute — Comprehensive Reference
@@ -230,7 +230,7 @@ eksctl create iamserviceaccount \
 zip -j function.zip lambda/index.py
 aws lambda create-function \
   --function-name my-processor \
-  --runtime python3.12 \
+  --runtime python3.13 \
   --handler index.handler \
   --role arn:aws:iam::123:role/LambdaRole \
   --zip-file fileb://function.zip \
@@ -279,7 +279,7 @@ aws lambda put-provisioned-concurrency-config \
 # Publish layer
 aws lambda publish-layer-version \
   --layer-name common-deps \
-  --compatible-runtimes python3.12 \
+  --compatible-runtimes python3.13 \
   --zip-file fileb://layer.zip
 
 # Attach to function

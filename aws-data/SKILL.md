@@ -5,8 +5,8 @@ license: MIT
 allowed-tools: shell, read_file, write_file, glob, grep
 metadata:
   triggers: aws, aws data, database, databases, rds, s3, aurora, dynamodb, redshift, elasticache, documentdb, glue
-  version: 1.0.0
-  updated: 2026-06-14
+  version: 1.1.0
+  updated: 2026-06-26
 ---
 
 # AWS Data Services — Comprehensive Reference
@@ -18,7 +18,7 @@ metadata:
 | Engine | Versions | Best for |
 |---|---|---|
 | MySQL | 8.0 | Web apps, WordPress |
-| PostgreSQL | 15, 16 | General purpose, JSONB, extensions |
+| PostgreSQL | 16, 17 | General purpose, JSONB, extensions (17 is latest GA) |
 | MariaDB | 10.x | MySQL-compatible, community features |
 | Oracle | 19c | Enterprise license portability |
 | SQL Server | 2019, 2022 | Windows/Microsoft shops |
@@ -28,7 +28,7 @@ metadata:
 aws rds create-db-instance \
   --db-instance-identifier prod-postgres \
   --db-instance-class db.t3.medium \
-  --engine postgres --engine-version 16.2 \
+  --engine postgres --engine-version 17.4 \
   --master-username dbadmin \
   --master-user-password "$(aws secretsmanager get-secret-value --secret-id db-master-pass --query SecretString --output text)" \
   --db-name myapp \

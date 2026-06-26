@@ -6,7 +6,7 @@ allowed-tools: shell, read_file, write_file, glob, grep
 metadata:
   triggers: aws, aws networking, networking, network, vpc, nacl, alb, nlb, security groups, nacls, cloudfront, route, transit gateway, privatelink, vpc flow logs
   version: 1.0.0
-  updated: 2026-06-14
+  updated: 2026-06-26
 ---
 
 # AWS Networking — Comprehensive Reference
