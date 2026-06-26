@@ -6,7 +6,7 @@ allowed-tools: read_file, write_file, edit_file, shell, grep, glob
 metadata:
   triggers: cloudflare, cloudflare wrangler, cli, r2, kv, d1, cloudflare wrangler cli, workers, pages, queues, miniflare, command-line
   version: 1.0.0
-  updated: 2026-06-14
+  updated: 2026-06-26
 ---
 # Wrangler CLI
 
@@ -48,7 +48,7 @@ wrangler dev
 ```toml
 name = "my-worker"
 main = "src/index.ts"
-compatibility_date = "2025-01-01"
+compatibility_date = "2026-06-01"
 compatibility_flags = ["nodejs_compat"]
 workers_dev = true                    # *.workers.dev subdomain
 account_id = "…"                      # optional; uses env/login otherwise

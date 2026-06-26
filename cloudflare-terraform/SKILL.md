@@ -6,7 +6,7 @@ allowed-tools: read_file, write_file, edit_file, shell, grep, glob
 metadata:
   triggers: cloudflare, cloudflare terraform, dns, waf, workers, pages, access, terraform-provider-cloudflare, account-level
   version: 1.1.0
-  updated: 2026-06-14
+  updated: 2026-06-26
 ---
 # Cloudflare with Terraform
 

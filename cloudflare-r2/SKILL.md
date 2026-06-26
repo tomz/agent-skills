@@ -6,7 +6,7 @@ allowed-tools: read_file, write_file, edit_file, shell, grep, glob
 metadata:
   triggers: cloudflare, cloudflare r2, r2, s3, api, bucket, worker
   version: 1.0.0
-  updated: 2026-06-14
+  updated: 2026-06-26
 ---
 # Cloudflare R2
 

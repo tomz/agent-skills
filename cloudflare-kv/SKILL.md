@@ -5,8 +5,8 @@ license: MIT
 allowed-tools: read_file, write_file, edit_file, shell, grep, glob
 metadata:
   triggers: cloudflare, cloudflare kv, kv, d1, r2, ttl, cloudflare workers kv, eventually-consistent, key-value
-  version: 1.0.0
-  updated: 2026-06-14
+  version: 1.1.0
+  updated: 2026-06-26
 ---
 # Workers KV
 
@@ -26,8 +26,8 @@ Global, low-latency, **eventually consistent** key-value store. Optimized for re
 ## Setup
 
 ```bash
-wrangler kv:namespace create CACHE
-wrangler kv:namespace create CACHE --preview
+wrangler kv namespace create CACHE
+wrangler kv namespace create CACHE --preview
 ```
 
 ```toml
@@ -68,11 +68,11 @@ do {
 ## CLI
 
 ```bash
-wrangler kv:key put --binding=CACHE foo bar
-wrangler kv:key put --binding=CACHE foo bar --ttl=600
-wrangler kv:key get --binding=CACHE foo
-wrangler kv:key list --binding=CACHE --prefix=user:
-wrangler kv:bulk put --binding=CACHE ./pairs.json
+wrangler kv key put --binding=CACHE foo bar
+wrangler kv key put --binding=CACHE foo bar --ttl=600
+wrangler kv key get --binding=CACHE foo
+wrangler kv key list --binding=CACHE --prefix=user:
+wrangler kv bulk put --binding=CACHE ./pairs.json
 ```
 
 ## Limits

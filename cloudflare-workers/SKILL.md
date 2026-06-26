@@ -5,8 +5,8 @@ license: MIT
 allowed-tools: read_file, write_file, edit_file, shell, grep, glob
 metadata:
   triggers: cloudflare, cloudflare workers, v8, cli, kv, r2, d1, durable objects
-  version: 1.0.0
-  updated: 2026-06-14
+  version: 1.1.0
+  updated: 2026-06-26
 ---
 # Cloudflare Workers
 
@@ -26,7 +26,7 @@ my-worker/
 ```toml
 name = "my-worker"
 main = "src/index.ts"
-compatibility_date = "2025-01-01"
+compatibility_date = "2026-06-01"
 compatibility_flags = ["nodejs_compat"]
 
 [vars]
@@ -92,7 +92,7 @@ wrangler dev --remote                 # run against real CF edge
 wrangler deploy                       # ship to prod
 wrangler tail                         # live logs
 wrangler secret put API_KEY           # encrypted env var
-wrangler kv:key put --binding=CACHE foo bar
+wrangler kv key put --binding=CACHE foo bar
 ```
 
 ## Limits & gotchas

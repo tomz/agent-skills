@@ -6,7 +6,7 @@ allowed-tools: read_file, write_file, edit_file, shell, grep, glob
 metadata:
   triggers: cloudflare, cloudflare d1, d1, sqlite, worker
   version: 1.0.0
-  updated: 2026-06-14
+  updated: 2026-06-26
 ---
 # Cloudflare D1
 
