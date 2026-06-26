@@ -5,8 +5,8 @@ license: MIT
 allowed-tools: shell, read_file, write_file, glob, grep
 metadata:
   triggers: coreweave, coreweave inference, tgi, triton, kubernetes
-  version: 1.0.0
-  updated: 2026-06-14
+  version: 1.1.0
+  updated: 2026-06-26
 ---
 
 # CoreWeave Inference Endpoints Skill
@@ -99,7 +99,7 @@ spec:
               mountPath: /mnt/weights
       containers:
         - name: vllm
-          image: vllm/vllm-openai:v0.4.2
+          image: vllm/vllm-openai:v0.8.5  # pin a recent stable tag; check hub.docker.com/r/vllm/vllm-openai/tags for the current release
           command:
             - python3
             - -m
@@ -330,7 +330,7 @@ spec:
       timeoutSeconds: 600
       containerConcurrency: 20
       containers:
-        - image: vllm/vllm-openai:v0.4.2
+        - image: vllm/vllm-openai:v0.8.5  # pin a recent stable tag; check hub.docker.com/r/vllm/vllm-openai/tags for the current release
           # ... same as Deployment spec
 ```
 

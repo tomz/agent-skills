@@ -5,15 +5,18 @@ license: MIT
 allowed-tools: shell, read_file, write_file, glob, grep
 metadata:
   triggers: coreweave, coreweave k8s, kubernetes, k8s, coreweave kubernetes, coreweave apps
-  version: 1.0.0
-  updated: 2026-06-14
+  version: 1.1.0
+  updated: 2026-06-26
 ---
 
 # CoreWeave Kubernetes Skill
 
-CoreWeave is a Kubernetes-native GPU cloud. Every workload — inference endpoints,
-training jobs, batch pipelines — runs as a standard Kubernetes resource. There is
-no proprietary VM abstraction; you interact directly with the Kubernetes API.
+CoreWeave is a Kubernetes-native GPU cloud. The managed offering is **CoreWeave
+Kubernetes Service (CKS)** — workloads run as standard Kubernetes resources on
+bare-metal GPU nodes (no proprietary VM abstraction; you interact directly with
+the Kubernetes API). For Slurm-style scheduling on the same cluster, CoreWeave
+provides **SUNK** (Slurm on Kubernetes). Blackwell GB200 NVL72 / HGX B200 nodes
+are provisioned through CKS (see the `coreweave-gpu` skill).
 
 ---
 

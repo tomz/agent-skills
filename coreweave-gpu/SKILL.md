@@ -5,8 +5,8 @@ license: MIT
 allowed-tools: shell, read_file, write_file, glob, grep
 metadata:
   triggers: coreweave, coreweave gpu, gpu, mig, nccl, gpus
-  version: 1.0.0
-  updated: 2026-06-14
+  version: 1.1.0
+  updated: 2026-06-26
 ---
 
 # CoreWeave GPU Workloads Skill
@@ -22,6 +22,8 @@ CoreWeave offers more GPU SKUs than any other cloud provider. Key classes:
 
 | GPU Class Label         | GPU             | VRAM   | NVLink | Best For                         |
 |-------------------------|-----------------|--------|--------|----------------------------------|
+| `GB200_NVL72`           | GB200 (Grace+Blackwell) | 192 GB/GPU | NVL72  | Frontier training/inference at rack scale; GA via CKS, instance `gb200-4x` (US-WEST-01), contact sales |
+| `B200_SXM`              | HGX B200        | 180 GB | Yes    | Current-gen training/inference, bare-metal on CKS |
 | `H200_SXM5`             | H200 SXM5       | 141 GB | Yes    | Frontier training, large MoE     |
 | `H100_NVLINK_80GB`      | H100 SXM5       | 80 GB  | Yes    | LLM training, FP8 inference      |
 | `H100_PCIE`             | H100 PCIe       | 80 GB  | No     | Inference, smaller training      |
@@ -35,6 +37,14 @@ CoreWeave offers more GPU SKUs than any other cloud provider. Key classes:
 | `Quadro_RTX_5000`       | Quadro RTX 5000 | 16 GB  | No     | Legacy; prefer A4000             |
 | `GeForce_RTX_3090`      | RTX 3090        | 24 GB  | No     | Budget dev / small experiments   |
 | `Tesla_V100_NVLINK_16GB`| V100            | 16 GB  | Yes    | Legacy; cheap throughput         |
+
+**Blackwell is the current flagship.** CoreWeave was the first cloud to GA NVIDIA
+Blackwell — **GB200 NVL72** (rack-scale: 36 Grace CPUs + 72 Blackwell GPUs,
+liquid-cooled, Quantum-2 InfiniBand 400 Gb/s/GPU) and **HGX B200** (bare-metal on
+CKS). Prefer these over Hopper (H100/H200) for new frontier-scale work; both are
+provisioned through CoreWeave Kubernetes Service (CKS), GB200 via a sales
+agreement. Always check live availability per class — a SKU may not be in your
+region.
 
 Check live availability (node count per GPU class):
 ```bash

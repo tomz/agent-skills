@@ -5,8 +5,8 @@ license: MIT
 allowed-tools: shell, read_file, write_file, glob, grep
 metadata:
   triggers: digitalocean, doctl, do compute, compute, vm, vms, instances, ssh, digitalocean compute, droplets
-  version: 1.0.0
-  updated: 2026-06-14
+  version: 1.1.0
+  updated: 2026-06-26
 ---
 
 # DigitalOcean Compute Skill
@@ -141,6 +141,11 @@ doctl compute size list  # full list with pricing
 # s-1vcpu-1gb          — $6/mo
 # s-2vcpu-2gb          — $18/mo
 # s-4vcpu-8gb          — $48/mo
+
+# GPU Droplets (separate plan catalog, per-contract slugs not in GET /v2/sizes):
+#   NVIDIA H100 $3.39/hr (8x $23.92), H200 $3.44/hr (8x $27.52),
+#   AMD MI300X $1.99/hr, plus L40s/RTX 4000/6000 and newer B300 (contact sales).
+#   Provision per your sales agreement; billed per-second like CPU Droplets.
 # c-2                  — CPU-optimized
 # m-2vcpu-16gb         — Memory-optimized
 # g-2vcpu-8gb          — General purpose (NVMe)

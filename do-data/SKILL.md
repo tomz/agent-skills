@@ -5,8 +5,8 @@ license: MIT
 allowed-tools: shell, read_file, write_file, glob, grep
 metadata:
   triggers: digitalocean, doctl, do data, database, databases, postgresql, mysql, redis, mongodb, kafka, spaces
-  version: 1.0.0
-  updated: 2026-06-14
+  version: 1.1.0
+  updated: 2026-06-26
 ---
 
 # DigitalOcean Data Services Skill
@@ -14,7 +14,7 @@ metadata:
 ## Managed Databases
 
 DO manages patching, replication, backups, and failover. You just connect and query.
-Supported engines: **PostgreSQL**, **MySQL**, **Redis**, **MongoDB**, **Kafka**.
+Supported engines: **PostgreSQL**, **MySQL**, **Valkey** (Managed Caching — replaced Managed Redis; Valkey 8.0, Redis 7.2.4-wire-compatible), **MongoDB**, **Kafka**.
 
 ---
 
@@ -45,9 +45,10 @@ doctl databases create mysql-app \
   --region nyc3 \
   --num-nodes 1
 
-# Redis (cache/queue)
-doctl databases create redis-cache \
-  --engine redis \
+# Valkey (Managed Caching — `--engine valkey`; `redis` is the legacy alias
+# for existing clusters. DO replaced Managed Redis with Valkey in 2025.)
+doctl databases create cache \
+  --engine valkey \
   --version 7 \
   --size db-s-1vcpu-1gb \
   --region nyc3 \

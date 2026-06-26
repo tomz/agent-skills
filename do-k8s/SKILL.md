@@ -5,8 +5,8 @@ license: MIT
 allowed-tools: shell, read_file, write_file, glob, grep
 metadata:
   triggers: digitalocean, doctl, do k8s, kubernetes, k8s, doks, digitalocean kubernetes, container registry, auto-scaling
-  version: 1.0.0
-  updated: 2026-06-14
+  version: 1.1.0
+  updated: 2026-06-26
 ---
 
 # DigitalOcean Kubernetes (DOKS) Skill
@@ -31,7 +31,7 @@ doctl kubernetes cluster create dev-cluster \
 doctl kubernetes cluster create prod-cluster \
   --region nyc3 \
   --node-pool "name=workers;size=s-4vcpu-8gb;count=3;min-nodes=2;max-nodes=10;auto-scale=true;tag=role:worker" \
-  --version 1.29  \
+  --version latest  \  # or pin: doctl kubernetes options versions (3 newest minors supported; older auto-upgrade)
   --maintenance-policy "day=sunday;start_time=03:00" \
   --ha   # highly available control plane (3 replicas, small upcharge)
 
@@ -89,7 +89,10 @@ doctl kubernetes cluster get prod-cluster
 doctl kubernetes cluster update prod-cluster --new-name production
 
 # Upgrade Kubernetes version
-doctl kubernetes cluster upgrade prod-cluster --version 1.30
+# DOKS supports the 3 newest minor releases; clusters on older versions are auto-upgraded.
+# List valid targets first, then upgrade:
+doctl kubernetes options versions
+doctl kubernetes cluster upgrade prod-cluster --version <supported-version>
 
 # Delete cluster (also deletes all nodes)
 doctl kubernetes cluster delete prod-cluster
