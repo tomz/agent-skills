@@ -6,7 +6,7 @@ allowed-tools: shell, read_file, write_file, glob, grep
 metadata:
   triggers: gcp, google cloud, gcp security, security, iam, scc, vpc, secret manager, vpc service controls, binary authorization, certificate authority service, beyondcorp, org policies
   version: 1.0.0
-  updated: 2026-06-14
+  updated: 2026-06-26
 ---
 
 # GCP Security Skill

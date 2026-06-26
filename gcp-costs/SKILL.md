@@ -6,7 +6,7 @@ allowed-tools: shell, read_file, write_file, glob, grep
 metadata:
   triggers: gcp, google cloud, gcp costs, cost, costs, billing, budget, pricing, cud, bigquery, recommender, cuds, spot
   version: 1.0.0
-  updated: 2026-06-14
+  updated: 2026-06-26
 ---
 
 # GCP Cost Management Skill

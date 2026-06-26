@@ -6,7 +6,7 @@ allowed-tools: read_file, write_file, edit_file, shell, grep, glob
 metadata:
   triggers: gcp, google cloud, gcp bigquery data agents, database, databases, nl, sql, bigquery data agents, gemini, bigquery
   version: 1.0.0
-  updated: 2026-06-14
+  updated: 2026-06-26
 ---
 # GCP BigQuery Data Agents Skill
 

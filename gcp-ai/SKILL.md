@@ -5,8 +5,8 @@ license: MIT
 allowed-tools: shell, read_file, write_file, glob, grep
 metadata:
   triggers: gcp, google cloud, gcp ai, ai, ml, machine learning, api, vertex ai, gemini api, document ai, vision ai, natural language ai, automl, vertex ai search
-  version: 1.0.0
-  updated: 2026-06-14
+  version: 1.1.0
+  updated: 2026-06-26
 ---
 
 # GCP AI & Machine Learning Skill
@@ -51,11 +51,15 @@ pip install google-cloud-aiplatform
 
 ```python
 import vertexai
+# Current Vertex AI Gemini lineup (2026): gemini-3.5-flash (stable workhorse),
+# gemini-3.1-flash-lite (stable, cheapest), gemini-3.1-pro / gemini-3-flash
+# (preview). gemini-2.5-flash/-pro remain GA. Pin a stable ID for production;
+# `gcloud ai models list` / the model garden show what's live in your region.
 from vertexai.generative_models import GenerativeModel, Part
 
 vertexai.init(project="my-project", location="us-central1")
 
-model = GenerativeModel("gemini-2.0-flash-001")
+model = GenerativeModel("gemini-3.5-flash")
 
 # Simple text generation
 response = model.generate_content("Explain IAM roles in GCP in 3 bullet points.")
@@ -87,7 +91,7 @@ for chunk in model.generate_content("Write a Terraform module for GCS", stream=T
 ```python
 from vertexai.generative_models import Tool, grounding
 
-model = GenerativeModel("gemini-2.0-flash-001")
+model = GenerativeModel("gemini-3.5-flash")
 
 google_search_tool = Tool.from_google_search_retrieval(
     grounding.GoogleSearchRetrieval()
@@ -119,7 +123,7 @@ get_weather = FunctionDeclaration(
 )
 
 weather_tool = Tool(function_declarations=[get_weather])
-model = GenerativeModel("gemini-2.0-flash-001", tools=[weather_tool])
+model = GenerativeModel("gemini-3.5-flash", tools=[weather_tool])
 
 response = model.generate_content("What's the weather in Tokyo?")
 if response.candidates[0].function_calls:

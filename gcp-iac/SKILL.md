@@ -6,7 +6,7 @@ allowed-tools: shell, read_file, write_file, glob, grep
 metadata:
   triggers: gcp, google cloud, gcp iac, iac, infrastructure as code, terraform, infrastructure, deployment manager, pulumi, config connector
   version: 1.0.0
-  updated: 2026-06-14
+  updated: 2026-06-26
 ---
 
 # GCP Infrastructure as Code Skill

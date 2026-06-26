@@ -6,7 +6,7 @@ allowed-tools: shell, read_file, write_file, glob, grep
 metadata:
   triggers: gcp, google cloud, gcp networking, networking, network, vpc, cdn, dns, nat, vpn, load balancing, cloud cdn, armor, interconnect, vpc service controls
   version: 1.0.0
-  updated: 2026-06-14
+  updated: 2026-06-26
 ---
 
 # GCP Networking Skill

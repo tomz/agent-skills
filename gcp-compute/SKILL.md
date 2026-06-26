@@ -5,8 +5,8 @@ license: MIT
 allowed-tools: shell, read_file, write_file, glob, grep
 metadata:
   triggers: gcp, google cloud, gcp compute, compute, vm, vms, instances, gke, compute engine, autopilot, cloud run, cloud functions, app engine, batch
-  version: 1.0.0
-  updated: 2026-06-14
+  version: 1.1.0
+  updated: 2026-06-26
 ---
 
 # GCP Compute Skill
@@ -338,7 +338,7 @@ gcloud run jobs execute my-job --region=us-central1 --wait
 # Deploy (HTTP trigger)
 gcloud functions deploy my-function \
   --gen2 \
-  --runtime=python311 \
+  --runtime=python313 \
   --trigger-http \
   --allow-unauthenticated \
   --region=us-central1 \
@@ -351,7 +351,7 @@ gcloud functions deploy my-function \
 # Pub/Sub trigger
 gcloud functions deploy my-processor \
   --gen2 \
-  --runtime=python311 \
+  --runtime=python313 \
   --trigger-topic=my-topic \
   --region=us-central1 \
   --source=. \
@@ -360,7 +360,7 @@ gcloud functions deploy my-processor \
 # GCS trigger
 gcloud functions deploy my-handler \
   --gen2 \
-  --runtime=nodejs20 \
+  --runtime=nodejs22 \
   --trigger-event-filters="type=google.cloud.storage.object.v1.finalized" \
   --trigger-event-filters="bucket=my-bucket" \
   --region=us-central1 \
