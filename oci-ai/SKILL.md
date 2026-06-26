@@ -5,8 +5,8 @@ license: MIT
 allowed-tools: shell, read_file, write_file, glob, grep
 metadata:
   triggers: oci, oracle cloud, oci ai, ai, ml, machine learning, generative ai, data science, ai language, ai vision, ai speech, anomaly detection, digital assistant
-  version: 1.0.0
-  updated: 2026-06-14
+  version: 1.1.0
+  updated: 2026-06-26
 ---
 
 # OCI AI Services
@@ -15,16 +15,25 @@ metadata:
 
 OCI Gen AI provides hosted inference for large language models (Cohere and Meta models) with options for fine-tuning and dedicated clusters.
 
-### Available Models (as of 2026)
-| Model ID | Provider | Use Case |
+### Available Models (as of mid-2026)
+
+> **Model IDs rotate fast on OCI Gen AI — verify before pinning.** The old
+> Cohere Command R/R+ and Llama 3.1/3.2 lines are now **deprecated or retired**.
+> Run `oci generative-ai model list --compartment-id $C --all` for the live set
+> in your region, and check Oracle's "Pretrained Foundational Models" page for
+> deprecation/retirement dates.
+
+| Model ID family | Provider | Use Case |
 |----------|----------|----------|
-| `cohere.command-r-plus` | Cohere | Chat, RAG, complex reasoning |
-| `cohere.command-r-08-2024` | Cohere | Chat, balanced performance/cost |
-| `cohere.embed-multilingual-v3.0` | Cohere | Embeddings (multilingual) |
-| `cohere.embed-english-v3.0` | Cohere | Embeddings (English-optimized) |
-| `meta.llama-3.1-405b-instruct` | Meta | Large-scale reasoning |
-| `meta.llama-3.1-70b-instruct` | Meta | General chat/generation |
-| `meta.llama-3.2-90b-vision-instruct` | Meta | Vision + text |
+| `cohere.command-a-03-2025` | Cohere | Chat, RAG, complex reasoning (Command A) |
+| `cohere.command-a-reasoning` / `command-a-vision` | Cohere | Reasoning / multimodal |
+| `meta.llama-4-maverick` / `meta.llama-4-scout` | Meta | Llama 4 — large reasoning / efficient |
+| `meta.llama-3.3-70b-instruct` | Meta | General chat/generation |
+| `google.gemini-2.5-pro` / `gemini-2.5-flash` | Google | Chat, long context, vision |
+| `xai.grok-4` | xAI | Frontier reasoning/agentic |
+| `openai.gpt-oss-120b` | OpenAI | Open-weight chat (120B/20B) |
+| `cohere.embed-v4.0` | Cohere | Embeddings (multimodal, multilingual) |
+| `cohere.rerank-v4.0` | Cohere | Reranking for RAG |
 
 ### Chat / Text Generation
 
@@ -40,7 +49,7 @@ oci generative-ai-inference chat \
     "chatHistory": [],
     "message": "Explain OCI compartments in 2 sentences.",
     "servingMode": {
-      "modelId": "cohere.command-r-plus",
+      "modelId": "cohere.command-a-03-2025",
       "servingType": "ON_DEMAND"
     },
     "maxTokens": 500,
@@ -52,7 +61,7 @@ oci generative-ai-inference generate-text \
   --compartment-id $C \
   --generate-text-detail '{
     "servingMode": {
-      "modelId": "meta.llama-3.1-70b-instruct",
+      "modelId": "meta.llama-4-maverick",
       "servingType": "ON_DEMAND"
     },
     "compartmentId": "'$C'",
@@ -86,7 +95,7 @@ chat_detail = oci.generative_ai_inference.models.CohereChatRequest(
 response = client.chat(
     chat_details=oci.generative_ai_inference.models.ChatDetails(
         serving_mode=oci.generative_ai_inference.models.OnDemandServingMode(
-            model_id="cohere.command-r-plus"
+            model_id="cohere.command-a-03-2025"
         ),
         compartment_id=COMPARTMENT_ID,
         chat_request=chat_detail,
@@ -100,7 +109,7 @@ print(response.data.chat_response.text)
 embed_detail = oci.generative_ai_inference.models.EmbedTextDetails(
     inputs=["Oracle Cloud", "Machine Learning", "OCI Gen AI"],
     serving_mode=oci.generative_ai_inference.models.OnDemandServingMode(
-        model_id="cohere.embed-english-v3.0"
+        model_id="cohere.embed-v4.0"
     ),
     compartment_id=COMPARTMENT_ID,
     truncate="NONE",
@@ -135,7 +144,7 @@ oci generative-ai dedicated-ai-cluster create \
 oci generative-ai model create \
   --compartment-id $C \
   --display-name "my-custom-model" \
-  --base-model-id "cohere.command-r-plus" \
+  --base-model-id "cohere.command-a-03-2025" \
   --fine-tune-details '{
     "dedicatedAiClusterId": "'$CLUSTER_ID'",
     "trainingDataset": {

@@ -6,7 +6,7 @@ allowed-tools: shell, read_file, write_file, glob, grep
 metadata:
   triggers: oci, oracle cloud, oci monitoring, monitoring, observability, logs, metrics, mql, apm, logging, logging analytics, notifications, service connector
   version: 1.0.0
-  updated: 2026-06-14
+  updated: 2026-06-26
 ---
 
 # OCI Monitoring & Observability

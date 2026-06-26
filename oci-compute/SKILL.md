@@ -6,7 +6,7 @@ allowed-tools: shell, read_file, write_file, glob, grep
 metadata:
   triggers: oci, oracle cloud, oci compute, compute, vm, vms, instances, oke, container instances, functions, autoscaling
   version: 1.0.0
-  updated: 2026-06-14
+  updated: 2026-06-26
 ---
 
 # OCI Compute
