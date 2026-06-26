@@ -1,11 +1,12 @@
 ---
 name: gcp-compute
 description: GCP compute — Compute Engine, GKE (Autopilot/Standard), Cloud Run, Cloud Functions, App Engine, Batch
-triggers: gcp, google cloud, gcp compute, compute, vm, vms, instances, gke, compute engine, autopilot, cloud run, cloud functions, app engine, batch
 license: MIT
-version: 1.0.0
-updated: 2026-06-14
 allowed-tools: shell, read_file, write_file, glob, grep
+metadata:
+  triggers: gcp, google cloud, gcp compute, compute, vm, vms, instances, gke, compute engine, autopilot, cloud run, cloud functions, app engine, batch
+  version: 1.0.0
+  updated: 2026-06-14
 ---
 
 # GCP Compute Skill

@@ -1,11 +1,12 @@
 ---
 name: sf-devops
 description: Salesforce DevOps — scratch orgs, unlocked packages, CI/CD with GitHub Actions, DevOps Center, metadata, source tracking, .forceignore.
-triggers: salesforce, sf devops, devops, ci/cd, pipeline, salesforce devops, github actions, devops center
 license: MIT
-version: 1.0.0
-updated: 2026-06-14
 allowed-tools: shell, read_file, write_file, glob, grep
+metadata:
+  triggers: salesforce, sf devops, devops, ci/cd, pipeline, salesforce devops, github actions, devops center
+  version: 1.0.0
+  updated: 2026-06-14
 ---
 
 # Salesforce DevOps Skill

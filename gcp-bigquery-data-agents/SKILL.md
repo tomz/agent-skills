@@ -1,11 +1,12 @@
 ---
 name: gcp-bigquery-data-agents
 description: BigQuery Data Agents (Gemini conversational analytics) — provisioning, grounding on datasets, governance, NL-to-SQL guardrails, eval.
-triggers: gcp, google cloud, gcp bigquery data agents, database, databases, nl, sql, bigquery data agents, gemini, bigquery
 license: MIT
-version: 1.0.0
-updated: 2026-06-14
 allowed-tools: read_file, write_file, edit_file, shell, grep, glob
+metadata:
+  triggers: gcp, google cloud, gcp bigquery data agents, database, databases, nl, sql, bigquery data agents, gemini, bigquery
+  version: 1.0.0
+  updated: 2026-06-14
 ---
 # GCP BigQuery Data Agents Skill
 

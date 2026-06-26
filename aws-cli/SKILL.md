@@ -1,11 +1,12 @@
 ---
 name: aws-cli
 description: AWS CLI v2 patterns, profiles, SSO, JMESPath queries, pagination, waiters, and productivity aliases
-triggers: aws, aws cli, cli, command line, sso, jmespath
 license: MIT
-version: 1.0.0
-updated: 2026-06-14
 allowed-tools: shell, read_file, write_file, glob, grep
+metadata:
+  triggers: aws, aws cli, cli, command line, sso, jmespath
+  version: 1.0.0
+  updated: 2026-06-14
 ---
 
 # AWS CLI v2 — Comprehensive Reference

@@ -1,11 +1,12 @@
 ---
 name: azure-static-web-apps
 description: Azure Static Web Apps — JAMstack hosting, API backends, authentication, custom domains, staging, CLI, framework presets, database links.
-triggers: azure, azure static web apps, api, cli, azure static web, jamstack
 license: MIT
-version: 1.0.0
-updated: 2026-06-14
 allowed-tools: shell, read_file, write_file, edit_file, glob, grep
+metadata:
+  triggers: azure, azure static web apps, api, cli, azure static web, jamstack
+  version: 1.0.0
+  updated: 2026-06-14
 ---
 
 # Azure Static Web Apps (SWA) — Comprehensive Reference

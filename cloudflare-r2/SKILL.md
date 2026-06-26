@@ -1,11 +1,12 @@
 ---
 name: cloudflare-r2
 description: Cloudflare R2 object storage — S3-compatible API, zero egress fees. Buckets, presigned URLs, multipart uploads, lifecycle, Worker bindings.
-triggers: cloudflare, cloudflare r2, r2, s3, api, bucket, worker
 license: MIT
-version: 1.0.0
-updated: 2026-06-14
 allowed-tools: read_file, write_file, edit_file, shell, grep, glob
+metadata:
+  triggers: cloudflare, cloudflare r2, r2, s3, api, bucket, worker
+  version: 1.0.0
+  updated: 2026-06-14
 ---
 # Cloudflare R2
 

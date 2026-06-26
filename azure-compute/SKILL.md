@@ -1,11 +1,12 @@
 ---
 name: azure-compute
 description: Azure compute — VMs, VMSS, App Service, Container Apps, Functions, AKS, ACI — sizing, availability, deployment, scaling patterns
-triggers: azure, azure compute, compute, vm, vms, instances, vmss, aks, aci, app service, container apps, functions
 license: MIT
-version: 1.0.0
-updated: 2026-06-14
 allowed-tools: shell, read_file, write_file, glob, grep
+metadata:
+  triggers: azure, azure compute, compute, vm, vms, instances, vmss, aks, aci, app service, container apps, functions
+  version: 1.0.0
+  updated: 2026-06-14
 ---
 
 # Azure Compute Skills

@@ -1,11 +1,12 @@
 ---
 name: azure-databases
 description: Azure managed databases — SQL Database, SQL Managed Instance, MySQL/PostgreSQL Flexible Server, MariaDB, migration, elastic pools.
-triggers: azure, azure databases, database, databases, sql, vm, sql database, sql managed instance, mysql flexible server, postgresql flexible server, mariadb, sql server, vms, hyperscale
 license: MIT
-version: 1.0.0
-updated: 2026-06-14
 allowed-tools: shell, read_file, write_file, edit_file, glob, grep
+metadata:
+  triggers: azure, azure databases, database, databases, sql, vm, sql database, sql managed instance, mysql flexible server, postgresql flexible server, mariadb, sql server, vms, hyperscale
+  version: 1.0.0
+  updated: 2026-06-14
 ---
 
 # Azure Managed Databases

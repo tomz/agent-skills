@@ -1,11 +1,12 @@
 ---
 name: do-k8s
 description: DigitalOcean Kubernetes (DOKS), node pools, auto-scaling, Container Registry, and monitoring
-triggers: digitalocean, doctl, do k8s, kubernetes, k8s, doks, digitalocean kubernetes, container registry, auto-scaling
 license: MIT
-version: 1.0.0
-updated: 2026-06-14
 allowed-tools: shell, read_file, write_file, glob, grep
+metadata:
+  triggers: digitalocean, doctl, do k8s, kubernetes, k8s, doks, digitalocean kubernetes, container registry, auto-scaling
+  version: 1.0.0
+  updated: 2026-06-14
 ---
 
 # DigitalOcean Kubernetes (DOKS) Skill

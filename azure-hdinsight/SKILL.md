@@ -1,11 +1,12 @@
 ---
 name: azure-hdinsight
 description: Azure HDInsight — managed Hadoop ecosystem (Spark, Hive, HBase, Kafka, Storm), Enterprise Security Package, autoscale, and HDInsight on AKS
-triggers: azure, azure hdinsight, aks, hadoop, spark, hive, hbase, kafka, storm, enterprise security package, hdinsight
 license: MIT
-version: 1.0.0
-updated: 2026-06-14
 allowed-tools: shell, read_file, write_file, glob, grep
+metadata:
+  triggers: azure, azure hdinsight, aks, hadoop, spark, hive, hbase, kafka, storm, enterprise security package, hdinsight
+  version: 1.0.0
+  updated: 2026-06-14
 ---
 
 # Azure HDInsight

@@ -1,11 +1,12 @@
 ---
 name: gcp-cli
 description: gcloud CLI patterns, authentication, configurations, output formats, gsutil, bq CLI
-triggers: gcp, google cloud, gcp cli, cli, command line
 license: MIT
-version: 1.0.0
-updated: 2026-06-14
 allowed-tools: shell, read_file, write_file, glob, grep
+metadata:
+  triggers: gcp, google cloud, gcp cli, cli, command line
+  version: 1.0.0
+  updated: 2026-06-14
 ---
 
 # GCP CLI Skill

@@ -1,11 +1,12 @@
 ---
 name: cloudflare-dns
 description: Cloudflare DNS — record types, proxied vs DNS-only, CNAME flattening, DNSSEC, API/Terraform automation, migration from other registrars.
-triggers: cloudflare, cloudflare dns, dns, cname, dnssec, api, terraform
 license: MIT
-version: 1.0.0
-updated: 2026-06-14
 allowed-tools: read_file, write_file, edit_file, shell, grep, glob
+metadata:
+  triggers: cloudflare, cloudflare dns, dns, cname, dnssec, api, terraform
+  version: 1.0.0
+  updated: 2026-06-14
 ---
 # Cloudflare DNS
 

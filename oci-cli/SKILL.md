@@ -1,11 +1,12 @@
 ---
 name: oci-cli
 description: Oracle Cloud Infrastructure CLI patterns, authentication, config, and common commands
-triggers: oci, oracle cloud, oci cli, cli, command line, oracle cloud infrastructure
 license: MIT
-version: 1.0.0
-updated: 2026-06-14
 allowed-tools: shell, read_file, write_file, glob, grep
+metadata:
+  triggers: oci, oracle cloud, oci cli, cli, command line, oracle cloud infrastructure
+  version: 1.0.0
+  updated: 2026-06-14
 ---
 
 # OCI CLI — Patterns, Auth, and Common Commands

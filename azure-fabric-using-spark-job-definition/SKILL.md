@@ -1,11 +1,12 @@
 ---
 name: azure-fabric-using-spark-job-definition
 description: Spark Job Definition (SJD) in Microsoft Fabric — running headless Spark batch jobs (PySpark/Scala/SparkR) on OneLake, scheduling, CI/CD.
-triggers: azure, azure fabric using spark job definition, fabric, onelake, sjd, jar, cli, api, spark job definition, microsoft fabric, spark, pyspark, scala, java jar, sparkr, git
 license: MIT
-version: 1.0.0
-updated: 2026-06-14
 allowed-tools: shell, read_file, write_file, edit_file, glob, grep
+metadata:
+  triggers: azure, azure fabric using spark job definition, fabric, onelake, sjd, jar, cli, api, spark job definition, microsoft fabric, spark, pyspark, scala, java jar, sparkr, git
+  version: 1.0.0
+  updated: 2026-06-14
 ---
 
 # Spark Job Definition in Microsoft Fabric

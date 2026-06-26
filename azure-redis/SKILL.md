@@ -1,11 +1,12 @@
 ---
 name: azure-redis
 description: Azure Cache for Redis — caching patterns, tiers, clustering, geo-replication, data persistence, Redis Enterprise, session store
-triggers: azure, azure redis, redis, cache, azure cache, redis enterprise, geo-replication
 license: MIT
-version: 1.0.0
-updated: 2026-06-14
 allowed-tools: shell, read_file, write_file, edit_file, glob, grep
+metadata:
+  triggers: azure, azure redis, redis, cache, azure cache, redis enterprise, geo-replication
+  version: 1.0.0
+  updated: 2026-06-14
 ---
 
 # Azure Cache for Redis Skill

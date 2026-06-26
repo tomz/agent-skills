@@ -1,11 +1,12 @@
 ---
 name: cloudflare-waf
 description: Cloudflare WAF and security — Custom Rules, Managed Rules, rate limiting, bot management, Turnstile CAPTCHA, and incident response workflow.
-triggers: cloudflare, cloudflare waf, waf, custom rules, managed rules, turnstile captcha
 license: MIT
-version: 1.0.0
-updated: 2026-06-14
 allowed-tools: read_file, write_file, edit_file, shell, grep, glob
+metadata:
+  triggers: cloudflare, cloudflare waf, waf, custom rules, managed rules, turnstile captcha
+  version: 1.0.0
+  updated: 2026-06-14
 ---
 # Cloudflare WAF & Security
 

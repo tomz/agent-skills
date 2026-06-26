@@ -1,11 +1,12 @@
 ---
 name: cloudflare-workers
 description: Cloudflare Workers — serverless edge compute on V8 isolates. wrangler, fetch handlers, bindings, Durable Objects, KV/R2/D1, cron triggers.
-triggers: cloudflare, cloudflare workers, v8, cli, kv, r2, d1, durable objects
 license: MIT
-version: 1.0.0
-updated: 2026-06-14
 allowed-tools: read_file, write_file, edit_file, shell, grep, glob
+metadata:
+  triggers: cloudflare, cloudflare workers, v8, cli, kv, r2, d1, durable objects
+  version: 1.0.0
+  updated: 2026-06-14
 ---
 # Cloudflare Workers
 

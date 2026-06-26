@@ -1,11 +1,12 @@
 ---
 name: azure-cli
 description: Azure CLI (az) patterns, authentication, resource management, output formats, JMESPath queries, and productivity tips
-triggers: azure, azure cli, cli, command line, jmespath
 license: MIT
-version: 1.0.0
-updated: 2026-06-14
 allowed-tools: shell, read_file, write_file, glob, grep
+metadata:
+  triggers: azure, azure cli, cli, command line, jmespath
+  version: 1.0.0
+  updated: 2026-06-14
 ---
 
 # Azure CLI (az) Skills

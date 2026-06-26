@@ -1,11 +1,12 @@
 ---
 name: azure-fabric-data-agents
 description: Microsoft Fabric Data Agents (GA) — conversational AI grounded in OneLake. Provisioning via fabric-data-agent-sdk, identity, governance.
-triggers: azure, azure fabric data agents, fabric, onelake, database, databases, ai, kql, microsoft fabric data, power bi, microsoft graph, provisioning, purview, fabric-data-agent
 license: MIT
-version: 2.0.0
-updated: 2026-06-14
 allowed-tools: read_file, write_file, edit_file, shell, grep, glob
+metadata:
+  triggers: azure, azure fabric data agents, fabric, onelake, database, databases, ai, kql, microsoft fabric data, power bi, microsoft graph, provisioning, purview, fabric-data-agent
+  version: 2.0.0
+  updated: 2026-06-14
 ---
 
 # Microsoft Fabric Data Agents

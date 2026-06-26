@@ -1,11 +1,12 @@
 ---
 name: sf-integrations
 description: Salesforce integrations — REST/Bulk/Streaming API, Platform Events, CDC, Connected Apps, OAuth, Named Credentials, External Services.
-triggers: salesforce, sf integrations, api, cdc, rest api, bulk api, streaming api, platform events, connected apps, oauth, named credentials, external services, outbound messages, heroku connect, mulesoft
 license: MIT
-version: 1.0.0
-updated: 2026-06-14
 allowed-tools: shell, read_file, write_file, glob, grep
+metadata:
+  triggers: salesforce, sf integrations, api, cdc, rest api, bulk api, streaming api, platform events, connected apps, oauth, named credentials, external services, outbound messages, heroku connect, mulesoft
+  version: 1.0.0
+  updated: 2026-06-14
 ---
 
 # Salesforce Integrations Skill

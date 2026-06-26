@@ -1,11 +1,12 @@
 ---
 name: azure-firewall
 description: Azure Firewall — Standard/Premium/Basic SKUs, policies, DNAT/network/application rules, IDPS, TLS inspection, DNS proxy, Firewall Manager.
-triggers: azure, azure firewall, firewall, dnat, idps, tls, dns, basic skus, firewall manager, hub-spoke
 license: MIT
-version: 1.0.0
-updated: 2026-06-14
 allowed-tools: shell, read_file, write_file, edit_file, glob, grep
+metadata:
+  triggers: azure, azure firewall, firewall, dnat, idps, tls, dns, basic skus, firewall manager, hub-spoke
+  version: 1.0.0
+  updated: 2026-06-14
 ---
 
 # Azure Firewall Skill

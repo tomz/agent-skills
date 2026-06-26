@@ -1,11 +1,12 @@
 ---
 name: azure-migrate
 description: Azure Migrate — discovery, assessment, migration of servers, databases, web apps, VDI; Azure Site Recovery, Database Migration Service
-triggers: azure, azure migrate, vdi, azure site recovery, database migration service
 license: MIT
-version: 1.0.0
-updated: 2026-06-14
 allowed-tools: shell, read_file, write_file, edit_file, glob, grep
+metadata:
+  triggers: azure, azure migrate, vdi, azure site recovery, database migration service
+  version: 1.0.0
+  updated: 2026-06-14
 ---
 
 # Azure Migrate Skill

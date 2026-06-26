@@ -1,11 +1,12 @@
 ---
 name: aws-security
 description: AWS security — IAM, KMS, Secrets Manager, GuardDuty, Security Hub, WAF, Config, CloudTrail, SCPs, Organizations
-triggers: aws, aws security, security, iam, kms, waf, scp, secrets manager, guardduty, security hub, cloudtrail, scps, organizations
 license: MIT
-version: 1.0.0
-updated: 2026-06-14
 allowed-tools: shell, read_file, write_file, glob, grep
+metadata:
+  triggers: aws, aws security, security, iam, kms, waf, scp, secrets manager, guardduty, security hub, cloudtrail, scps, organizations
+  version: 1.0.0
+  updated: 2026-06-14
 ---
 
 # AWS Security — Comprehensive Reference

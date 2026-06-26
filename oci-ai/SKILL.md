@@ -1,11 +1,12 @@
 ---
 name: oci-ai
 description: OCI AI services — Generative AI, Data Science, AI Language, AI Vision, AI Speech, Anomaly Detection, Digital Assistant
-triggers: oci, oracle cloud, oci ai, ai, ml, machine learning, generative ai, data science, ai language, ai vision, ai speech, anomaly detection, digital assistant
 license: MIT
-version: 1.0.0
-updated: 2026-06-14
 allowed-tools: shell, read_file, write_file, glob, grep
+metadata:
+  triggers: oci, oracle cloud, oci ai, ai, ml, machine learning, generative ai, data science, ai language, ai vision, ai speech, anomaly detection, digital assistant
+  version: 1.0.0
+  updated: 2026-06-14
 ---
 
 # OCI AI Services

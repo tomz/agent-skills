@@ -1,11 +1,12 @@
 ---
 name: azure-costs
 description: Azure Cost Management — Cost Analysis, Budgets, Advisor, Reservations, Savings Plans, right-sizing, storage tiers, Hybrid Benefit, spot.
-triggers: azure, azure costs, cost, costs, billing, budget, pricing, vm, azure cost management, cost analysis, budgets, advisor, reservations, savings plans, hybrid benefit, vms
 license: MIT
-version: 1.0.0
-updated: 2026-06-14
 allowed-tools: shell, read_file, write_file, glob, grep
+metadata:
+  triggers: azure, azure costs, cost, costs, billing, budget, pricing, vm, azure cost management, cost analysis, budgets, advisor, reservations, savings plans, hybrid benefit, vms
+  version: 1.0.0
+  updated: 2026-06-14
 ---
 
 # Azure Cost Management Skills

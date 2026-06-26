@@ -1,11 +1,12 @@
 ---
 name: aws-monitoring
 description: AWS monitoring — CloudWatch metrics/logs/alarms, X-Ray, CloudTrail Lake, Config, EventBridge, SNS/SQS alerting
-triggers: aws, aws monitoring, monitoring, observability, logs, metrics, sns, sqs, cloudwatch, cloudtrail lake, eventbridge
 license: MIT
-version: 1.0.0
-updated: 2026-06-14
 allowed-tools: shell, read_file, write_file, glob, grep
+metadata:
+  triggers: aws, aws monitoring, monitoring, observability, logs, metrics, sns, sqs, cloudwatch, cloudtrail lake, eventbridge
+  version: 1.0.0
+  updated: 2026-06-14
 ---
 
 # AWS Monitoring & Observability — Comprehensive Reference

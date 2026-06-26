@@ -1,11 +1,12 @@
 ---
 name: azure-arc
 description: Azure Arc — hybrid and multi-cloud management, Arc-enabled servers, Kubernetes, SQL, data services, GitOps, extensions
-triggers: azure, azure arc, sql, arc, kubernetes, gitops, multi-cloud
 license: MIT
-version: 1.0.0
-updated: 2026-06-14
 allowed-tools: shell, read_file, write_file, edit_file, glob, grep
+metadata:
+  triggers: azure, azure arc, sql, arc, kubernetes, gitops, multi-cloud
+  version: 1.0.0
+  updated: 2026-06-14
 ---
 
 # Azure Arc Skill

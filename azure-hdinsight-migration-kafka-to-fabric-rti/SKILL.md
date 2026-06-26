@@ -2,11 +2,12 @@
 name: azure-hdinsight-migration-kafka-to-fabric-rti
 description: Migrate Azure HDInsight Kafka to Microsoft Fabric Real-Time Intelligence or Event Hubs Kafka endpoint — MirrorMaker 2, schema, security.
 license: MIT
-version: 1.0.0
-updated: 2026-06-14
 allowed-tools: read_file, write_file, edit_file, shell, grep, glob
-triggers: hdinsight kafka, kafka migration, fabric rti, real-time intelligence, eventstream, eventhouse, kql, mirrormaker, schema registry, event hubs kafka, kafka to fabric, hdi kafka
-requires: azure-hdinsight, azure-fabric
+metadata:
+  version: 1.0.0
+  updated: 2026-06-14
+  triggers: hdinsight kafka, kafka migration, fabric rti, real-time intelligence, eventstream, eventhouse, kql, mirrormaker, schema registry, event hubs kafka, kafka to fabric, hdi kafka
+  requires: azure-hdinsight, azure-fabric
 ---
 # Migrating HDInsight Kafka → Microsoft Fabric Real-Time Intelligence
 

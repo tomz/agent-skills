@@ -1,11 +1,12 @@
 ---
 name: gcp-devops
 description: GCP DevOps — Cloud Build, Artifact Registry, Cloud Deploy, GitHub Actions, Source Repositories, Skaffold
-triggers: gcp, google cloud, gcp devops, devops, ci/cd, pipeline, cloud build, artifact registry, cloud deploy, github actions, source repositories, skaffold
 license: MIT
-version: 1.0.0
-updated: 2026-06-14
 allowed-tools: shell, read_file, write_file, glob, grep
+metadata:
+  triggers: gcp, google cloud, gcp devops, devops, ci/cd, pipeline, cloud build, artifact registry, cloud deploy, github actions, source repositories, skaffold
+  version: 1.0.0
+  updated: 2026-06-14
 ---
 
 # GCP DevOps Skill

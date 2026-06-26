@@ -1,11 +1,12 @@
 ---
 name: azure-signalr
 description: Azure SignalR Service & Web PubSub — real-time messaging, hubs, groups, serverless mode, WebSocket at scale, live dashboards, notifications.
-triggers: azure, azure signalr, azure signalr service, web pubsub, websocket, real-time
 license: MIT
-version: 1.0.0
-updated: 2026-06-14
 allowed-tools: shell, read_file, write_file, edit_file, glob, grep
+metadata:
+  triggers: azure, azure signalr, azure signalr service, web pubsub, websocket, real-time
+  version: 1.0.0
+  updated: 2026-06-14
 ---
 
 # Azure SignalR Service & Web PubSub

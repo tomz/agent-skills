@@ -1,11 +1,12 @@
 ---
 name: aws-data
 description: AWS data services — RDS, Aurora, DynamoDB, S3, Redshift, ElastiCache, DocumentDB, Glue
-triggers: aws, aws data, database, databases, rds, s3, aurora, dynamodb, redshift, elasticache, documentdb, glue
 license: MIT
-version: 1.0.0
-updated: 2026-06-14
 allowed-tools: shell, read_file, write_file, glob, grep
+metadata:
+  triggers: aws, aws data, database, databases, rds, s3, aurora, dynamodb, redshift, elasticache, documentdb, glue
+  version: 1.0.0
+  updated: 2026-06-14
 ---
 
 # AWS Data Services — Comprehensive Reference

@@ -1,11 +1,12 @@
 ---
 name: azure-batch
 description: Azure Batch — HPC workloads, pools, jobs, tasks, auto-scaling, container tasks, multi-instance tasks, rendering, low-priority VMs
-triggers: azure, azure batch, hpc, vm, vms, auto-scaling, multi-instance, low-priority
 license: MIT
-version: 1.0.0
-updated: 2026-06-14
 allowed-tools: shell, read_file, write_file, edit_file, glob, grep
+metadata:
+  triggers: azure, azure batch, hpc, vm, vms, auto-scaling, multi-instance, low-priority
+  version: 1.0.0
+  updated: 2026-06-14
 ---
 
 # Azure Batch

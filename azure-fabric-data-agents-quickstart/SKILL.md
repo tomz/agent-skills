@@ -1,11 +1,12 @@
 ---
 name: azure-fabric-data-agents-quickstart
 description: Fast-path quickstart for a Microsoft Fabric Data Agent in ~20 min via fabric-data-agent-sdk — lakehouse, examples, publish, smoke test.
-triggers: azure, azure fabric data agents quickstart, fabric, onelake, database, databases, microsoft fabric data, lakehouse, purview, fabric-data-agent, few-shot, multi-source, azure-fabric-data
 license: MIT
-version: 2.0.0
-updated: 2026-06-14
 allowed-tools: read_file, write_file, edit_file, shell, grep, glob
+metadata:
+  triggers: azure, azure fabric data agents quickstart, fabric, onelake, database, databases, microsoft fabric data, lakehouse, purview, fabric-data-agent, few-shot, multi-source, azure-fabric-data
+  version: 2.0.0
+  updated: 2026-06-14
 ---
 
 # Microsoft Fabric Data Agents — Quickstart

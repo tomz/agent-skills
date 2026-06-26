@@ -1,11 +1,12 @@
 ---
 name: do-app-platform
 description: DigitalOcean App Platform — app specs, components, deploys, scaling, env vars, custom domains, and deploy hooks
-triggers: digitalocean, doctl, do app platform, digitalocean app platform
 license: MIT
-version: 1.0.0
-updated: 2026-06-14
 allowed-tools: shell, read_file, write_file, glob, grep
+metadata:
+  triggers: digitalocean, doctl, do app platform, digitalocean app platform
+  version: 1.0.0
+  updated: 2026-06-14
 ---
 
 # DigitalOcean App Platform Skill

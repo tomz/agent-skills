@@ -1,11 +1,12 @@
 ---
 name: gcp-ai
 description: GCP AI/ML — Vertex AI, Gemini API, Document AI, Vision AI, Natural Language AI, AutoML, Vertex AI Search and Agents
-triggers: gcp, google cloud, gcp ai, ai, ml, machine learning, api, vertex ai, gemini api, document ai, vision ai, natural language ai, automl, vertex ai search
 license: MIT
-version: 1.0.0
-updated: 2026-06-14
 allowed-tools: shell, read_file, write_file, glob, grep
+metadata:
+  triggers: gcp, google cloud, gcp ai, ai, ml, machine learning, api, vertex ai, gemini api, document ai, vision ai, natural language ai, automl, vertex ai search
+  version: 1.0.0
+  updated: 2026-06-14
 ---
 
 # GCP AI & Machine Learning Skill

@@ -1,11 +1,12 @@
 ---
 name: azure-security
 description: Azure security — Microsoft Entra ID, RBAC, Key Vault, Managed Identity, Defender for Cloud, Sentinel, Conditional Access, PIM, Azure Policy
-triggers: azure, azure security, security, iam, rbac, pim, microsoft entra id, key vault, managed identity, defender, sentinel, conditional access, azure policy
 license: MIT
-version: 1.0.0
-updated: 2026-06-14
 allowed-tools: shell, read_file, write_file, glob, grep
+metadata:
+  triggers: azure, azure security, security, iam, rbac, pim, microsoft entra id, key vault, managed identity, defender, sentinel, conditional access, azure policy
+  version: 1.0.0
+  updated: 2026-06-14
 ---
 
 # Azure Security Skills

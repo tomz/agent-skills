@@ -1,11 +1,12 @@
 ---
 name: azure-powerbi
 description: Azure Power BI — datasets, reports, dashboards, embedded analytics, Power BI Service, Gateway, dataflows, DAX, Power Query M
-triggers: azure, azure powerbi, power bi, powerbi, dax, azure power bi, power bi service, power query
 license: MIT
-version: 1.0.0
-updated: 2026-06-14
 allowed-tools: shell, read_file, write_file, edit_file, glob, grep
+metadata:
+  triggers: azure, azure powerbi, power bi, powerbi, dax, azure power bi, power bi service, power query
+  version: 1.0.0
+  updated: 2026-06-14
 ---
 
 # Azure Power BI — Comprehensive Reference

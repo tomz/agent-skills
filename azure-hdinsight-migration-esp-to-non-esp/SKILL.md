@@ -2,11 +2,12 @@
 name: azure-hdinsight-migration-esp-to-non-esp
 description: Migrate Azure HDInsight ESP to non-ESP before the July 2026 retirement, with compensating security controls (VNet, MI, RBAC, Sentinel).
 license: MIT
-version: 1.0.0
-updated: 2026-06-14
 allowed-tools: read_file, write_file, edit_file, shell, grep, glob
-triggers: hdinsight esp, esp retirement, esp migration, non-esp hdinsight, aad ds, azure ad domain services, ranger hdi, kerberos hdinsight, hdi security, hdi private endpoint, hdi managed identity, hdi vnet, ldaps hdi
-requires: azure-hdinsight
+metadata:
+  version: 1.0.0
+  updated: 2026-06-14
+  triggers: hdinsight esp, esp retirement, esp migration, non-esp hdinsight, aad ds, azure ad domain services, ranger hdi, kerberos hdinsight, hdi security, hdi private endpoint, hdi managed identity, hdi vnet, ldaps hdi
+  requires: azure-hdinsight
 ---
 # Migrating HDInsight ESP → Non-ESP (with Compensating Security Controls)
 

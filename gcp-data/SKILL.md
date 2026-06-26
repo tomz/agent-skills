@@ -1,11 +1,12 @@
 ---
 name: gcp-data
 description: GCP data services — Cloud SQL, Firestore, Bigtable, BigQuery, Cloud Storage, Pub/Sub, Dataflow, Spanner, Memorystore
-triggers: gcp, google cloud, gcp data, database, databases, sql, cloud sql, firestore, bigtable, bigquery, cloud storage, dataflow, spanner, memorystore
 license: MIT
-version: 1.0.0
-updated: 2026-06-14
 allowed-tools: shell, read_file, write_file, glob, grep
+metadata:
+  triggers: gcp, google cloud, gcp data, database, databases, sql, cloud sql, firestore, bigtable, bigquery, cloud storage, dataflow, spanner, memorystore
+  version: 1.0.0
+  updated: 2026-06-14
 ---
 
 # GCP Data Services Skill

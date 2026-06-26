@@ -1,11 +1,12 @@
 ---
 name: azure-app-config
 description: Azure App Configuration — centralized config, feature flags, key-value store, Key Vault references, labels, snapshots, .NET/Java SDKs.
-triggers: azure, azure app config, sdk, azure app configuration, key vault, java, python, js sdks, key-value
 license: MIT
-version: 1.0.0
-updated: 2026-06-14
 allowed-tools: shell, read_file, write_file, edit_file, glob, grep
+metadata:
+  triggers: azure, azure app config, sdk, azure app configuration, key vault, java, python, js sdks, key-value
+  version: 1.0.0
+  updated: 2026-06-14
 ---
 
 # Azure App Configuration

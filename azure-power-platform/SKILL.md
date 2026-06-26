@@ -1,11 +1,12 @@
 ---
 name: azure-power-platform
 description: Microsoft Power Platform — Power Apps, Power Automate, Power Pages, Dataverse, environments, solutions, ALM, Copilot Studio
-triggers: azure, azure power platform, alm, microsoft power platform, power apps, power automate, power pages, dataverse, copilot studio
 license: MIT
-version: 1.0.0
-updated: 2026-06-14
 allowed-tools: shell, read_file, write_file, edit_file, glob, grep
+metadata:
+  triggers: azure, azure power platform, alm, microsoft power platform, power apps, power automate, power pages, dataverse, copilot studio
+  version: 1.0.0
+  updated: 2026-06-14
 ---
 
 # Microsoft Power Platform — Comprehensive Reference

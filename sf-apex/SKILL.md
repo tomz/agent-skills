@@ -1,11 +1,12 @@
 ---
 name: sf-apex
 description: Apex language — triggers, classes, batch/queueable/schedulable, governor limits, bulkification, trigger frameworks, test classes.
-triggers: salesforce, sf apex, apex
 license: MIT
-version: 1.0.0
-updated: 2026-06-14
 allowed-tools: shell, read_file, write_file, glob, grep
+metadata:
+  triggers: salesforce, sf apex, apex
+  version: 1.0.0
+  updated: 2026-06-14
 ---
 
 # Salesforce Apex Skill

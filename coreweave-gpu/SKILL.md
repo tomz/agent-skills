@@ -1,11 +1,12 @@
 ---
 name: coreweave-gpu
 description: CoreWeave GPU workloads — requesting GPUs, multi-GPU jobs, MIG, spot pricing, NCCL tuning, and node selectors for every GPU class
-triggers: coreweave, coreweave gpu, gpu, mig, nccl, gpus
 license: MIT
-version: 1.0.0
-updated: 2026-06-14
 allowed-tools: shell, read_file, write_file, glob, grep
+metadata:
+  triggers: coreweave, coreweave gpu, gpu, mig, nccl, gpus
+  version: 1.0.0
+  updated: 2026-06-14
 ---
 
 # CoreWeave GPU Workloads Skill

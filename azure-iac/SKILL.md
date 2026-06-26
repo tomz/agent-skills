@@ -1,11 +1,12 @@
 ---
 name: azure-iac
 description: Infrastructure as Code for Azure — Bicep (preferred), ARM templates, Terraform azurerm, deployment modes, what-if, modules, parameter files.
-triggers: azure, azure iac, iac, infrastructure as code, terraform, arm, infrastructure, bicep, what-if
 license: MIT
-version: 1.0.0
-updated: 2026-06-14
 allowed-tools: shell, read_file, write_file, glob, grep
+metadata:
+  triggers: azure, azure iac, iac, infrastructure as code, terraform, arm, infrastructure, bicep, what-if
+  version: 1.0.0
+  updated: 2026-06-14
 ---
 
 # Azure Infrastructure as Code (IaC) Skills

@@ -1,11 +1,12 @@
 ---
 name: azure-load-testing
 description: Azure Load Testing — JMeter-based load tests, CI/CD integration, server-side metrics, auto-stop criteria, VNet injection, test plans
-triggers: azure, azure load testing, jmeter, vnet, server-side, auto-stop
 license: MIT
-version: 1.0.0
-updated: 2026-06-14
 allowed-tools: shell, read_file, write_file, edit_file, glob, grep
+metadata:
+  triggers: azure, azure load testing, jmeter, vnet, server-side, auto-stop
+  version: 1.0.0
+  updated: 2026-06-14
 ---
 
 # Azure Load Testing

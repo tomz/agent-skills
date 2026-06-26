@@ -1,11 +1,12 @@
 ---
 name: coreweave-inference
 description: CoreWeave inference endpoints — vLLM/TGI/Triton on Kubernetes, autoscaling, traffic splitting, A/B testing, health checks, cost tuning.
-triggers: coreweave, coreweave inference, tgi, triton, kubernetes
 license: MIT
-version: 1.0.0
-updated: 2026-06-14
 allowed-tools: shell, read_file, write_file, glob, grep
+metadata:
+  triggers: coreweave, coreweave inference, tgi, triton, kubernetes
+  version: 1.0.0
+  updated: 2026-06-14
 ---
 
 # CoreWeave Inference Endpoints Skill

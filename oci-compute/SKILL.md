@@ -1,11 +1,12 @@
 ---
 name: oci-compute
 description: OCI Compute — instances, shapes, OKE, Container Instances, Functions, and Autoscaling
-triggers: oci, oracle cloud, oci compute, compute, vm, vms, instances, oke, container instances, functions, autoscaling
 license: MIT
-version: 1.0.0
-updated: 2026-06-14
 allowed-tools: shell, read_file, write_file, glob, grep
+metadata:
+  triggers: oci, oracle cloud, oci compute, compute, vm, vms, instances, oke, container instances, functions, autoscaling
+  version: 1.0.0
+  updated: 2026-06-14
 ---
 
 # OCI Compute

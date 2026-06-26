@@ -1,11 +1,12 @@
 ---
 name: azure-networking
 description: Azure networking — VNets, NSGs, ASGs, UDRs, Load Balancer, App Gateway, Front Door, Private Link, DNS, VPN, ExpressRoute, Firewall, Bastion.
-triggers: azure, azure networking, networking, network, vpc, nsg, asg, udr, dns, vpn, vnets, nsgs, asgs, udrs, load balancer, app gateway
 license: MIT
-version: 1.0.0
-updated: 2026-06-14
 allowed-tools: shell, read_file, write_file, glob, grep
+metadata:
+  triggers: azure, azure networking, networking, network, vpc, nsg, asg, udr, dns, vpn, vnets, nsgs, asgs, udrs, load balancer, app gateway
+  version: 1.0.0
+  updated: 2026-06-14
 ---
 
 # Azure Networking Skills
