@@ -5,8 +5,8 @@ license: MIT
 allowed-tools: shell, read_file, write_file, edit_file, glob, grep
 metadata:
   triggers: azure, azure redis, redis, cache, azure cache, redis enterprise, geo-replication
-  version: 1.0.0
-  updated: 2026-06-14
+  version: 1.1.0
+  updated: 2026-06-26
 ---
 
 # Azure Cache for Redis Skill
@@ -475,7 +475,7 @@ az redis firewall-rules list \
   --resource-group "rg-cache"
 ```
 
-### Entra ID Authentication (Preview — Enterprise)
+### Entra ID Authentication (GA — password-free, recommended)
 
 ```bash
 # Enterprise tier: enable Entra ID auth

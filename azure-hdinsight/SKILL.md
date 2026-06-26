@@ -5,8 +5,8 @@ license: MIT
 allowed-tools: shell, read_file, write_file, glob, grep
 metadata:
   triggers: azure, azure hdinsight, aks, hadoop, spark, hive, hbase, kafka, storm, enterprise security package, hdinsight
-  version: 1.0.0
-  updated: 2026-06-14
+  version: 1.1.0
+  updated: 2026-06-26
 ---
 
 # Azure HDInsight
@@ -42,7 +42,7 @@ the newer trajectory for teams that need to stay on open-source Hadoop component
 | Scaling              | Manual / autoscale               | AKS node pools (auto)                 |
 | Network              | VNet injection                   | AKS VNet integration                  |
 | Auth                 | SSH, LDAP, Kerberos (ESP)        | Entra ID / Azure AD workload identity |
-| Status               | Generally Available              | GA (as of 2024)                       |
+| Status               | Generally Available              | GA                                    |
 
 ---
 

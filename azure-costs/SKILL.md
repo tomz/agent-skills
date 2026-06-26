@@ -6,7 +6,7 @@ allowed-tools: shell, read_file, write_file, glob, grep
 metadata:
   triggers: azure, azure costs, cost, costs, billing, budget, pricing, vm, azure cost management, cost analysis, budgets, advisor, reservations, savings plans, hybrid benefit, vms
   version: 1.0.0
-  updated: 2026-06-14
+  updated: 2026-06-26
 ---
 
 # Azure Cost Management Skills

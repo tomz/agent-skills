@@ -6,7 +6,7 @@ allowed-tools: shell, read_file, write_file, edit_file, glob, grep
 metadata:
   triggers: azure, azure app config, sdk, azure app configuration, key vault, java, python, js sdks, key-value
   version: 1.0.0
-  updated: 2026-06-14
+  updated: 2026-06-26
 ---
 
 # Azure App Configuration

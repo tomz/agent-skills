@@ -5,8 +5,8 @@ license: MIT
 allowed-tools: shell, read_file, write_file, edit_file, glob, grep
 metadata:
   triggers: azure, azure devtest labs, vm, vms, auto-shutdown
-  version: 1.0.0
-  updated: 2026-06-14
+  version: 1.1.0
+  updated: 2026-06-26
 ---
 
 # Azure DevTest Labs
@@ -107,7 +107,7 @@ az lab custom-image create \
   --lab-name myDevLab \
   --resource-group myRG \
   --name "Ubuntu-DevBase-v2" \
-  --description "Pre-installed: Docker, Node 20, Python 3.12" \
+  --description "Pre-installed: Docker, Node 22, Python 3.13" \
   --source-vm-id $(az lab vm show \
       --lab-name myDevLab --resource-group myRG --name dev-vm-01 \
       --query id -o tsv)

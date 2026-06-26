@@ -5,7 +5,7 @@ license: MIT
 allowed-tools: read_file, write_file, edit_file, shell, grep, glob
 metadata:
   version: 1.0.0
-  updated: 2026-06-14
+  updated: 2026-06-26
   triggers: hdinsight esp, esp retirement, esp migration, non-esp hdinsight, aad ds, azure ad domain services, ranger hdi, kerberos hdinsight, hdi security, hdi private endpoint, hdi managed identity, hdi vnet, ldaps hdi
   requires: azure-hdinsight
 ---

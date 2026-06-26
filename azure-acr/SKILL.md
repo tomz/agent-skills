@@ -6,7 +6,7 @@ allowed-tools: shell, read_file, write_file, edit_file, glob, grep
 metadata:
   triggers: azure, azure acr, acr, azure container registry, acr tasks, helm, oci artifacts, geo-replication, token-based
   version: 1.0.0
-  updated: 2026-06-14
+  updated: 2026-06-26
 ---
 
 # Azure Container Registry (ACR) Skill

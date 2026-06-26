@@ -5,7 +5,7 @@ license: MIT
 allowed-tools: read_file, write_file, edit_file, shell, grep, glob
 metadata:
   version: 1.0.0
-  updated: 2026-06-14
+  updated: 2026-06-26
   triggers: hdinsight hbase, hbase migration, hbase to cosmos, phoenix migration, cosmos db nosql, cosmos cassandra, cosmos mirroring, fabric mirroring cosmos, hbase snapshot, region split, rowkey design, wide column, column family
   requires: azure-hdinsight, azure-cosmosdb, azure-fabric
 ---

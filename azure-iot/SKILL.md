@@ -6,7 +6,7 @@ allowed-tools: shell, read_file, write_file, edit_file, glob, grep
 metadata:
   triggers: azure, azure iot, iot hub, iot central, iot edge, device provisioning service, digital twins
   version: 1.0.0
-  updated: 2026-06-14
+  updated: 2026-06-26
 ---
 
 # Azure IoT Skills Reference

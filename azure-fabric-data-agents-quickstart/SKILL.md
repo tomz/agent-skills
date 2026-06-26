@@ -6,7 +6,7 @@ allowed-tools: read_file, write_file, edit_file, shell, grep, glob
 metadata:
   triggers: azure, azure fabric data agents quickstart, fabric, onelake, database, databases, microsoft fabric data, lakehouse, purview, fabric-data-agent, few-shot, multi-source, azure-fabric-data
   version: 2.0.0
-  updated: 2026-06-14
+  updated: 2026-06-26
 ---
 
 # Microsoft Fabric Data Agents — Quickstart

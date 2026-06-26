@@ -6,7 +6,7 @@ allowed-tools: shell, read_file, write_file, edit_file, glob, grep
 metadata:
   triggers: azure, azure backup, backup, restore, vm, sql, mars, recovery services, sap hana, azure files, cross-region
   version: 1.0.0
-  updated: 2026-06-14
+  updated: 2026-06-26
 ---
 
 # Azure Backup — Comprehensive Reference

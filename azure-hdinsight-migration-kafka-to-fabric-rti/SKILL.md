@@ -5,7 +5,7 @@ license: MIT
 allowed-tools: read_file, write_file, edit_file, shell, grep, glob
 metadata:
   version: 1.0.0
-  updated: 2026-06-14
+  updated: 2026-06-26
   triggers: hdinsight kafka, kafka migration, fabric rti, real-time intelligence, eventstream, eventhouse, kql, mirrormaker, schema registry, event hubs kafka, kafka to fabric, hdi kafka
   requires: azure-hdinsight, azure-fabric
 ---

@@ -6,7 +6,7 @@ allowed-tools: shell, read_file, write_file, glob, grep
 metadata:
   triggers: azure, azure fabric, fabric, onelake, microsoft fabric, data factory, time intelligence, power bi, spark
   version: 2.0.0
-  updated: 2026-06-14
+  updated: 2026-06-26
 ---
 
 # Microsoft Fabric

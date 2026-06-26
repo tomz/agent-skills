@@ -6,7 +6,7 @@ allowed-tools: shell, read_file, write_file, glob, grep
 metadata:
   triggers: azure, azure security, security, iam, rbac, pim, microsoft entra id, key vault, managed identity, defender, sentinel, conditional access, azure policy
   version: 1.0.0
-  updated: 2026-06-14
+  updated: 2026-06-26
 ---
 
 # Azure Security Skills

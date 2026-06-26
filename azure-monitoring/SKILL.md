@@ -6,7 +6,7 @@ allowed-tools: shell, read_file, write_file, glob, grep
 metadata:
   triggers: azure, azure monitoring, monitoring, observability, logs, metrics, kql, azure monitor, log analytics, application insights, alerts, diagnostic settings, workbooks, azure monitor agent
   version: 1.0.0
-  updated: 2026-06-14
+  updated: 2026-06-26
 ---
 
 # Azure Monitoring Skills

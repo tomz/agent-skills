@@ -5,7 +5,7 @@ license: MIT
 allowed-tools: read_file, write_file, edit_file, shell, grep, glob
 metadata:
   version: 1.0.0
-  updated: 2026-06-14
+  updated: 2026-06-26
   triggers: hdinsight interactive query, hive llap, hive migration, hiveserver2, beeline, hiveql, tez, llap, hive acid, orc to delta, fabric warehouse, fabric dw, sql endpoint, ranger hive, hive metastore, hdi iq
   requires: azure-hdinsight, azure-fabric
 ---

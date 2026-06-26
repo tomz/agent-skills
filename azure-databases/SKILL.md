@@ -6,7 +6,7 @@ allowed-tools: shell, read_file, write_file, edit_file, glob, grep
 metadata:
   triggers: azure, azure databases, database, databases, sql, vm, sql database, sql managed instance, mysql flexible server, postgresql flexible server, mariadb, sql server, vms, hyperscale
   version: 1.0.0
-  updated: 2026-06-14
+  updated: 2026-06-26
 ---
 
 # Azure Managed Databases

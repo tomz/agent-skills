@@ -4,15 +4,15 @@ description: Migrate Apache Spark from Azure HDInsight to Microsoft Fabric — c
 license: MIT
 allowed-tools: read_file, write_file, edit_file, shell, grep, glob
 metadata:
-  version: 1.0.0
-  updated: 2026-06-14
+  version: 1.1.0
+  updated: 2026-06-26
   triggers: hdinsight, fabric, migration, migrate, spark migration, hdi to fabric, livy, oozie, wasb, adls to onelake, hive metastore, ranger, esp
   requires: azure-hdinsight, azure-fabric
 ---
 # Migrating HDInsight Spark → Microsoft Fabric Spark
 
 A field guide for migrating production Apache Spark workloads from **Azure HDInsight**
-(classic 3.6/4.0/5.x or HDInsight on AKS) to **Microsoft Fabric** (Runtime 1.3 / 2.0).
+(classic 3.6/4.0/5.x or HDInsight on AKS) to **Microsoft Fabric** (Runtime 1.3 = Spark 3.5, Runtime 2.0 = Spark 4.0).
 Covers assessment, code rewrites, storage cutover, orchestration, security, and validation.
 
 > **Why this migration?** HDInsight 4.0 reached end-of-standard-support; 5.x is the
@@ -34,7 +34,7 @@ patterns are straightforward versus which need re-architecture **before** migrat
 | Interactive notebooks for analysts | ✅ Ideal fit | Built-in notebooks, Git integration |
 | ML training + MLflow | ✅ Supported | Fabric has built-in MLflow tracking |
 | Streaming with Kafka source | ✅ Supported | Fabric Eventstream, or point Fabric Spark at existing Kafka |
-| Heavy Scala JAR jobs | ⚠ Verify Spark version | Fabric Runtime 1.3 = Spark 3.4, Runtime 2.0 = Spark 3.5 — pin and test |
+| Heavy Scala JAR jobs | ⚠ Verify Spark version | Fabric Runtime 1.3 = Spark 3.5, Runtime 2.0 = Spark 4.0 — pin and test |
 | Delta Sharing producer | ⚠ Re-architect | Fabric is consumer-only — publish via OneLake shortcuts or external sharing |
 | Tight Hadoop-ecosystem coupling (HBase, Storm, Pig) | ⚠ Re-platform components first | See sibling skills (HBase → Cosmos DB, Kafka → RTI) |
 | Cost-sensitive, bursty workloads | ✅ Ideal fit | CU model > always-on HDI head nodes |

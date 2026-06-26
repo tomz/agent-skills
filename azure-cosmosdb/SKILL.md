@@ -6,7 +6,7 @@ allowed-tools: shell, read_file, write_file, edit_file, glob, grep
 metadata:
   triggers: azure, azure cosmosdb, cosmos db, cosmosdb, db, sql, api, azure cosmos db, mongodb api, cassandra, gremlin, multi-model
   version: 1.0.0
-  updated: 2026-06-14
+  updated: 2026-06-26
 ---
 
 # Azure Cosmos DB — Comprehensive Reference

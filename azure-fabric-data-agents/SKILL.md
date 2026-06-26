@@ -6,7 +6,7 @@ allowed-tools: read_file, write_file, edit_file, shell, grep, glob
 metadata:
   triggers: azure, azure fabric data agents, fabric, onelake, database, databases, ai, kql, microsoft fabric data, power bi, microsoft graph, provisioning, purview, fabric-data-agent
   version: 2.0.0
-  updated: 2026-06-14
+  updated: 2026-06-26
 ---
 
 # Microsoft Fabric Data Agents
