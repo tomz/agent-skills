@@ -5,8 +5,8 @@ license: MIT
 allowed-tools: shell, read_file, write_file, glob, grep
 metadata:
   triggers: salesforce, sf integrations, api, cdc, rest api, bulk api, streaming api, platform events, connected apps, oauth, named credentials, external services, outbound messages, heroku connect, mulesoft
-  version: 1.0.0
-  updated: 2026-06-14
+  version: 1.1.0
+  updated: 2026-06-26
 ---
 
 # Salesforce Integrations Skill
@@ -48,39 +48,39 @@ export INSTANCE_URL="https://myorg.my.salesforce.com"
 ### SObject REST API
 ```bash
 # Get record
-curl "$INSTANCE_URL/services/data/v61.0/sobjects/Account/001..." \
+curl "$INSTANCE_URL/services/data/v67.0/sobjects/Account/001..." \
   -H "Authorization: Bearer $ACCESS_TOKEN"
 
 # Create record
-curl -X POST "$INSTANCE_URL/services/data/v61.0/sobjects/Account" \
+curl -X POST "$INSTANCE_URL/services/data/v67.0/sobjects/Account" \
   -H "Authorization: Bearer $ACCESS_TOKEN" \
   -H "Content-Type: application/json" \
   -d '{"Name":"Acme Corp","Industry":"Technology"}'
 
 # Update record (PATCH — partial update)
-curl -X PATCH "$INSTANCE_URL/services/data/v61.0/sobjects/Account/001..." \
+curl -X PATCH "$INSTANCE_URL/services/data/v67.0/sobjects/Account/001..." \
   -H "Authorization: Bearer $ACCESS_TOKEN" \
   -H "Content-Type: application/json" \
   -d '{"Rating":"Hot"}'
 
 # Upsert by external ID
-curl -X PATCH "$INSTANCE_URL/services/data/v61.0/sobjects/Account/ExternalId__c/EXT-001" \
+curl -X PATCH "$INSTANCE_URL/services/data/v67.0/sobjects/Account/ExternalId__c/EXT-001" \
   -H "Authorization: Bearer $ACCESS_TOKEN" \
   -H "Content-Type: application/json" \
   -d '{"Name":"Acme Corp","Industry":"Technology"}'
 
 # Delete record
-curl -X DELETE "$INSTANCE_URL/services/data/v61.0/sobjects/Account/001..." \
+curl -X DELETE "$INSTANCE_URL/services/data/v67.0/sobjects/Account/001..." \
   -H "Authorization: Bearer $ACCESS_TOKEN"
 
 # SOQL via REST
-curl "$INSTANCE_URL/services/data/v61.0/query?q=SELECT+Id,Name+FROM+Account+LIMIT+5" \
+curl "$INSTANCE_URL/services/data/v67.0/query?q=SELECT+Id,Name+FROM+Account+LIMIT+5" \
   -H "Authorization: Bearer $ACCESS_TOKEN"
 ```
 
 ### Composite API (multiple requests in one roundtrip)
 ```bash
-curl -X POST "$INSTANCE_URL/services/data/v61.0/composite" \
+curl -X POST "$INSTANCE_URL/services/data/v67.0/composite" \
   -H "Authorization: Bearer $ACCESS_TOKEN" \
   -H "Content-Type: application/json" \
   -d '{
@@ -88,13 +88,13 @@ curl -X POST "$INSTANCE_URL/services/data/v61.0/composite" \
     "compositeRequest": [
       {
         "method": "POST",
-        "url": "/services/data/v61.0/sobjects/Account",
+        "url": "/services/data/v67.0/sobjects/Account",
         "referenceId": "newAccount",
         "body": {"Name": "Acme Corp"}
       },
       {
         "method": "POST",
-        "url": "/services/data/v61.0/sobjects/Contact",
+        "url": "/services/data/v67.0/sobjects/Contact",
         "referenceId": "newContact",
         "body": {
           "LastName": "Smith",
@@ -316,7 +316,7 @@ Older pattern using SOQL-based subscriptions. Platform Events are preferred.
 PushTopic topic = new PushTopic();
 topic.Name = 'AccountUpdates';
 topic.Query = 'SELECT Id, Name, Rating FROM Account';
-topic.ApiVersion = 61.0;
+topic.ApiVersion = 67.0;
 topic.NotifyForOperationCreate = true;
 topic.NotifyForOperationUpdate = true;
 topic.NotifyForFields = 'Referenced';

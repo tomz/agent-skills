@@ -6,7 +6,7 @@ allowed-tools: shell, read_file, write_file, glob, grep
 metadata:
   triggers: salesforce, sf apex, apex
   version: 1.0.0
-  updated: 2026-06-14
+  updated: 2026-06-26
 ---
 
 # Salesforce Apex Skill

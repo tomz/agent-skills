@@ -5,8 +5,8 @@ license: MIT
 allowed-tools: shell, read_file, write_file, glob, grep
 metadata:
   triggers: salesforce, sf lwc, lwc, lightning web components, lds, apex
-  version: 1.0.0
-  updated: 2026-06-14
+  version: 1.1.0
+  updated: 2026-06-26
 ---
 
 # Lightning Web Components (LWC) Skill
@@ -37,7 +37,7 @@ lwc/
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
 <LightningComponentBundle xmlns="http://soap.sforce.com/2006/04/metadata">
-    <apiVersion>61.0</apiVersion>
+    <apiVersion>67.0</apiVersion>
     <isExposed>true</isExposed>
     <targets>
         <target>lightning__AppPage</target>

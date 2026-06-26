@@ -5,8 +5,8 @@ license: MIT
 allowed-tools: shell, read_file, write_file, glob, grep
 metadata:
   triggers: salesforce, sf data, database, databases, soql, sosl, cli, api, data loader, bulk api, record types, field-level
-  version: 1.0.0
-  updated: 2026-06-14
+  version: 1.1.0
+  updated: 2026-06-26
 ---
 
 # Salesforce Data Skill
@@ -198,33 +198,33 @@ For large-scale operations (millions of records). Works in chunks up to 150MB pe
 
 ```bash
 # Step 1: Create job
-curl -s -X POST https://myorg.my.salesforce.com/services/data/v61.0/jobs/ingest \
+curl -s -X POST https://myorg.my.salesforce.com/services/data/v67.0/jobs/ingest \
   -H "Authorization: Bearer $ACCESS_TOKEN" \
   -H "Content-Type: application/json" \
   -d '{"object":"Contact","operation":"upsert","externalIdFieldName":"Email__c","contentType":"CSV"}' \
   | python3 -m json.tool
 
 # Step 2: Upload CSV data
-curl -X PUT "https://myorg.my.salesforce.com/services/data/v61.0/jobs/ingest/$JOB_ID/batches" \
+curl -X PUT "https://myorg.my.salesforce.com/services/data/v67.0/jobs/ingest/$JOB_ID/batches" \
   -H "Authorization: Bearer $ACCESS_TOKEN" \
   -H "Content-Type: text/csv" \
   --data-binary @contacts.csv
 
 # Step 3: Close job (triggers processing)
-curl -X PATCH "https://myorg.my.salesforce.com/services/data/v61.0/jobs/ingest/$JOB_ID" \
+curl -X PATCH "https://myorg.my.salesforce.com/services/data/v67.0/jobs/ingest/$JOB_ID" \
   -H "Authorization: Bearer $ACCESS_TOKEN" \
   -H "Content-Type: application/json" \
   -d '{"state":"UploadComplete"}'
 
 # Step 4: Poll for completion
-curl "https://myorg.my.salesforce.com/services/data/v61.0/jobs/ingest/$JOB_ID" \
+curl "https://myorg.my.salesforce.com/services/data/v67.0/jobs/ingest/$JOB_ID" \
   -H "Authorization: Bearer $ACCESS_TOKEN"
 # state: Open → UploadComplete → InProgress → JobComplete
 
 # Step 5: Download results
-curl "https://myorg.my.salesforce.com/services/data/v61.0/jobs/ingest/$JOB_ID/successfulResults" \
+curl "https://myorg.my.salesforce.com/services/data/v67.0/jobs/ingest/$JOB_ID/successfulResults" \
   -H "Authorization: Bearer $ACCESS_TOKEN" > success.csv
-curl "https://myorg.my.salesforce.com/services/data/v61.0/jobs/ingest/$JOB_ID/failedResults" \
+curl "https://myorg.my.salesforce.com/services/data/v67.0/jobs/ingest/$JOB_ID/failedResults" \
   -H "Authorization: Bearer $ACCESS_TOKEN" > failed.csv
 ```
 

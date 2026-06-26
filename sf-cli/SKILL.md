@@ -5,8 +5,8 @@ license: MIT
 allowed-tools: shell, read_file, write_file, glob, grep
 metadata:
   triggers: salesforce, sf cli, cli, command line, api, salesforce cli
-  version: 1.0.0
-  updated: 2026-06-14
+  version: 1.1.0
+  updated: 2026-06-26
 ---
 
 # Salesforce CLI (sf) Skill
@@ -20,9 +20,9 @@ for new work. Install via npm: `npm install -g @salesforce/cli`
 Check version: `sf version` — expect `@salesforce/cli/2.x.x`
 
 > **API version note:** Salesforce ships **three releases a year** (Spring,
-> Summer, Winter), each bumping the API version by one (e.g. v61.0 = Summer '24,
-> v62.0 = Winter '25, …). Examples in these Salesforce skills pin a concrete
-> `apiVersion`/`sourceApiVersion` (e.g. `61.0`) for reproducibility — **set
+> Summer, Winter), each bumping the API version by one (e.g. v67.0 = Summer '26,
+> v66.0 = Spring '26, …). Examples in these Salesforce skills pin a concrete
+> `apiVersion`/`sourceApiVersion` (e.g. `67.0`) for reproducibility — **set
 > yours to your org's current version**. Find it with:
 >
 > ```bash
@@ -80,13 +80,13 @@ A valid Salesforce DX project requires `sfdx-project.json` in the root:
       "path": "force-app",
       "default": true,
       "package": "MyPackage",
-      "versionName": "Summer '24",
+      "versionName": "Summer '26",
       "versionNumber": "1.2.0.NEXT"
     }
   ],
   "namespace": "",
   "sfdcLoginUrl": "https://login.salesforce.com",
-  "sourceApiVersion": "61.0"
+  "sourceApiVersion": "67.0"
 }
 ```
 
@@ -251,7 +251,7 @@ sf project retrieve start \
     <members>Account</members>
     <name>CustomObject</name>
   </types>
-  <version>61.0</version>
+  <version>67.0</version>
 </Package>
 ```
 
